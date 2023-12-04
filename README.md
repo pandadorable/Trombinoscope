@@ -20,10 +20,13 @@
 - BDD Cloud
 
 # Règle des commits
-- Le commit doit compiler
+- Le commit doit compiler (sauf sur ta branche)
 - Le nom du commit doit être du format suivant : "Type de changement (fix,ajout classe, etc):Nom de la fonctionalité concerné"
 - tous les tests doivent compiler.
 - Relire les modifs (surtout les fichiers)
+
+# Règle de merge
+- Merge dès que c'est prêt
 
 
 
