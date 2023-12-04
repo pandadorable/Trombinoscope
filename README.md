@@ -1,5 +1,7 @@
 # Trombinoscope
 
+# s7
+
 - On a un tableau(.csv) à convertir en BDD (nom,prénom,date de naissance,...)
 - Prendre des photos => recuperer le flux vidéo de la webcam, c'est l'élève qui prends la photo (bouton).
 - Génération du trombinoscope depuis la BDD.
@@ -16,5 +18,12 @@
 - sécurité,authentification
 - API sésame ?
 - BDD Cloud
+
+# Règle des commits
+- Le commit doit compiler
+- Le nom du commit doit être du format suivant : "Type de changement (fix,ajout classe, etc):Nom de la fonctionalité concerné"
+- tous les tests doivent compiler.
+- Relire les modifs (surtout les fichiers)
+
 
 
