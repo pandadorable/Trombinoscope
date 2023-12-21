@@ -26,6 +26,4 @@ activate BDD
 end
 
 Application -> BDD : UPDATE BDD
-
-Ad <-- Application : Réponse PDF
 @enduml

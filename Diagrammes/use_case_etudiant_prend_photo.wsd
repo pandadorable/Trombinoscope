@@ -3,28 +3,28 @@ title Prise photo étudiant
 actor Élève
 activate Élève
 alt saisie nom et prénom
-     Élève-> Système: Saisie du nom et prénom
-     Élève-> Système: Appuyer sur le bouton d'identification
-     Système--> Système : Vérification
+     Élève-> Application: Saisie du nom et prénom
+     Élève-> Application: Appuyer sur le bouton d'identification
+     Application--> Application : Vérification
 else nom ou prénom invalide
-     Système--> Élève: Refus
+     Application--> Élève: Refus
 end
 
-Système--> Système : Passage sur l'interface de photographie
-Système--> Élève: Page de prise de photo
-Système->> Élève: Retour vidéo continu
+Application--> Application : Passage sur l'interface de photographie
+Application--> Élève: Page de prise de photo
+Application-->> Élève: Retour vidéo continu
 
-Élève-> Système: Appuyer sur le bouton de prise de photo
-Système--> Système : Capture de la photo
-Système--> Élève: Affichage de la photo
+Élève-> Application: Appuyer sur le bouton de prise de photo
+Application--> Application : Capture de la photo
+Application--> Élève: Affichage de la photo
 
 
 alt confirmation photo
-     Élève-> Système: Appuyer sur le bouton de confirmation
-     Système--> Système : Sauvegarde
-     Système--> Élève: Confirmation de l'enregistrement
+     Élève-> Application: Appuyer sur le bouton de confirmation
+     Application--> Application : Sauvegarde
+     Application--> Élève: Confirmation de l'enregistrement
 else invalidation
-     Élève-> Système: Appuyer sur le bouton de refus
-     Système--> Système : retour vers le début de l'état prise de photo
+     Élève-> Application: Appuyer sur le bouton de refus
+     Application--> Application : retour vers le début de l'état prise de photo
 end
 @enduml
