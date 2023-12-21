@@ -14,6 +14,6 @@ Ad -> Application : Appuyer sur le bouton de Génération
 Application -> BDD : Requête BDD
 Application <- BDD : Réponse BDD
 
-Application -> Application : Génération PDF
+Application --> Application : Génération PDF
 Ad <- Application : Réponse PDF
 @enduml
