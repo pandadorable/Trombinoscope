@@ -1,0 +1,22 @@
+@startuml Inserer_donnees
+
+title Inserer des donnees
+actor "Admin" as Ad
+participant Application
+participant BDD
+
+activate Ad
+activate Application
+
+Ad -> Application : Envoie du fichier .CSV
+Application -> Application : Vérification du fichier
+
+alt Aucune base de donnée
+Application -> BDD : creation de la BDD
+activate BDD
+end
+
+Application -> BDD : UPDATE BDD
+
+Ad <- Application : Réponse PDF
+@enduml

@@ -9,7 +9,8 @@ activate Ad
 activate Application
 activate BDD
 
-Ad -> Application : Choisir groupe classe
+Ad -> Application : Choisir le groupe classe
+Ad -> Application : Appuyer sur le bouton de Génération
 Application -> BDD : Requête BDD
 Application <- BDD : Réponse BDD
 
