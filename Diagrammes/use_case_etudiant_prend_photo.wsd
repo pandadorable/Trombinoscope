@@ -1,4 +1,5 @@
 @startuml etudiant_prend_photo
+title Prise photo étudiant
 actor Élève
 activate Élève
 alt saisie nom et prénom

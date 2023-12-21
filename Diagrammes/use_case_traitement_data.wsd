@@ -9,7 +9,16 @@ activate Ad
 activate Application
 
 Ad -> Application : Envoie du fichier .CSV
-Application -> Application : Vérification du fichier
+Application --> Application : Vérification du fichier
+alt fichier incorrect
+loop tant que fichier incorrect
+Ad <-- Application : Demande d'un nouveau fichier
+Ad -> Application : Nouveau fichier .CSV
+Application --> Application : Vérification du fichier
+end
+
+end
+
 
 alt Aucune base de donnée
 Application -> BDD : creation de la BDD
@@ -18,5 +27,5 @@ end
 
 Application -> BDD : UPDATE BDD
 
-Ad <- Application : Réponse PDF
+Ad <-- Application : Réponse PDF
 @enduml
