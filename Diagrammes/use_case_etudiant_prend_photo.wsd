@@ -1,0 +1,28 @@
+@startuml etudiant_prend_photo
+actor Élève
+activate Élève
+alt saisie nom et prénom
+     Élève-> Système: Saisie du nom et prénom
+     Élève-> Système: Appuyer sur le bouton d'identification
+     Système--> Système : Vérification
+else nom ou prénom invalide
+     Système--> Élève: Refus
+end
+
+Système--> Système : Passage sur l'interface de photographie
+Système--> Élève: Retour vidéo continu
+
+Élève-> Système: Appuyer sur le bouton de prise de photo
+Système--> Système : Capture de la photo
+Système--> Élève: Affichage de la photo
+
+
+alt confirmation photo
+     Élève-> Système: Appuyer sur le bouton de confirmation
+     Système--> Système : Sauvegarde
+     Système--> Élève: Confirmation de l'enregistrement
+else invalidation
+     Élève-> Système: Appuyer sur le bouton de refus
+     Système--> Système : retour vers le début de l'état prise de photo
+end
+@enduml
