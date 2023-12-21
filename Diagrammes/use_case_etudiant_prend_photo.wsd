@@ -11,7 +11,8 @@ else nom ou prénom invalide
 end
 
 Système--> Système : Passage sur l'interface de photographie
-Système--> Élève: Retour vidéo continu
+Système--> Élève: Page de prise de photo
+Système->> Élève: Retour vidéo continu
 
 Élève-> Système: Appuyer sur le bouton de prise de photo
 Système--> Système : Capture de la photo
