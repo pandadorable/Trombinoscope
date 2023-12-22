@@ -1,6 +1,6 @@
 @startuml generer_trombi
 
-title Générer Trombinoscope
+title Générer Trombinoscope / émargement
 actor "Admin" as Ad
 participant Application
 participant BDD

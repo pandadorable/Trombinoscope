@@ -2,9 +2,9 @@
 title Prise photo étudiant
 actor Élève
 activate Élève
+activate Application
 alt saisie nom et prénom
      Élève-> Application: Saisie du nom et prénom
-     Élève-> Application: Appuyer sur le bouton d'identification
      Application--> Application : Vérification
 else nom ou prénom invalide
      Application--> Élève: Refus

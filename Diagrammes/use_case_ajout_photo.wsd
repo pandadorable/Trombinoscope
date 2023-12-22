@@ -1,0 +1,25 @@
+@startuml etudiant_prend_photo
+title Ajout photo BDD
+actor Admin
+activate Admin
+activate Application
+
+
+alt Prendre photo
+
+Application --> Application : use case : Prendre photo
+
+else Importer photographie
+
+Admin -> Application : Importer photo
+
+end
+
+
+Application -> BDD : Sauvegarde Photo 
+activate BDD
+
+BDD --> BDD : Association photo / élève
+
+
+@enduml
