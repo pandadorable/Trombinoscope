@@ -30,12 +30,25 @@ public class CameraManager {
      * Constructor with specified webcam
      */
     public CameraManager(Webcam webcam) {
+        changeWebcam(webcam);
+    }
+
+    /**
+     * Change the webcam
+     * @return
+     */
+    public void changeWebcam(Webcam webcam) {
         this.webcam = webcam;
+        if(panel != null) {
+            panel.stop();
+            webcam.close();
+        }
         panel = new WebcamPanel(webcam);
-        panel.setFPSDisplayed(true);
-        panel.setDisplayDebugInfo(true);
+        //panel.setFPSDisplayed(true);
+        //panel.setDisplayDebugInfo(true);
         panel.setImageSizeDisplayed(true);
         panel.setMirrored(true);
+        panel.start();  
     }
 
     /**
@@ -45,6 +58,7 @@ public class CameraManager {
     public static Webcam[] getAvailableWebcams() {
         return Webcam.getWebcams().toArray(new Webcam[] {});
     }
+
 
     /**
      * Take a picture and save it to the specified path
