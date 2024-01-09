@@ -1,4 +1,4 @@
-package src.main;
+package v0.flux_camera.src.main;
 
 import com.github.sarxos.webcam.Webcam;
 

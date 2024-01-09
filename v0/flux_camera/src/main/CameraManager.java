@@ -1,4 +1,4 @@
-package src.main;
+package v0.flux_camera.src.main;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,6 +39,7 @@ public class CameraManager {
      * @return
      */
     public void changeWebcam(Webcam webcam) {
+        if (this.webcam == webcam){return;}
         this.webcam = webcam;
         //set size
         webcam.setViewSize(webcam.getViewSizes()[0]);
