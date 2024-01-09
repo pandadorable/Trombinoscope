@@ -26,7 +26,6 @@ public class CameraWindow {
         window.setResizable(false);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setSize(width, height);
-
         // WebcamPanel setup
         webcamPanel = cameraManager.getPanel();
         webcamPanel.setSize(width / 2, height);
@@ -43,6 +42,7 @@ public class CameraWindow {
                 window.remove(webcamPanel);
                 webcamPanel = cameraManager.getPanel();
                 window.add(webcamPanel, BorderLayout.WEST);
+                window.revalidate();
             });
 
         // Adding components to JFrame using BorderLayout

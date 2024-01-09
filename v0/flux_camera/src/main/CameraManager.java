@@ -39,6 +39,8 @@ public class CameraManager {
      */
     public void changeWebcam(Webcam webcam) {
         this.webcam = webcam;
+        //set size
+        webcam.setViewSize(webcam.getViewSizes()[0]);
         if(panel != null) {
             panel.stop();
             webcam.close();
