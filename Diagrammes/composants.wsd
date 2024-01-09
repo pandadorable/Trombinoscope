@@ -4,7 +4,7 @@
 interface driverCamera
 
 DBAPI - [Application]
-driverCamera - [Application]
-driverCamera --> [Caméra]
-DBAPI --> [Base de données]
+driverCamera -up- [Application]
+driverCamera ..> [Caméra]
+DBAPI ..> [Base de données]
 @enduml
