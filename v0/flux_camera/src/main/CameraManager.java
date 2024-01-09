@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 
 import com.github.sarxos.webcam.Webcam;
 import com.github.sarxos.webcam.WebcamPanel;
+import java.util.List;
 
 
 public class CameraManager {
@@ -58,7 +59,14 @@ public class CameraManager {
      * @return
      */
     public static Webcam[] getAvailableWebcams() {
-        return Webcam.getWebcams().toArray(new Webcam[] {});
+        List<Webcam> webcams = Webcam.getWebcams();
+        List<Webcam> nonVirtualWebcams = new java.util.ArrayList<Webcam>();
+        for(Webcam webcam : webcams) {
+            if(!webcam.getName().toLowerCase().contains("virtual")) {
+                nonVirtualWebcams.add(webcam);
+            }
+        }
+        return nonVirtualWebcams.toArray(new Webcam[nonVirtualWebcams.size()]);
     }
 
 
