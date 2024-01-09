@@ -15,7 +15,6 @@ Admin -> Application : Importer photo
 
 end
 
-
 Application -> BDD : Sauvegarde Photo 
 activate BDD
 
