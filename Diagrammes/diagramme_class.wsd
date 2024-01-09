@@ -1,8 +1,9 @@
 @startuml classDiagram
 
 class Application {
-    ReadXls()
-    GenerateTrombi()
+    readXls()
+    generateTrombi()
+    generateEmargement()
 }
 
 class Interface {
@@ -14,31 +15,31 @@ class BDD {
 }
 
 class BDD_Manager {
-    GenerateBDD()
-    UpdateBDD()
-    ImportBDD()
+    importBDD()
+    createBDD()
+    updateBDD()
 
-    SetPreferenceTrombi()
+    setPreferenceTrombi()
 }
 
 class Camera_Manager {
     Camera camera
-    ChooseCamera()
-    TakePicture() 
-    ChoosePicture() 
+    chooseCamera()
+    takePicture() 
+    choosePicture() 
 }
 
 class Camera_Panel {
-    afficher_flux()
+    displayFlux()
 }
 
 Application *-right- Interface 
-Application "1" *-left- "1" BDD_Manager
-Application "1" *-down- "1" Camera_Manager
+Application *-left- BDD_Manager
+Application *-down- Camera_Manager
 
 Interface *-- Camera_Panel
 
-Camera_Manager -right- Camera_Panel : flux vidéo
+Camera_Manager -right- Camera_Panel : video flux
 BDD -right-* BDD_Manager
 
 @enduml
