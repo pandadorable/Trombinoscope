@@ -12,7 +12,16 @@ end
 
 Application--> Application : Passage sur l'interface de photographie
 Application--> Élève: Page de prise de photo
-Application-->> Élève: Retour vidéo continu
+Application-->> Élève: Retour vidéo continu de la caméra par défaut
+
+opt changement caméra
+     Élève-> Application: Appuyer sur le bouton de choix de caméra
+     Application--> Application : Récupération de la liste des caméras
+     Application--> Élève: Affichage de la liste des caméras
+     Élève-> Application: Appuyer sur une caméra
+     Application--> Application : Changement de caméra
+     Application--> Élève: Retour vidéo continu de la caméra choisie
+end
 
 Élève-> Application: Appuyer sur le bouton de prise de photo
 Application--> Application : Capture de la photo
