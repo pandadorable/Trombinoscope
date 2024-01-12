@@ -1,10 +1,14 @@
 @startuml Diagrame composants
 [Base de données]
 [Caméra]
+[Génération de PDF] as pdf
+[Lecture de fichier xlsx] as xls
 interface driverCamera
 
 DBAPI - [Application]
 driverCamera -up- [Application]
-driverCamera ..> [Caméra]
-DBAPI ..> [Base de données]
+driverCamera .down.> [Caméra]
+DBAPI .up.> [Base de données]
+[Application] .up.> pdf
+[Application] <.right. xls
 @enduml
