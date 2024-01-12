@@ -1,8 +1,6 @@
 package v0.flux_camera.src.main;
 
 import java.awt.BorderLayout;
-import java.awt.Button;
-import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
