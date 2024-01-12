@@ -1,0 +1,39 @@
+@startuml etudiant_prend_photo
+title Prise photo étudiant
+actor Élève
+activate Élève
+activate Application
+alt saisie nom et prénom
+     Élève-> Application: Saisie du nom et prénom
+     Application--> Application : Vérification
+else nom ou prénom invalide
+     Application--> Élève: Refus
+end
+
+Application--> Application : Passage sur l'interface de photographie
+Application--> Élève: Page de prise de photo
+Application-->> Élève: Retour vidéo continu de la caméra par défaut
+
+opt changement caméra
+     Élève-> Application: Appuyer sur le bouton de choix de caméra
+     Application--> Application : Récupération de la liste des caméras
+     Application--> Élève: Affichage de la liste des caméras
+     Élève-> Application: Appuyer sur une caméra
+     Application--> Application : Changement de caméra
+     Application--> Élève: Retour vidéo continu de la caméra choisie
+end
+
+Élève-> Application: Appuyer sur le bouton de prise de photo
+Application--> Application : Capture de la photo
+Application--> Élève: Affichage de la photo
+
+
+alt confirmation photo
+     Élève-> Application: Appuyer sur le bouton de confirmation
+     Application--> Application : Sauvegarde
+     Application--> Élève: Confirmation de l'enregistrement
+else invalidation
+     Élève-> Application: Appuyer sur le bouton de refus
+     Application--> Application : retour vers le début de l'état prise de photo
+end
+@enduml

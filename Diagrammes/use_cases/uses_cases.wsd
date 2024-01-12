@@ -1,0 +1,30 @@
+@startuml useCases
+
+left to right direction
+actor "Etudiant" as Et
+actor "Admin" as Ad
+
+rectangle trombinoscope {
+
+    usecase "prendre photo" as photo
+    usecase "generer trombinoscope" as trombi
+    usecase "Insérer des données" as inserer
+    usecase "connexion" as connect
+
+    usecase "traiter donnees" as traiter
+
+}
+
+Et -- photo
+
+Ad -- trombi
+Ad -- inserer
+
+
+photo <.. connect: <<includes>>
+inserer <.. connect : <<includes>>
+trombi <.. connect: <<includes>>
+
+trombi <.. traiter : <<extends>>
+
+@enduml
