@@ -1,18 +1,29 @@
 @startuml classDiagram
 
+Package Camera {
+    class Camera_Manager
+    class Camera_Panel
+}
+
+Package Main {
+    class Application
+    class GraphicInterface
+}
+
+Package Données {
+    class BDD_Manager
+}
+
 class Application {
-    readXls()
+    readXlsx()
     generateTrombi()
     generateEmargement()
 }
 
-class Interface {
+class GraphicInterface {
 
 }
 
-class BDD {
-    
-}
 
 class BDD_Manager {
     importBDD()
@@ -27,19 +38,19 @@ class Camera_Manager {
     chooseCamera()
     takePicture() 
     choosePicture() 
+    getAvailableCameras()
 }
 
 class Camera_Panel {
     displayFlux()
 }
 
-Application *-right- Interface 
+Application *-right- GraphicInterface 
 Application *-left- BDD_Manager
 Application *-down- Camera_Manager
 
-Interface *-- Camera_Panel
+GraphicInterface *-- Camera_Panel
 
 Camera_Manager -right- Camera_Panel : video flux
-BDD -right-* BDD_Manager
 
 @enduml
