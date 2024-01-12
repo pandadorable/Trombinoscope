@@ -45,12 +45,12 @@ class Camera_Panel {
     displayFlux()
 }
 
-Application *-right- GraphicInterface 
-Application *-left- BDD_Manager
-Application *-down- Camera_Manager
+Application "1" *-right- "1" GraphicInterface 
+Application "1" *-left- "1" BDD_Manager
+Application "1" *-down- "1" Camera_Manager
 
-GraphicInterface *-- Camera_Panel
+GraphicInterface "1" o-- "1" Camera_Panel
 
-Camera_Manager -right- Camera_Panel : video flux
+Camera_Manager "1" -right> "1" Camera_Panel : video flux
 
 @enduml
