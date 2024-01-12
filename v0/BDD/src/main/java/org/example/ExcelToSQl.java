@@ -9,11 +9,12 @@ import java.sql.DriverManager;
 import java.sql.Statement;
 
 public class ExcelToSQl{
+    private static String exemplePath = "v0/BDD/src/main/java/org/example/";
     public static String[] transformXSLXToBDD() {
         String[] reponse = new String[2];
         reponse[0]=null;
         reponse[1]=null;
-        try (FileInputStream fileInputStream = new FileInputStream("v0/BDD/src/main/java/org/example/ESIR.xlsx")) {
+        try (FileInputStream fileInputStream = new FileInputStream(exemplePath + "ESIR.xlsx")) {
             Workbook workbook = new XSSFWorkbook(fileInputStream);
 
             // Assuming the data is in the first sheet
@@ -99,7 +100,7 @@ public class ExcelToSQl{
 
 
     public static void main(String[] args) {
-        String url = "jdbc:sqlite:BDD.db"; // Change to your SQLite database URL
+        String url = "jdbc:sqlite:"+exemplePath+"BDD.db"; // Change to your SQLite database URL
         try (Connection connection = DriverManager.getConnection(url);
              Statement statement = connection.createStatement()) {
 

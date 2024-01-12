@@ -10,7 +10,7 @@ Package Main {
     class GraphicInterface
 }
 
-Package Données {
+Package Data {
     class BDD_Manager
 }
 
