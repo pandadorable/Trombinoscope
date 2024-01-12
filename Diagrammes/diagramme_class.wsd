@@ -45,9 +45,9 @@ class Camera_Panel {
     displayFlux()
 }
 
-Application "1" *-right- "1" GraphicInterface 
-Application "1" *-left- "1" BDD_Manager
-Application "1" *-down- "1" Camera_Manager
+Application *-right- "1" GraphicInterface 
+Application *-left- "1" BDD_Manager
+Application *-down- "1" Camera_Manager
 
 GraphicInterface "1" o-- "1" Camera_Panel
 
