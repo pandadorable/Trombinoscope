@@ -1,5 +1,5 @@
 @startuml etudiant_prend_photo
-title Ajout photo BDD
+title Valider photo (ajout BDD)
 actor Admin
 activate Admin
 activate Application

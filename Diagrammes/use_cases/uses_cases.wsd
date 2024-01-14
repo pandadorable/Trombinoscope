@@ -6,25 +6,20 @@ actor "Admin" as Ad
 
 rectangle trombinoscope {
 
-    usecase "prendre photo" as photo
-    usecase "generer trombinoscope" as trombi
-    usecase "Insérer des données" as inserer
-    usecase "connexion" as connect
-
-    usecase "traiter donnees" as traiter
-
+    usecase "Prendre/importer photo" as photo
+    usecase "Valider photo" as valid
+    usecase "Generer trombinoscope/émargement" as trombi
+    usecase "Insérer/modifier des données" as inserer
+    usecase "Se connecter" as connect
 }
 
 Et -- photo
 
+Ad -- valid
+Ad -- photo
 Ad -- trombi
 Ad -- inserer
+Ad -- connect
 
-
-photo <.. connect: <<includes>>
-inserer <.. connect : <<includes>>
-trombi <.. connect: <<includes>>
-
-trombi <.. traiter : <<extends>>
 
 @enduml

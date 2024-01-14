@@ -1,7 +1,7 @@
 @startuml Connexion
 
 title Connexion
-actor "User" as Us
+actor "Admin" as Us
 participant Application
 
 activate Us

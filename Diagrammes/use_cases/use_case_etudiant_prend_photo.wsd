@@ -1,5 +1,5 @@
 @startuml etudiant_prend_photo
-title Prise photo étudiant
+title Prise/import photo étudiant
 actor Élève
 activate Élève
 activate Application
@@ -23,10 +23,14 @@ opt changement caméra
      Application--> Élève: Retour vidéo continu de la caméra choisie
 end
 
-Élève-> Application: Appuyer sur le bouton de prise de photo
-Application--> Application : Capture de la photo
+alt Prise photo
+     Élève-> Application: Appuyer sur le bouton de prise de photo
+     Application--> Application : Capture de la photo
+else import photo
+     Élève-> Application: Appuyer sur le bouton d'importation de photo
+     Application--> Application : Importation de la photo
+end
 Application--> Élève: Affichage de la photo
-
 
 alt confirmation photo
      Élève-> Application: Appuyer sur le bouton de confirmation

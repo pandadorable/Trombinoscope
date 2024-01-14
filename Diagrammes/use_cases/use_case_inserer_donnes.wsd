@@ -8,12 +8,12 @@ participant BDD
 activate Ad
 activate Application
 
-Ad -> Application : Envoie du fichier .CSV
+Ad -> Application : Envoie du fichier .XLSX
 Application --> Application : Vérification du fichier
 alt fichier incorrect
 loop tant que fichier incorrect
 Ad <-- Application : Demande d'un nouveau fichier
-Ad -> Application : Nouveau fichier .CSV
+Ad -> Application : Nouveau fichier .XLSX
 Application --> Application : Vérification du fichier
 end
 

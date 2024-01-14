@@ -15,9 +15,11 @@ Package Data {
 }
 
 class Application {
-    readXlsx()
-    generateTrombi()
-    generateEmargement()
+    connectedAdminToken : Token
+    readXLSX(file : File)
+    generateTrombi(parameters : List)
+    generateAttendanceSheet(parameters : List)
+    connectAsAdmin(name: String, pwd: String)
 }
 
 class GraphicInterface {
@@ -26,24 +28,30 @@ class GraphicInterface {
 
 
 class BDD_Manager {
-    importBDD()
+    importBDD(file : File)
     createBDD()
     updateBDD()
-
-    setPreferenceTrombi()
+    getAttendanceSheetData(parameters : List)
+    getTrombiData(parameters : List)
+    connectAsAdmin(name: String, pwd: String)
 }
 
 class Camera_Manager {
-    Camera camera
+    camera : Camera
+    importPicture()
+    takeNewPicture() 
+    choosePicture()
     chooseCamera()
-    takePicture() 
-    choosePicture() 
     getAvailableCameras()
 }
 
 class Camera_Panel {
-    displayFlux()
+    displayFlux(camera : Camera)
 }
+
+Main ..> Data : import
+Main .> Camera : import
+
 
 Application *-right- "1" GraphicInterface 
 Application *-left- "1" BDD_Manager
