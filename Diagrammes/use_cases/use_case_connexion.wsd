@@ -1,0 +1,19 @@
+@startuml Connexion
+
+title Connexion
+actor "Admin" as Us
+participant Application
+
+activate Us
+activate Application
+
+Us -> Application : Envoie identifiant
+Application --> Application : Vérification identifiant
+alt Identifiant Invalid
+loop 3 tentative
+Us -> Application : Envoie identifiant
+Application --> Application : Vérification identifiant
+end
+end
+Us <-- Application : Compte accepté
+@enduml
