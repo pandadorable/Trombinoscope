@@ -1,4 +1,4 @@
-package v0.flux_camera.src.main;
+package camera;
 
 import java.io.File;
 import java.io.IOException;

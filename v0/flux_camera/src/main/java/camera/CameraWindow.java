@@ -1,5 +1,4 @@
-package v0.flux_camera.src.main;
-
+package camera;
 import java.awt.BorderLayout;
 
 import javax.swing.JButton;
