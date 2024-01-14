@@ -1,4 +1,4 @@
-package v0.flux_camera.src.main;
+package camera;
 
 public class Main {
     public static void main(String[] args) {

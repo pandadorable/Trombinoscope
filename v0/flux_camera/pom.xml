@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <groupId>camera</groupId>
+    <artifactId>Camera</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <dependencies>
+    <dependency>
+        <groupId>bridj</groupId>
+        <artifactId>bridj</artifactId>
+        <scope>system</scope>
+        <version>0.7.0</version>
+        <systemPath>${project.basedir}/lib/bridj-0.7.0.jar</systemPath>
+    </dependency>
+    <dependency>
+        <groupId>sl4j-api</groupId>
+        <artifactId>sl4j-api</artifactId>
+        <scope>system</scope>
+        <version>1.7.2</version>
+        <systemPath>${project.basedir}/lib/slf4j-api-1.7.2.jar</systemPath>
+    </dependency>
+    <dependency>
+        <groupId>slf4j-simple</groupId>
+        <artifactId>slf4j-simple</artifactId>
+        <scope>system</scope>
+        <version>1.7.2</version>
+        <systemPath>${project.basedir}/lib/slf4j-simple-1.7.2.jar</systemPath>
+    </dependency>
+        <dependency>
+        <groupId>webcam-capture</groupId>
+        <artifactId>webcam-capture</artifactId>
+        <scope>system</scope>
+        <version>0.3.12</version>
+        <systemPath>${project.basedir}/lib/webcam-capture-0.3.12.jar</systemPath>
+    </dependency>
+</dependencies>
+</project>
