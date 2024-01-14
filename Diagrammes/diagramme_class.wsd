@@ -1,0 +1,64 @@
+@startuml classDiagram
+
+Package Camera {
+    class Camera_Manager
+    class Camera_Panel
+}
+
+Package Main {
+    class Application
+    class GraphicInterface
+}
+
+Package Data {
+    class BDD_Manager
+}
+
+class Application {
+    connectedAdminToken : Token
+    readXLSX(file : File)
+    generateTrombi(parameters : List)
+    generateAttendanceSheet(parameters : List)
+    connectAsAdmin(name: String, pwd: String)
+}
+
+class GraphicInterface {
+
+}
+
+
+class BDD_Manager {
+    importBDD(file : File)
+    createBDD()
+    updateBDD()
+    getAttendanceSheetData(parameters : List)
+    getTrombiData(parameters : List)
+    connectAsAdmin(name: String, pwd: String)
+}
+
+class Camera_Manager {
+    camera : Camera
+    importPicture()
+    takeNewPicture() 
+    choosePicture()
+    chooseCamera()
+    getAvailableCameras()
+}
+
+class Camera_Panel {
+    displayFlux(camera : Camera)
+}
+
+Main ..> Data : import
+Main .> Camera : import
+
+
+Application *-right- "1" GraphicInterface 
+Application *-left- "1" BDD_Manager
+Application *-down- "1" Camera_Manager
+
+GraphicInterface "1" o-- "1" Camera_Panel
+
+Camera_Manager "1" -right> "1" Camera_Panel : video flux
+
+@enduml
