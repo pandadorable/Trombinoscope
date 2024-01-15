@@ -1,0 +1,19 @@
+@startuml generer_trombi
+
+title Générer Trombinoscope / émargement
+actor "Admin" as Ad
+participant Application
+participant BDD
+
+activate Ad
+activate Application
+activate BDD
+
+Ad -> Application : Choisir le groupe classe
+Ad -> Application : Appuyer sur le bouton de Génération
+Application -> BDD : Requête BDD
+Application <- BDD : Réponse BDD
+
+Application --> Application : Génération PDF
+Ad <- Application : Réponse PDF
+@enduml

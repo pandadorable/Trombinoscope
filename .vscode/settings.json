@@ -1,0 +1,10 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "./v0\\flux_camera\\lib\\bridj-0.7.0.jar",
+        "./v0\\flux_camera\\lib\\slf4j-api-1.7.2.jar",
+        "./v0\\flux_camera\\lib\\slf4j-simple-1.7.2.jar",
+        "./v0\\flux_camera\\lib\\webcam-capture-0.3.12.jar"
+    ],
+    "java.configuration.updateBuildConfiguration": "interactive"
+}
