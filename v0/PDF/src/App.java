@@ -1,8 +1,10 @@
+package PDF.src;
+
 import java.io.File;
 
 public class App {
-    public static final String DEST = "./PDF/trombi.pdf"; //PDF final (destination)
-    public static final String IMG = "./PDF/zeldalogo.png";
+    public static final String DEST = "v0/PDF/src/trombi.pdf"; //PDF final (destination)
+    public static final String IMG = "v0/PDF/src/zeldalogo.png";
 
     public static void main(String[] args) throws Exception {
         
