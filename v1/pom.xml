@@ -75,6 +75,11 @@
       <version>0.3.12</version>
       <systemPath>${project.basedir}/lib/webcam-capture-0.3.12.jar</systemPath>
     </dependency>
+    <dependency>
+      <groupId>com.github.sarxos</groupId>
+      <artifactId>webcam-capture</artifactId>
+      <version>0.3.12</version>
+    </dependency>
 
 
     <!-- Dépendences camera -->
@@ -145,7 +150,7 @@
             <archive>
               <manifest>
                 <addClasspath>true</addClasspath>
-                <mainClass>trombi.Main</mainClass>
+                <mainClass>trombi.APP.Main</mainClass>
               </manifest>
             </archive>
           </configuration>

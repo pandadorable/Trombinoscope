@@ -1,4 +1,4 @@
-package PDF.src;
+package trombi.PDF;
 
 import java.io.File;
 import java.net.MalformedURLException;

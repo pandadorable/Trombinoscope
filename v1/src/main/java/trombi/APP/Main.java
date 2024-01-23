@@ -1,7 +1,9 @@
-package trombi;
+package trombi.APP;
+
+import trombi.CAMERA.*;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) {        
         CameraManager cameraManager = new CameraManager();
         CameraWindow cameraWindow = new CameraWindow(cameraManager);
 

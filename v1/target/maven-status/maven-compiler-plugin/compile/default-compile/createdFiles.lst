@@ -1,5 +1,6 @@
 trombi/CAMERA/CameraWindow.class
-PDF/src/GenererPdf.class
 trombi/BDD/ExcelToSQl.class
+trombi/APP/Main.class
+trombi/PDF/GenererPdf.class
 trombi/BDD/ExcelToSQl$1.class
 trombi/CAMERA/CameraManager.class
