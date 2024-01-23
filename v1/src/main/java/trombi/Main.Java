@@ -1,4 +1,4 @@
-package camera;
+package trombi;
 
 public class Main {
     public static void main(String[] args) {

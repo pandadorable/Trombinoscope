@@ -48,55 +48,59 @@
 
     <!-- Dépendences camera -->
     <dependency>
-        <groupId>bridj</groupId>
-        <artifactId>bridj</artifactId>
-        <scope>system</scope>
-        <version>0.7.0</version>
-        <systemPath>${project.basedir}/lib/bridj-0.7.0.jar</systemPath>
+      <groupId>bridj</groupId>
+      <artifactId>bridj</artifactId>
+      <scope>system</scope>
+      <version>0.7.0</version>
+      <systemPath>${project.basedir}/lib/bridj-0.7.0.jar</systemPath>
     </dependency>
     <dependency>
-        <groupId>sl4j-api</groupId>
-        <artifactId>sl4j-api</artifactId>
-        <scope>system</scope>
-        <version>1.7.2</version>
-        <systemPath>${project.basedir}/lib/slf4j-api-1.7.2.jar</systemPath>
+      <groupId>sl4j-api</groupId>
+      <artifactId>sl4j-api</artifactId>
+      <scope>system</scope>
+      <version>1.7.2</version>
+      <systemPath>${project.basedir}/lib/slf4j-api-1.7.2.jar</systemPath>
     </dependency>
     <dependency>
-        <groupId>slf4j-simple</groupId>
-        <artifactId>slf4j-simple</artifactId>
-        <scope>system</scope>
-        <version>1.7.2</version>
-        <systemPath>${project.basedir}/lib/slf4j-simple-1.7.2.jar</systemPath>
+      <groupId>slf4j-simple</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <scope>system</scope>
+      <version>1.7.2</version>
+      <systemPath>${project.basedir}/lib/slf4j-simple-1.7.2.jar</systemPath>
     </dependency>
-        <dependency>
-        <groupId>webcam-capture</groupId>
-        <artifactId>webcam-capture</artifactId>
-        <scope>system</scope>
-        <version>0.3.12</version>
-        <systemPath>${project.basedir}/lib/webcam-capture-0.3.12.jar</systemPath>
+    <dependency>
+      <groupId>webcam-capture</groupId>
+      <artifactId>webcam-capture</artifactId>
+      <scope>system</scope>
+      <version>0.3.12</version>
+      <systemPath>${project.basedir}/lib/webcam-capture-0.3.12.jar</systemPath>
     </dependency>
 
 
     <!-- Dépendences camera -->
     <dependency>
-        <groupId>com.itextpdf</groupId>
-        <artifactId>commons</artifactId>
-        <version>8.0.2</version>
+      <groupId>com.itextpdf</groupId>
+      <artifactId>commons</artifactId>
+      <version>8.0.2</version>
     </dependency>
 
     <dependency>
-        <groupId>com.itextpdf</groupId>
-        <artifactId>kernel</artifactId>
-        <version>8.0.2</version>
+      <groupId>com.itextpdf</groupId>
+      <artifactId>kernel</artifactId>
+      <version>8.0.2</version>
     </dependency>
-    
+
     <dependency>
-        <groupId>com.itextpdf</groupId>
-        <artifactId>io</artifactId>
-        <version>8.0.2</version>
+      <groupId>com.itextpdf</groupId>
+      <artifactId>io</artifactId>
+      <version>8.0.2</version>
     </dependency>
 
-
+    <dependency>
+      <groupId>com.itextpdf</groupId>
+      <artifactId>layout</artifactId>
+      <version>8.0.2</version>
+    </dependency>
 
   </dependencies>
 
@@ -141,7 +145,7 @@
             <archive>
               <manifest>
                 <addClasspath>true</addClasspath>
-                <mainClass>tlc.projet.App</mainClass>
+                <mainClass>trombi.Main</mainClass>
               </manifest>
             </archive>
           </configuration>

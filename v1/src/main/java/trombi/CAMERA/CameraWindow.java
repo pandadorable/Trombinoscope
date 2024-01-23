@@ -1,4 +1,4 @@
-package camera;
+package trombi.CAMERA;
 import java.awt.BorderLayout;
 
 import javax.swing.JButton;
