@@ -1,5 +1,8 @@
+<<<<<<<< HEAD:v1/src/main/java/trombi/PDF/GenererPdf.java
 package trombi.PDF;
-
+========
+package PDF.src;
+>>>>>>>> Develop_v1:v0/PDF/src/GenererPdf.java
 
 import java.io.File;
 import java.net.MalformedURLException;

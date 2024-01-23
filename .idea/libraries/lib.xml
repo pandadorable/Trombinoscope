@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="lib">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/v0/PDF/lib" />
+      <root url="file://$PROJECT_DIR$/v0/flux_camera/lib" />
+      <root url="file://$PROJECT_DIR$/v0/lib" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <jarDirectory url="file://$PROJECT_DIR$/v0/flux_camera/lib" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$/v0/lib" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$/v0/PDF/lib" recursive="false" />
+  </library>
+</component>
