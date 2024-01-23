@@ -47,34 +47,36 @@
     </dependency>
 
     <!-- Dépendences camera -->
+
     <dependency>
-      <groupId>bridj</groupId>
-      <artifactId>bridj</artifactId>
-      <scope>system</scope>
-      <version>0.7.0</version>
-      <systemPath>${project.basedir}/lib/bridj-0.7.0.jar</systemPath>
+        <groupId>com.nativelibs4java</groupId>
+        <artifactId>bridj</artifactId>
+        <version>0.7.0</version>
     </dependency>
+
+    
     <dependency>
-      <groupId>sl4j-api</groupId>
-      <artifactId>sl4j-api</artifactId>
-      <scope>system</scope>
-      <version>1.7.2</version>
-      <systemPath>${project.basedir}/lib/slf4j-api-1.7.2.jar</systemPath>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>1.7.2</version>
     </dependency>
+
     <dependency>
-      <groupId>slf4j-simple</groupId>
-      <artifactId>slf4j-simple</artifactId>
-      <scope>system</scope>
-      <version>1.7.2</version>
-      <systemPath>${project.basedir}/lib/slf4j-simple-1.7.2.jar</systemPath>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-simple</artifactId>
+        <version>1.7.2</version>
+        <scope>test</scope>
     </dependency>
+
+
+
+    
     <dependency>
-      <groupId>webcam-capture</groupId>
-      <artifactId>webcam-capture</artifactId>
-      <scope>system</scope>
-      <version>0.3.12</version>
-      <systemPath>${project.basedir}/lib/webcam-capture-0.3.12.jar</systemPath>
+        <groupId>com.github.sarxos</groupId>
+        <artifactId>webcam-capture</artifactId>
+        <version>0.3.12</version>
     </dependency>
+
 
 
     <!-- Dépendences camera -->
@@ -244,7 +246,7 @@
         <version>3.3.1</version>
         <configuration>
           <sourceDirectories>
-            <sourceDirectory>src/main/java/trombi/BDD</sourceDirectory>
+            <sourceDirectory>src/main/java/trombi</sourceDirectory>
           </sourceDirectories>
         </configuration>
       </plugin>
