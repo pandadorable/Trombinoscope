@@ -1,4 +1,4 @@
-package camera;
+package trombi.CAMERA;
 
 import java.io.File;
 import java.io.IOException;
