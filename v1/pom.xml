@@ -75,6 +75,29 @@
         <version>0.3.12</version>
         <systemPath>${project.basedir}/lib/webcam-capture-0.3.12.jar</systemPath>
     </dependency>
+
+
+    <!-- Dépendences camera -->
+    <dependency>
+        <groupId>com.itextpdf</groupId>
+        <artifactId>commons</artifactId>
+        <version>8.0.2</version>
+    </dependency>
+
+    <dependency>
+        <groupId>com.itextpdf</groupId>
+        <artifactId>kernel</artifactId>
+        <version>8.0.2</version>
+    </dependency>
+    
+    <dependency>
+        <groupId>com.itextpdf</groupId>
+        <artifactId>io</artifactId>
+        <version>8.0.2</version>
+    </dependency>
+
+
+
   </dependencies>
 
   <build>
