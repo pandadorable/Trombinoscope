@@ -144,7 +144,7 @@
             <archive>
               <manifest>
                 <addClasspath>true</addClasspath>
-                <mainClass>trombi.Main</mainClass>
+                <mainClass>trombi.APP.Main</mainClass>
               </manifest>
             </archive>
           </configuration>
