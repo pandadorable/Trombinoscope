@@ -29,7 +29,7 @@ public class CameraWindow {
 
         // Button photo setup
         JButton button = new JButton("Take photo");
-        button.addActionListener(e -> cameraManager.takePicture("./hello-world.png"));
+        button.addActionListener(e -> cameraManager.takePicture("./v1/src/main/java/trombi/BDD/images/hello-world.png"));
         button.setSize(width / 2, height);
 
         // Dropdown list of available webcams

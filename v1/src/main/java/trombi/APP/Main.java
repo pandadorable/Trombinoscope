@@ -10,8 +10,8 @@ import java.sql.Statement;
 import trombi.BDD.*;
 public class Main {
     public static void main(String[] args) {        
-        // CameraManager cameraManager = new CameraManager();
-        // CameraWindow cameraWindow = new CameraWindow(cameraManager);
+        CameraManager cameraManager = new CameraManager();
+        CameraWindow cameraWindow = new CameraWindow(cameraManager);
 
         String url = "jdbc:sqlite:"+ExcelToSQl.exemplePath+"BDD.db"; // Change to your SQLite database URL
         try (Connection connection = DriverManager.getConnection(url);
