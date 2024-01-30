@@ -60,9 +60,5 @@ public class CameraWindow {
     public void setCameraManager(CameraManager cameraManager) {
         this.cameraManager = cameraManager;
     }
-
-    
-
-    
     
 }

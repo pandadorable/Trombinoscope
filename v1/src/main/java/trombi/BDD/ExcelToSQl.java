@@ -9,7 +9,9 @@ import java.sql.DriverManager;
 import java.sql.Statement;
 
 public class ExcelToSQl{
-    private static String exemplePath = "v0/BDD/src/main/java/org/example/";
+
+    public static String exemplePath = "v1/src/main/java/trombi/BDD/example/";
+    
     public static String[] transformXSLXToBDD() {
         String[] reponse = new String[2];
         reponse[0]=null;
@@ -33,7 +35,7 @@ public class ExcelToSQl{
             createTableSQL.setLength(createTableSQL.length() - 2);
             createTableSQL.append(");");
 
-            System.out.println(createTableSQL.toString());
+            //System.out.println(createTableSQL.toString());
             reponse[0] = createTableSQL.toString();
             // Optionally, generate INSERT statements
             StringBuilder insertStatements = new StringBuilder("INSERT INTO Eleves VALUES ");
@@ -43,7 +45,7 @@ public class ExcelToSQl{
 
                 insertStatements.append("(");
                 int lastCellNum = row.getLastCellNum();
-                System.out.println("Nombre total de cellules dans la ligne " + rowIndex + ": " + lastCellNum);
+                //System.out.println("Nombre total de cellules dans la ligne " + rowIndex + ": " + lastCellNum);
 
                 for (int columnIndex = 0; columnIndex < lastCellNum; columnIndex++) {
                     Cell cell = row.getCell(columnIndex);
@@ -76,20 +78,20 @@ public class ExcelToSQl{
                     }
 
                     insertStatements.append("'").append(cellValue).append("', ");
-                    System.out.println("Contenu de la cellule " + rowIndex + ", " + columnIndex + ": " + cellValue);
+                    //System.out.println("Contenu de la cellule " + rowIndex + ", " + columnIndex + ": " + cellValue);
                 }
 
                 // Remove the last comma and add closing parenthesis
                 insertStatements.setLength(insertStatements.length() - 2);
                 insertStatements.append("), ");
-                System.out.println("Script partiel après la ligne " + rowIndex + ": " + insertStatements.toString());
+                //System.out.println("Script partiel après la ligne " + rowIndex + ": " + insertStatements.toString());
             }
 
             // Remove the last comma and semicolon
             insertStatements.setLength(insertStatements.length() - 2);
             insertStatements.append(";");
 
-            System.out.println(insertStatements.toString());
+            //System.out.println(insertStatements.toString());
             reponse[1]=insertStatements.toString();
             workbook.close();
         } catch (IOException e) {
@@ -100,20 +102,6 @@ public class ExcelToSQl{
 
 
     public static void main(String[] args) {
-        String url = "jdbc:sqlite:"+exemplePath+"BDD.db"; // Change to your SQLite database URL
-        try (Connection connection = DriverManager.getConnection(url);
-             Statement statement = connection.createStatement()) {
-
-            // Exécutez votre script SQL ici
-            String[] sqlScript = transformXSLXToBDD();
-            statement.execute(sqlScript[0]);
-            statement.execute(sqlScript[1]);
-
-
-            System.out.println("Script SQL exécuté avec succès.");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        
     }
 }
