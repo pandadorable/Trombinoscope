@@ -13,14 +13,14 @@ public class Main {
         CameraManager cameraManager = new CameraManager();
         CameraWindow cameraWindow = new CameraWindow(cameraManager);
 
-        String url = "jdbc:sqlite:"+ExcelToSQl.exemplePath+"BDD.db"; // Change to your SQLite database URL
+        String url = "jdbc:sqlite:BDD.db"; // Change to your SQLite database URL
         try (Connection connection = DriverManager.getConnection(url);
              Statement statement = connection.createStatement()) {
 
             // Exécutez votre script SQL ici
             String[] sqlScript = ExcelToSQl.transformXSLXToBDD();
             // check if the file exists at the file path
-            File file = new File(ExcelToSQl.exemplePath+"BDD.db");
+            File file = new File("BDD.db");
             if(!file.exists()) statement.execute(sqlScript[0]);
             //fill the database
             statement.execute(sqlScript[1]);

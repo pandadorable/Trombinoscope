@@ -10,13 +10,12 @@ import java.sql.Statement;
 
 public class ExcelToSQl{
 
-    public static String exemplePath = "v1/src/main/java/trombi/BDD/example/";
     
     public static String[] transformXSLXToBDD() {
         String[] reponse = new String[2];
         reponse[0]=null;
         reponse[1]=null;
-        try (FileInputStream fileInputStream = new FileInputStream(exemplePath + "ESIR.xlsx")) {
+        try (FileInputStream fileInputStream = new FileInputStream("ESIR.xlsx")) {
             Workbook workbook = new XSSFWorkbook(fileInputStream);
 
             // Assuming the data is in the first sheet
