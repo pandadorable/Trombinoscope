@@ -2,6 +2,7 @@ package PDF.src;
 
 import java.io.File;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.pdf.PdfDocument;
@@ -13,31 +14,38 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.properties.UnitValue;
 
+import static java.lang.Math.floor;
+
 public class GenererPdf {
-    private String dest;
+    private final String dest;
    
 
     public GenererPdf(String dest) {
         this.dest = dest;
     }
 
-    protected void manipulatePdf(String[] nomEleve, String[] photoEleve) throws Exception {
+    protected void manipulatePdf(ArrayList<String> nomEleve, ArrayList<String> photoEleve, String nomPdf) throws Exception {
         File file = new File(this.dest); 
         file.getParentFile().mkdirs();
 
         PdfDocument pdfDoc = new PdfDocument(new PdfWriter(this.dest));
         Document doc = new Document(pdfDoc);
-        Paragraph titre = new Paragraph("TROMBINOSCOPE ESIR2 SI");
+
+
+        Paragraph titre = new Paragraph(nomPdf);
         titre.setTextAlignment(com.itextpdf.layout.properties.TextAlignment.CENTER);
         titre.setBold();
         doc.add(titre);
 
-        Table table = new Table(UnitValue.createPercentArray(5)).useAllAvailableWidth();
+        //TODO : Nombre de cellules par lignes automatique
+        //Permet d'avoir toutes les photos sur une seule page
+        //(int) (double) (nomEleve.size() / 4)+1)
+        Table table = new Table(UnitValue.createPercentArray(4)).useAllAvailableWidth();
         table.setMargin(15);
-        for (int i = 0; i < nomEleve.length; i++) {
+        for (int i = 0; i < nomEleve.size(); i++) {
             Cell cell = new Cell(); //Creation de la cellule
-            Paragraph pNom = new Paragraph(nomEleve[i]); //Creation d'un "paragraphe" pour le nom de l'élève
-            cell.add(createImageCell(photoEleve[i]));
+            Paragraph pNom = new Paragraph(nomEleve.get(i)); //Creation d'un "paragraphe" pour le nom de l'élève
+            cell.add(createImageCell(photoEleve.get(i)));
             cell.add(pNom);
             table.addCell(cell);
         }
