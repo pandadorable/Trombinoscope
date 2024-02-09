@@ -11,7 +11,7 @@ import java.sql.Statement;
 public class ExcelToSQl{
 
     
-    public static String[] transformXSLXToBDD() {
+    public static String[] transformXLSXToBDD() {
         String[] reponse = new String[2];
         reponse[0]=null;
         reponse[1]=null;
