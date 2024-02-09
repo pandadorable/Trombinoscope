@@ -14,13 +14,11 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.properties.UnitValue;
 
-import static java.lang.Math.floor;
-
-public class GenererPdf {
+public class GenererTrombi {
     private final String dest;
    
 
-    public GenererPdf(String dest) {
+    public GenererTrombi(String dest) {
         this.dest = dest;
     }
 
@@ -40,7 +38,8 @@ public class GenererPdf {
         //TODO : Nombre de cellules par lignes automatique
         //Permet d'avoir toutes les photos sur une seule page
         //(int) (double) (nomEleve.size() / 4)+1)
-        Table table = new Table(UnitValue.createPercentArray(4)).useAllAvailableWidth();
+        int nbCellules = 4;
+        Table table = new Table(UnitValue.createPercentArray(nbCellules)).useAllAvailableWidth();
         table.setMargin(15);
         for (int i = 0; i < nomEleve.size(); i++) {
             Cell cell = new Cell(); //Creation de la cellule

@@ -1,9 +1,6 @@
 package PDF.src;
 
 
-import org.bridj.util.Pair;
-import org.sqlite.core.DB;
-import java.io.File;
 import java.io.FileReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -41,7 +38,7 @@ public class App {
         Statement statement = connection.createStatement();
 
 
-        //queryModifier("anglaiscom", "G1");
+        queryModifier("anglaiscom", "G1");
 
         ResultSet resultSet = statement.executeQuery(query);
 
@@ -69,8 +66,11 @@ public class App {
         }
         //TODO : Récupérer les images dans la BDD
 
-        GenererPdf pdf = new GenererPdf(DEST);
-        pdf.manipulatePdf(nomE, photoE, nomPdf);
+        GenererTrombi trombi = new GenererTrombi(DEST);
+        trombi.manipulatePdf(nomE, photoE, nomPdf);
+
+        GenererEmargement emargement = new GenererEmargement(DEST.replace("trombi", "emargement"));
+        emargement.manipulatePdf(nomE, photoE, nomPdf.replace("Trombinoscope", "Emargement"));
     }
 
     
