@@ -4,7 +4,7 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-
+  
   <groupId>trombi</groupId>
   <artifactId>trombinoscope</artifactId>
   <version>1.0</version>
@@ -49,31 +49,30 @@
     <!-- Dépendences camera -->
 
     <dependency>
-        <groupId>com.nativelibs4java</groupId>
-        <artifactId>bridj</artifactId>
-        <version>0.7.0</version>
+      <groupId>com.nativelibs4java</groupId>
+      <artifactId>bridj</artifactId>
+      <version>0.7.0</version>
     </dependency>
 
-    
+
     <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-api</artifactId>
-        <version>1.7.2</version>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.7.2</version>
     </dependency>
 
     <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-simple</artifactId>
-        <version>1.7.2</version>
-        <scope>test</scope>
-    </dependency>
-    
-    <dependency>
-        <groupId>com.github.sarxos</groupId>
-        <artifactId>webcam-capture</artifactId>
-        <version>0.3.12</version>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>1.7.2</version>
+      <scope>test</scope>
     </dependency>
 
+    <dependency>
+      <groupId>com.github.sarxos</groupId>
+      <artifactId>webcam-capture</artifactId>
+      <version>0.3.12</version>
+    </dependency>
 
 
     <!-- Dépendences camera -->
@@ -101,6 +100,7 @@
       <version>8.0.2</version>
     </dependency>
 
+    <!-- Dépendences BDD -->
     <dependency>
       <groupId>org.mariadb.jdbc</groupId>
       <artifactId>mariadb-java-client</artifactId>
