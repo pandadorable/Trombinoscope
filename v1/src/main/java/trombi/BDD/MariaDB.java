@@ -4,12 +4,15 @@ package trombi.BDD;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+
+import javax.imageio.ImageIO;
 
 public class MariaDB {
 
@@ -32,11 +35,11 @@ public class MariaDB {
                  rowIndex <= sheet.getLastRowNum(); rowIndex++) {
                 Row row = sheet.getRow(rowIndex);
                 int lastCellNum = row.getLastCellNum();
-                try (PreparedStatement statement =
-                             connection.prepareStatement("""
-                          REPLACE ELEVE(prenom, nom, email, specialite, option, td, tp, tdMut, tpMut, ang, innov, mana, expr, annee)
-                          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                        """)) {
+                try (PreparedStatement statement = connection.prepareStatement(
+                        """
+                                  REPLACE ELEVE(prenom, nom, email, specialite, option, td, tp, tdMut, tpMut, ang, innov, mana, expr, annee)
+                                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                                """)) {
                     for (int columnIndex = 1; columnIndex <= lastCellNum; columnIndex++) {
                         Cell cell = row.getCell(columnIndex - 1);
                         if (cell != null) {
@@ -55,14 +58,14 @@ public class MariaDB {
                                         cell.getBooleanCellValue());
                                 default ->
                                     // Handle other cell types as needed
-                                        statement.setString(columnIndex, "");
+                                    statement.setString(columnIndex, "");
                             }
                         } else {
                             // Cellule nulle, ajouter une chaîne vide
                             statement.setString(columnIndex, "");
                         }
                     }
-                    //date non présente
+                    // date non présente
                     statement.setString(14, "2XXX");
                     int rowsInserted = statement.executeUpdate();
                     System.out.println("Insertion terminée");
@@ -74,5 +77,32 @@ public class MariaDB {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void insertImage(Connection connection, String email, String pathImage) throws IOException {
+        File image = new File(pathImage);
+        FileInputStream inputStream = null;
+        try {
+            // create an input stream pointing to the file
+            inputStream = new FileInputStream(image);
+            try (PreparedStatement statement = connection.prepareStatement("""
+                      UPDATE ELEVE SET image = ? WHERE email = ?
+                    """)) {
+                statement.setString(2, email);
+                statement.setBlob(1, inputStream);
+                statement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (IOException e) {
+            throw new IOException("Unable to convert file to byte array. " +
+                    e.getMessage());
+        } finally {
+            // close input stream
+            if (inputStream != null) {
+                inputStream.close();
+            }
+        }
+        System.err.println("Insertion image pour : " + email);
     }
 }

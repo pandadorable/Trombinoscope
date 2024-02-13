@@ -19,5 +19,6 @@ CREATE TABLE ELEVE (
     mana TINYTEXT,
     expr TINYTEXT,
     annee TINYTEXT,
+    image blob,
     CONSTRAINT antiDoublon UNIQUE (email)
     );

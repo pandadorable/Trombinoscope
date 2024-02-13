@@ -20,7 +20,8 @@ public class Main {
                      DriverManager.getConnection(jdbcUrl, username, password);
              Statement statement = connection.createStatement()) {
 
-            MariaDB.transformXLSXToBDD(connection, "ESIR.xlsx");
+                MariaDB.transformXLSXToBDD(connection, "ESIR.xlsx");
+                MariaDB.insertImage(connection, "mario.bros@univ-rennes.fr", "uwu.jpg");
 
             /*
             // Exécutez votre script SQL ici

@@ -6,10 +6,10 @@
 [Lecture de fichier xlsx] as xls
 interface driverCamera
 
-DBAPI - [Application]
+(mariadb:jdbc) - [Application]
 driverCamera -up- [Application]
 driverCamera .down.> [Caméra]
-DBAPI .up.> [Base de données] : 3306
+(mariadb:jdbc) .up.> [Docker  mariadb:latest] : 3306
 [Application] .up.> pdf
 [Application] .right.> xls
 [Application] .up.> dossier
