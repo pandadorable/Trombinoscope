@@ -31,11 +31,11 @@ public class MariaDB {
                 Row row = sheet.getRow(rowIndex);
                 int lastCellNum = row.getLastCellNum();
                 try(PreparedStatement statement = connection.prepareStatement("""
-        INSERT INTO Eleves(prenom, nom, email, specialite, option, td, tp, tdMut, tpMut, ang, innov, mana, expr, annee)
+        INSERT INTO ELEVE(prenom, nom, email, specialite, option, td, tp, tdMut, tpMut, ang, innov, mana, expr, annee)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       """)) {
-                    for (int columnIndex = 0; columnIndex < lastCellNum; columnIndex++) {
-                        Cell cell = row.getCell(columnIndex);
+                    for (int columnIndex = 1; columnIndex <= lastCellNum; columnIndex++) {
+                        Cell cell = row.getCell(columnIndex-1);
                         if (cell != null) {
                             switch (cell.getCellType()) {
                                 case STRING -> statement.setString(columnIndex, cell.getStringCellValue());
@@ -55,8 +55,11 @@ public class MariaDB {
                             // Cellule nulle, ajouter une chaîne vide
                             statement.setString(columnIndex, "");
                         }
-                        int rowsInserted = statement.executeUpdate();
                     }
+                    //date non présente
+                    statement.setString(14, "2XXX");
+                    int rowsInserted = statement.executeUpdate();
+                    
                 } catch(SQLException e) {
                     e.printStackTrace();
                 }
