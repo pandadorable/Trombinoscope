@@ -18,5 +18,6 @@ CREATE TABLE ELEVE (
     innov TINYTEXT,
     mana TINYTEXT,
     expr TINYTEXT,
-    annee TINYTEXT
+    annee TINYTEXT,
+    CONSTRAINT antiDoublon UNIQUE (email)
     );

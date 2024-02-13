@@ -31,7 +31,7 @@ public class MariaDB {
                 Row row = sheet.getRow(rowIndex);
                 int lastCellNum = row.getLastCellNum();
                 try(PreparedStatement statement = connection.prepareStatement("""
-        INSERT INTO ELEVE(prenom, nom, email, specialite, option, td, tp, tdMut, tpMut, ang, innov, mana, expr, annee)
+        REPLACE ELEVE(prenom, nom, email, specialite, option, td, tp, tdMut, tpMut, ang, innov, mana, expr, annee)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       """)) {
                     for (int columnIndex = 1; columnIndex <= lastCellNum; columnIndex++) {
@@ -59,6 +59,7 @@ public class MariaDB {
                     //date non présente
                     statement.setString(14, "2XXX");
                     int rowsInserted = statement.executeUpdate();
+                    System.out.println("Insertion terminée");
                     
                 } catch(SQLException e) {
                     e.printStackTrace();
