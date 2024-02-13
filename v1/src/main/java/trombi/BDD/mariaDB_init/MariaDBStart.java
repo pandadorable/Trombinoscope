@@ -5,14 +5,15 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class mariaDBStart {
+public class MariaDBStart {
     public static void main(String[] args) {
         String jdbcUrl = "jdbc:mariadb://localhost:3306/datatest";
         String username = "root";
         String password = "trombipw";
 
         try {
-            Connection connection = DriverManager.getConnection(jdbcUrl, username, password);
+            Connection connection =
+                    DriverManager.getConnection(jdbcUrl, username, password);
             // Now you can use 'connection' to execute SQL queries.
             String insertQuery = "INSERT INTO ELEVE (nom, prenom) VALUES (?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);

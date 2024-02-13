@@ -14,21 +14,37 @@ import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.properties.UnitValue;
 
 public class GenererPdf {
-    private String dest;
-   
+    /**
+     * The filename of the PDF.
+     */
+    private final String dest;
+
 
     public GenererPdf(String dest) {
         this.dest = dest;
     }
 
     /**
-     * Creates the PDF with specified names and pictures
-     * @param nomEleve array of names of the students
+     * Creates an image cell used in the PDF.
+     *
+     * @param path of the selected picture
+     * @return the cell of the picture
+     * @throws MalformedURLException
+     */
+    private static Cell createImageCell(String path) throws MalformedURLException {
+        Image img = new Image(ImageDataFactory.create(path));
+        return new Cell().add(img.setAutoScale(true).setWidth(UnitValue.createPercentValue(100)));
+    }
+
+    /**
+     * Creates the PDF with specified names and pictures.
+     *
+     * @param nomEleve   array of names of the students
      * @param photoEleve array of pictures of the students
      * @throws Exception
      */
     protected void manipulatePdf(String[] nomEleve, String[] photoEleve) throws Exception {
-        File file = new File(this.dest); 
+        File file = new File(this.dest);
         file.getParentFile().mkdirs();
 
         PdfDocument pdfDoc = new PdfDocument(new PdfWriter(this.dest));
@@ -50,16 +66,5 @@ public class GenererPdf {
 
         doc.add(table);
         doc.close();
-    }
-
-    /**
-     * Creates an image cell used in the PDF
-     * @param path of the selected picture
-     * @return the cell of the picture
-     * @throws MalformedURLException
-     */
-    private static Cell createImageCell(String path) throws MalformedURLException {
-        Image img = new Image(ImageDataFactory.create(path));
-        return new Cell().add(img.setAutoScale(true).setWidth(UnitValue.createPercentValue(100)));
     }
 }
