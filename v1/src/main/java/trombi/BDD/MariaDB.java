@@ -1,18 +1,22 @@
 package trombi.BDD;
 
-
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import com.itextpdf.layout.element.Image;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 
 public class MariaDB {
 
@@ -31,8 +35,7 @@ public class MariaDB {
 
             // Assuming the first row contains column names
             Row headerRow = sheet.getRow(0);
-            for (int rowIndex = 1;
-                 rowIndex <= sheet.getLastRowNum(); rowIndex++) {
+            for (int rowIndex = 1; rowIndex <= sheet.getLastRowNum(); rowIndex++) {
                 Row row = sheet.getRow(rowIndex);
                 int lastCellNum = row.getLastCellNum();
                 try (PreparedStatement statement = connection.prepareStatement(
@@ -103,6 +106,21 @@ public class MariaDB {
                 inputStream.close();
             }
         }
-        System.err.println("Insertion image pour : " + email);
+        System.out.println("Insertion image pour : " + email);
+    }
+
+    public static BufferedImage getImage(Connection connection, String email) throws IOException {
+        try (PreparedStatement statement = connection.prepareStatement("""
+                  SELECT image FROM ELEVE WHERE email = ?
+                """)) {
+            statement.setString(1, email);
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            InputStream is = resultSet.getBlob(1).getBinaryStream();
+            return ImageIO.read(is);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

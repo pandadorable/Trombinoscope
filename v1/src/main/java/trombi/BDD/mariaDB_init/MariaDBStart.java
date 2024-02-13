@@ -15,10 +15,11 @@ public class MariaDBStart {
             Connection connection =
                     DriverManager.getConnection(jdbcUrl, username, password);
             // Now you can use 'connection' to execute SQL queries.
-            String insertQuery = "INSERT INTO ELEVE (nom, prenom) VALUES (?, ?)";
+            String insertQuery = "REPLACE ELEVE (nom, prenom, email) VALUES (?, ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
             preparedStatement.setString(1, "Quoicoup");
             preparedStatement.setString(2, "BebUwU");
+            preparedStatement.setString(3, "QuoicoupBebUwU@mail.com");
             preparedStatement.executeUpdate();
             // Don't forget to close the connection when you're done.
             connection.close();

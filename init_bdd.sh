@@ -4,7 +4,7 @@ sudo docker run --publish 3306:3306 --detach --name TrombiBDD --env MARIADB_ROOT
 sudo docker ps
 sudo docker exec -it TrombiBDD mariadb --user root -ptrombipw
 CREATE DATABASE datatest;
-CREATE TABLE ELEVE (
+CREATE TABLE datatest.ELEVE (
     prenom TINYTEXT,
     nom TINYTEXT,
     email TINYTEXT,
