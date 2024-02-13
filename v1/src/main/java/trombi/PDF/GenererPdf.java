@@ -1,6 +1,5 @@
 package trombi.PDF;
 
-
 import java.io.File;
 import java.net.MalformedURLException;
 
@@ -22,6 +21,12 @@ public class GenererPdf {
         this.dest = dest;
     }
 
+    /**
+     * Creates the PDF with specified names and pictures
+     * @param nomEleve array of names of the students
+     * @param photoEleve array of pictures of the students
+     * @throws Exception
+     */
     protected void manipulatePdf(String[] nomEleve, String[] photoEleve) throws Exception {
         File file = new File(this.dest); 
         file.getParentFile().mkdirs();
@@ -47,6 +52,12 @@ public class GenererPdf {
         doc.close();
     }
 
+    /**
+     * Creates an image cell used in the PDF
+     * @param path of the selected picture
+     * @return the cell of the picture
+     * @throws MalformedURLException
+     */
     private static Cell createImageCell(String path) throws MalformedURLException {
         Image img = new Image(ImageDataFactory.create(path));
         return new Cell().add(img.setAutoScale(true).setWidth(UnitValue.createPercentValue(100)));

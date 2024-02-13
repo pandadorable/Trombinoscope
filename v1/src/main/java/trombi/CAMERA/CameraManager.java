@@ -32,7 +32,7 @@ public class CameraManager {
 
     /**
      * Change the webcam
-     * @return
+     * @param webcam the selected webcam
      */
     public void changeWebcam(Webcam webcam) {
         if (this.webcam == webcam){return;}
@@ -52,8 +52,8 @@ public class CameraManager {
     }
 
     /**
-     * Get the lis tof available webcams
-     * @return
+     * Get the list of available webcams
+     * @return the array of available webcams
      */
     public static Webcam[] getAvailableWebcams() {
         List<Webcam> webcams = Webcam.getWebcams();
@@ -69,7 +69,7 @@ public class CameraManager {
 
     /**
      * Take a picture and save it to the specified path
-     * @return
+     * @param path the path to save pictures
      */
     public void takePicture(String path) {
         try {
