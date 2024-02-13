@@ -66,7 +66,7 @@ public class App {
         }
         //TODO : Récupérer les images dans la BDD
 
-        GenererTrombi trombi = new GenererTrombi(DEST);
+        GenererPdf trombi = new GenererPdf(DEST);
         trombi.manipulatePdf(nomE, photoE, nomPdf);
 
         GenererEmargement emargement = new GenererEmargement(DEST.replace("trombi", "emargement"));

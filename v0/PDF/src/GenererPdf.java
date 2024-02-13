@@ -14,11 +14,11 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.properties.UnitValue;
 
-public class GenererTrombi {
+public class GenererPdf {
     private final String dest;
    
 
-    public GenererTrombi(String dest) {
+    public GenererPdf(String dest) {
         this.dest = dest;
     }
 
