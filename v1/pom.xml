@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>trombi</groupId>
@@ -95,24 +95,24 @@
             <version>8.0.2</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.itextpdf</groupId>
-            <artifactId>io</artifactId>
-            <version>8.0.2</version>
-        </dependency>
+    <dependency>
+        <groupId>com.itextpdf</groupId>
+        <artifactId>io</artifactId>
+        <version>8.0.2</version>
+    </dependency>
 
-        <dependency>
-            <groupId>com.itextpdf</groupId>
-            <artifactId>layout</artifactId>
-            <version>8.0.2</version>
-        </dependency>
+    <dependency>
+        <groupId>com.itextpdf</groupId>
+        <artifactId>layout</artifactId>
+        <version>8.0.2</version>
+    </dependency>
 
-        <!-- Dépendences BDD -->
-        <dependency>
-            <groupId>org.mariadb.jdbc</groupId>
-            <artifactId>mariadb-java-client</artifactId>
-            <version>3.3.2</version>
-        </dependency>
+    <!-- Dépendences BDD -->
+    <dependency>
+        <groupId>org.mariadb.jdbc</groupId>
+        <artifactId>mariadb-java-client</artifactId>
+        <version>3.3.2</version>
+    </dependency>
 
     </dependencies>
 
@@ -120,7 +120,8 @@
 
         <defaultGoal>install</defaultGoal>
 
-        <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to
+        <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be
+            moved to
       parent pom) -->
             <plugins>
                 <!-- clean lifecycle, see
@@ -208,7 +209,8 @@
                             <goals>
                                 <goal>prepare-agent</goal>
                             </goals>
-                        </execution> <!-- attached to Maven
+                        </execution> <!--
+                        attached to Maven
             test phase -->
                         <execution>
                             <id>report</id>
