@@ -1,33 +1,41 @@
 package trombi.BDD;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
-import com.itextpdf.layout.element.Image;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.Date;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-
 public class MariaDB {
+
+    private static Connection CONNECTION = null;
+
+    public static Connection getConnection() throws SQLException {
+        if (CONNECTION == null) {
+            String jdbcUrl = "jdbc:mariadb://localhost:3306/datatest";
+            String username = "root";
+            String password = "trombipw";
+            CONNECTION = DriverManager.getConnection(jdbcUrl, username, password);
+        }
+        return CONNECTION;
+    }
 
     /**
      * Conversion de XLSX en base de données.
      *
      * @param xlsx       le nom du fichier à convertir (ex: "ESIR.xlsx")
      * @param connection la connexion à la base de données
+     * @throws SQLException 
      */
-    public static void transformXLSXToBDD(Connection connection, String xlsx) {
+    public static void transformXLSXToBDD(String xlsx) throws SQLException {
+        Connection connection = getConnection();
         try (FileInputStream fileInputStream = new FileInputStream(xlsx)) {
             Workbook workbook = new XSSFWorkbook(fileInputStream);
 
@@ -83,7 +91,8 @@ public class MariaDB {
         }
     }
 
-    public static void insertImage(Connection connection, String email, String pathImage) throws IOException {
+    public static void insertImage(String email, String pathImage) throws IOException, SQLException {
+        Connection connection = getConnection();
         File image = new File(pathImage);
         FileInputStream inputStream = null;
         try {
@@ -110,50 +119,65 @@ public class MariaDB {
         System.out.println("Insertion image pour : " + email);
     }
 
-    public static BufferedImage getImage(Connection connection, String email) throws IOException {
+    public static byte[] getImage(String email) throws IOException, SQLException {
+        Connection connection = getConnection();
         try (PreparedStatement statement = connection.prepareStatement("""
                   SELECT image FROM ELEVE WHERE email = ?
                 """)) {
             statement.setString(1, email);
             ResultSet resultSet = statement.executeQuery();
             resultSet.next();
-            InputStream is = resultSet.getBlob(1).getBinaryStream();
-            return ImageIO.read(is);
+            return resultSet.getBytes(1);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public static ResultSet autoRequest(Connection connection, String[] nomCollumnWanted, String[] nomCollumnCondition, String[] condition) {
-        assert(nomCollumnCondition.length == condition.length);
+    /**
+     * 
+     * @param connection
+     * @param nomCollumnWanted    : La liste des collonnes voulant être récupéré
+     *                            dans la base de données
+     * @param nomCollumnCondition : La liste des collonnes sur lesquelles on pose
+     *                            une condition
+     * @param condition           : La liste des conditions /!\ doit faire la même
+     *                            taille que nomCollumnCondition, la condition à
+     *                            l'indice 0 vaut pour la collumn à l'indice 0
+     * @return Le ResultSet de la requete
+     * @throws SQLException 
+     */
+    public static ResultSet autoRequest(String[] nomCollumnWanted, String[] nomCollumnCondition,
+            String[] condition) throws SQLException {
+        assert (nomCollumnCondition.length == condition.length);
         boolean conflictWantedCondition = false;
-        for(String e1 : nomCollumnCondition) 
-        {
-            for(String e2 : nomCollumnWanted)
-            {
+        for (String e1 : nomCollumnCondition) {
+            for (String e2 : nomCollumnWanted) {
                 conflictWantedCondition = conflictWantedCondition || e1.equals(e2);
             }
         }
-        assert(!conflictWantedCondition);
-
+        assert (!conflictWantedCondition);
+        Connection connection = getConnection();
         String listCollumn = "";
-        for(int i = 0 ; i < nomCollumnWanted.length ; i++)
-        {
+        for (int i = 0; i < nomCollumnWanted.length; i++) {
             listCollumn += " " + nomCollumnWanted[i];
-            if(i < nomCollumnWanted.length-1) listCollumn +=",";
+            if (i < nomCollumnWanted.length - 1)
+                listCollumn += ",";
         }
         String listCondition = "";
-        for(int i = 0 ; i < nomCollumnCondition.length ; i++)
-        {
-            listCondition += " WHERE "+ nomCollumnCondition[i] + " = ?";
+        for (int i = 0; i < nomCollumnCondition.length; i++) {
+            listCondition += " WHERE " + nomCollumnCondition[i] + " = ?";
+            if (i < nomCollumnCondition.length - 1)
+                listCondition += " AND";
         }
 
         try (PreparedStatement statement = connection.prepareStatement(
-            "SELECT "+listCollumn+" FROM ELEVE"+listCondition)) {
+                "SELECT " + listCollumn + " FROM ELEVE" + listCondition)) {
 
-                for(int i = 0 ; i < condition.length ; i++) statement.setString(i,condition[i]);
-                return statement.executeQuery();
+            for (int i = 0; i < condition.length; i++)
+                statement.setString(i+1, condition[i]);
+            System.out.println("UwU"+statement);
+            return statement.executeQuery();
 
         } catch (SQLException e) {
             e.printStackTrace();

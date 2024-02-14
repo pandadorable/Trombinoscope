@@ -3,6 +3,7 @@ package trombi.APP;
 import trombi.BDD.MariaDB;
 import trombi.CAMERA.CameraManager;
 import trombi.CAMERA.CameraWindow;
+import trombi.PDF.pdf;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,24 +12,21 @@ import java.sql.Statement;
 import javax.imageio.ImageIO;
 
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 
 public class Main {
     public static void main(String[] args) {
         CameraManager cameraManager = new CameraManager();
         CameraWindow cameraWindow = new CameraWindow(cameraManager);
+        try{
 
-        String jdbcUrl = "jdbc:mariadb://localhost:3306/datatest";
-        String username = "root";
-        String password = "trombipw";
-        try (Connection connection = DriverManager.getConnection(jdbcUrl, username, password);
-                Statement statement = connection.createStatement()) {
-
-            MariaDB.transformXLSXToBDD(connection, "ESIR.xlsx");
-            MariaDB.insertImage(connection, "mario.bros@univ-rennes.fr", "uwu.jpg");
-            BufferedImage image = MariaDB.getImage(connection, "mario.bros@univ-rennes.fr");
+            MariaDB.transformXLSXToBDD("ESIR.xlsx");
+            MariaDB.insertImage("mario.bros@univ-rennes.fr", "uwu.jpg");
+            byte[] image = MariaDB.getImage("mario.bros@univ-rennes.fr");
             File fichierImage = new File("ImageRecuperer.jpg");// ou jpg
-            ImageIO.write(image, "jpg", fichierImage);
+            ImageIO.write(ImageIO.read(new ByteArrayInputStream(image)), "jpg", fichierImage);
+            pdf.pdf();
             /*
              * // Exécutez votre script SQL ici
              * String[] sqlScript = ExcelToSQl.transformXLSXToBDD();
