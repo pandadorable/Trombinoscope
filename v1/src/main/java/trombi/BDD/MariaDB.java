@@ -1,5 +1,6 @@
 package trombi.BDD;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -118,6 +119,42 @@ public class MariaDB {
             resultSet.next();
             InputStream is = resultSet.getBlob(1).getBinaryStream();
             return ImageIO.read(is);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static ResultSet autoRequest(Connection connection, String[] nomCollumnWanted, String[] nomCollumnCondition, String[] condition) {
+        assert(nomCollumnCondition.length == condition.length);
+        boolean conflictWantedCondition = false;
+        for(String e1 : nomCollumnCondition) 
+        {
+            for(String e2 : nomCollumnWanted)
+            {
+                conflictWantedCondition = conflictWantedCondition || e1.equals(e2);
+            }
+        }
+        assert(!conflictWantedCondition);
+
+        String listCollumn = "";
+        for(int i = 0 ; i < nomCollumnWanted.length ; i++)
+        {
+            listCollumn += " " + nomCollumnWanted[i];
+            if(i < nomCollumnWanted.length-1) listCollumn +=",";
+        }
+        String listCondition = "";
+        for(int i = 0 ; i < nomCollumnCondition.length ; i++)
+        {
+            listCondition += " WHERE "+ nomCollumnCondition[i] + " = ?";
+        }
+
+        try (PreparedStatement statement = connection.prepareStatement(
+            "SELECT "+listCollumn+" FROM ELEVE"+listCondition)) {
+
+                for(int i = 0 ; i < condition.length ; i++) statement.setString(i,condition[i]);
+                return statement.executeQuery();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
