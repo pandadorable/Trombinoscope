@@ -1,4 +1,5 @@
 package trombi.CAMERA;
+
 import java.awt.BorderLayout;
 
 import javax.swing.JButton;
@@ -9,10 +10,16 @@ import com.github.sarxos.webcam.Webcam;
 import com.github.sarxos.webcam.WebcamPanel;
 
 public class CameraWindow {
+    /**
+     * The camera manager (which allows the use of the webcam).
+     */
     private CameraManager cameraManager;
+    /**
+     * The panel of the webcam
+     */
     private WebcamPanel webcamPanel;
-    public CameraWindow(CameraManager cameraManager)
-    {
+
+    public CameraWindow(CameraManager cameraManager) {
         this.cameraManager = cameraManager;
 
         int width = 640;
@@ -29,18 +36,19 @@ public class CameraWindow {
 
         // Button photo setup
         JButton button = new JButton("Take photo");
-        button.addActionListener(e -> cameraManager.takePicture("./v1/src/main/java/trombi/BDD/images/hello-world.png"));
+        button.addActionListener(e ->
+                cameraManager.takePicture("./v1/src/main/java/trombi/BDD/images/hello-world.png"));
         button.setSize(width / 2, height);
 
         // Dropdown list of available webcams
-         JComboBox<Webcam> cameraList = new JComboBox<Webcam>(CameraManager.getAvailableWebcams());
-            cameraList.addActionListener(e -> {
-                cameraManager.changeWebcam((Webcam) cameraList.getSelectedItem());
-                window.remove(webcamPanel);
-                webcamPanel = cameraManager.getPanel();
-                window.add(webcamPanel, BorderLayout.WEST);
-                window.revalidate();
-            });
+        JComboBox<Webcam> cameraList = new JComboBox<Webcam>(CameraManager.getAvailableWebcams());
+        cameraList.addActionListener(e -> {
+            cameraManager.changeWebcam((Webcam) cameraList.getSelectedItem());
+            window.remove(webcamPanel);
+            webcamPanel = cameraManager.getPanel();
+            window.add(webcamPanel, BorderLayout.WEST);
+            window.revalidate();
+        });
 
         // Adding components to JFrame using BorderLayout
         window.setLayout(new BorderLayout());
@@ -57,8 +65,9 @@ public class CameraWindow {
     public CameraManager getCameraManager() {
         return cameraManager;
     }
+
     public void setCameraManager(CameraManager cameraManager) {
         this.cameraManager = cameraManager;
     }
-    
+
 }
