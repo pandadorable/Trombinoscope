@@ -1,8 +1,6 @@
 package trombi.APP;
 
 import trombi.BDD.MariaDB;
-import trombi.CAMERA.CameraManager;
-import trombi.CAMERA.CameraWindow;
 import trombi.PDF.pdf;
 
 import java.sql.Connection;
@@ -15,10 +13,22 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 
+import io.qt.widgets.*;
+
 public class Main {
     public static void main(String[] args) {
-        CameraManager cameraManager = new CameraManager();
-        CameraWindow cameraWindow = new CameraWindow(cameraManager);
+        // Initialise l'application Qt
+        QApplication.initialize(args);
+
+        //Fenetre principale
+        MainWindow mainWindow = new MainWindow();
+        mainWindow.resize(800, 600);
+        mainWindow.show();
+
+        // Lance l'application
+        QApplication.exec();
+        QApplication.shutdown();
+
         try{
 
             MariaDB.transformXLSXToBDD("ESIR.xlsx");
@@ -41,5 +51,6 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+}
+
 }
