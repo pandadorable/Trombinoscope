@@ -1,73 +1,64 @@
 package trombi.CAMERA;
 
-import java.awt.BorderLayout;
-
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-
-import com.github.sarxos.webcam.Webcam;
-import com.github.sarxos.webcam.WebcamPanel;
+import io.qt.core.QList;
+import io.qt.multimedia.QCamera;
+import io.qt.multimedia.QCameraDevice;
+import io.qt.multimedia.QImageCapture;
+import io.qt.multimedia.QMediaCaptureSession;
+import io.qt.multimedia.QMediaDevices;
+import io.qt.multimedia.widgets.QVideoWidget;
+import io.qt.widgets.QComboBox;
+import io.qt.widgets.QPushButton;
+import io.qt.widgets.QTabWidget;
+import io.qt.widgets.QWidget;
 
 public class CameraWindow {
-    /**
-     * The camera manager (which allows the use of the webcam).
-     */
-    private CameraManager cameraManager;
-    /**
-     * The panel of the webcam
-     */
-    private WebcamPanel webcamPanel;
+    private QImageCapture imageCapture;
+    public CameraWindow(QWidget widgetParent)
+    {
+        // Liste des cameras disponibles
+        QList<QCameraDevice> cameras = new QList<QCameraDevice>(QMediaDevices.getVideoInputs()); 
+        QComboBox cameraList = new QComboBox(widgetParent);
+        cameraList.resize(widgetParent.getWidth(), 35);
+        for (QCameraDevice camera : cameras) {
+            cameraList.addItem(camera.getDescription());
+        }
+          
+        QMediaCaptureSession captureSession = new QMediaCaptureSession();
+        QCamera camera =  new QCamera(cameras.get(0));
+        captureSession.setCamera(camera);
+        QVideoWidget viewfinder = new QVideoWidget(widgetParent);
+        viewfinder.show();
+        captureSession.setVideoOutput(viewfinder);
 
-    public CameraWindow(CameraManager cameraManager) {
-        this.cameraManager = cameraManager;
+        imageCapture = new QImageCapture(camera);
+        captureSession.setImageCapture(imageCapture);
+        camera.start();
 
-        int width = 640;
-        int height = 480;
+        //Taille
+        viewfinder.resize(500, 400);
 
-        // JFrame setup
-        JFrame window = new JFrame("Test webcam panel");
-        window.setResizable(false);
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.setSize(width, height);
-        // WebcamPanel setup
-        webcamPanel = cameraManager.getPanel();
-        webcamPanel.setSize(width / 2, height);
+        //Position
+        viewfinder.move(50,50);
 
-        // Button photo setup
-        JButton button = new JButton("Take photo");
-        button.addActionListener(e ->
-                cameraManager.takePicture("./v1/src/main/java/trombi/BDD/images/hello-world.png"));
-        button.setSize(width / 2, height);
+       //Onglet nom et bouton de capture 
+       QTabWidget listTabcapture = new QTabWidget(widgetParent);
+       QWidget widCapture = new QWidget();
+       listTabcapture.addTab(widCapture, "Capture");
+       listTabcapture.move(640, 0);
+       listTabcapture.resize(160, widgetParent.getMaximumHeight());
+       QPushButton capButton = new QPushButton("Capture", widCapture);
+       capButton.move(5,200);
+       capButton.resize(150,40);
 
-        // Dropdown list of available webcams
-        JComboBox<Webcam> cameraList = new JComboBox<Webcam>(CameraManager.getAvailableWebcams());
-        cameraList.addActionListener(e -> {
-            cameraManager.changeWebcam((Webcam) cameraList.getSelectedItem());
-            window.remove(webcamPanel);
-            webcamPanel = cameraManager.getPanel();
-            window.add(webcamPanel, BorderLayout.WEST);
-            window.revalidate();
-        });
-
-        // Adding components to JFrame using BorderLayout
-        window.setLayout(new BorderLayout());
-        window.add(webcamPanel, BorderLayout.WEST);
-        window.add(button, BorderLayout.EAST);
-        window.add(cameraList, BorderLayout.NORTH);
-
-        window.setVisible(true);
+       capButton.clicked.connect(this, "capture()");
 
     }
 
-
-    /******************SETTERS AND GETTERS******************/
-    public CameraManager getCameraManager() {
-        return cameraManager;
+    public void capture() {
+        //mettre chemin absolue du rep du projet dans les parenthèses /cheminabsolue/nomDuFichier
+        this.imageCapture.captureToFile("");
     }
 
-    public void setCameraManager(CameraManager cameraManager) {
-        this.cameraManager = cameraManager;
-    }
-
+    
 }
