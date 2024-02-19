@@ -19,6 +19,6 @@ CREATE TABLE datatest.ELEVE (
     mana TINYTEXT,
     expr TINYTEXT,
     annee TINYTEXT,
-    image blob,
+    image LONGBLOB,
     CONSTRAINT antiDoublon UNIQUE (email)
     );

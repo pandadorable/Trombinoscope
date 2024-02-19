@@ -1,5 +1,8 @@
 package trombi.CAMERA;
 
+import java.io.IOException;
+import java.sql.SQLException;
+
 import io.qt.core.QList;
 import io.qt.multimedia.QCamera;
 import io.qt.multimedia.QCameraDevice;
@@ -11,6 +14,7 @@ import io.qt.widgets.QComboBox;
 import io.qt.widgets.QPushButton;
 import io.qt.widgets.QTabWidget;
 import io.qt.widgets.QWidget;
+import trombi.BDD.MariaDB;
 
 public class CameraWindow {
     private QImageCapture imageCapture;
@@ -60,7 +64,37 @@ public class CameraWindow {
     public void capture() {
         // mettre chemin absolue du rep du projet dans les parenthèses
         // /cheminabsolue/nomDuFichier
-        this.imageCapture.captureToFile("");
+        if(this.imageCapture == null) 
+        {
+            try {
+                MariaDB.insertImage("mario.bros@univ-rennes.fr", "mario.png");
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        else
+        {
+            int capture = this.imageCapture.captureToFile("/home/pandadorable/DATA/cours/esir2/Trombinoscope");
+            System.out.println(capture);
+            String id = "image_";
+            if(capture < 1000) id+='0';
+            if(capture < 100) id+='0';
+            if(capture < 10) id+='0';
+            id += capture+".jpg";
+            try {
+                MariaDB.insertImage("mario.bros@univ-rennes.fr", id);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        } 
     }
 
 }

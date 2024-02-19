@@ -29,8 +29,8 @@ public class GenererEmargement {
         }
 
         protected void manipulatePdf(ArrayList<String> nomEleve, String nomPdf) throws Exception {
-            File file = new File(this.dest);
-            file.getParentFile().mkdirs();
+            //File file = new File(this.dest);
+            //file.getParentFile().mkdirs();
 
             PdfDocument pdfDoc = new PdfDocument(new PdfWriter(this.dest));
             Document doc = new Document(pdfDoc);

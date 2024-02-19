@@ -32,8 +32,10 @@ public class pdf {
             }
             resultSet.close();
 
-            GenererPdf trombi = new GenererPdf("trombi.pdf");
+            GenererPdf trombi = new GenererPdf("OUTPUT/trombi.pdf");
             trombi.manipulatePdf(nomEleve, mailELeve, "Trombinoscope");
+            GenererEmargement emargement = new GenererEmargement("OUTPUT/emargement.pdf");
+            emargement.manipulatePdf(nomEleve, "emargement");
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (Exception e) {
