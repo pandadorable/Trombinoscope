@@ -124,37 +124,37 @@
         <dependency>
           <groupId>io.qtjambi</groupId>
           <artifactId>qtjambi</artifactId>
-          <version>6.6.1</version>
+          <version>6.6.2</version>
         </dependency>
 
         <dependency>
           <groupId>io.qtjambi</groupId>
           <artifactId>qtjambi-native-linux-x64</artifactId>
-          <version>6.6.1</version>
+          <version>6.6.2</version>
         </dependency>
 
         <dependency>
           <groupId>io.qtjambi</groupId>
           <artifactId>qtjambi-multimedia</artifactId>
-          <version>6.6.1</version>
+          <version>6.6.2</version>
         </dependency>
 
         <dependency>
           <groupId>io.qtjambi</groupId>
           <artifactId>qtjambi-multimedia-native-linux-x64</artifactId>
-          <version>6.6.1</version>
+          <version>6.6.2</version>
         </dependency>
 
         <dependency>
           <groupId>io.qtjambi</groupId>
           <artifactId>qtjambi-multimediawidgets</artifactId>
-          <version>6.6.1</version>
+          <version>6.6.2</version>
         </dependency>
 
         <dependency>
           <groupId>io.qtjambi</groupId>
           <artifactId>qtjambi-multimediawidgets-native-linux-x64</artifactId>
-          <version>6.6.1</version>
+          <version>6.6.2</version>
         </dependency>
 
     </dependencies>

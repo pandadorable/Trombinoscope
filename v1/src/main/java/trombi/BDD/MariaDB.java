@@ -80,7 +80,7 @@ public class MariaDB {
                     // date non présente
                     statement.setString(14, "2XXX");
                     int rowsInserted = statement.executeUpdate();
-                    System.out.println("Insertion terminée");
+                    
 
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -89,6 +89,7 @@ public class MariaDB {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println("Insertion terminée");
     }
 
     public static void insertImage(String email, String pathImage) throws IOException, SQLException {
@@ -165,10 +166,11 @@ public class MariaDB {
                 listCollumn += ",";
         }
         String listCondition = "";
+        listCondition += " WHERE ";
         for (int i = 0; i < nomCollumnCondition.length; i++) {
-            listCondition += " WHERE " + nomCollumnCondition[i] + " = ?";
+            listCondition += nomCollumnCondition[i] + " = ?";
             if (i < nomCollumnCondition.length - 1)
-                listCondition += " AND";
+                listCondition += " OR ";
         }
 
         try (PreparedStatement statement = connection.prepareStatement(
@@ -176,7 +178,6 @@ public class MariaDB {
 
             for (int i = 0; i < condition.length; i++)
                 statement.setString(i+1, condition[i]);
-            System.out.println("UwU"+statement);
             return statement.executeQuery();
 
         } catch (SQLException e) {

@@ -15,7 +15,8 @@ import java.io.File;
 
 import io.qt.widgets.*;
 
-public class Main {
+public class Main 
+    {
     public static void main(String[] args) {
         // Initialise l'application Qt
         QApplication.initialize(args);
@@ -29,8 +30,8 @@ public class Main {
         QApplication.exec();
         QApplication.shutdown();
 
+        /*
         try{
-
             MariaDB.transformXLSXToBDD("ESIR.xlsx");
             MariaDB.insertImage("mario.bros@univ-rennes.fr", "uwu.jpg");
             byte[] image = MariaDB.getImage("mario.bros@univ-rennes.fr");
@@ -46,11 +47,12 @@ public class Main {
              * //fill the database
              * statement.execute(sqlScript[1]);
              * System.out.println("Script SQL exécuté avec succès.");
-             */
+             
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-}
+        */
+    }
 
 }

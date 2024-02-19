@@ -25,7 +25,7 @@ public class MainWindow extends QWidget{
         
         //Boutons pour le Xlsx et Pdf 
         ImportXlsx btnXlsx = new ImportXlsx(listTab);
-        GenPdf btnPdf = new GenPdf(listTab, "v1/Trombi.pdf");
+        GenPdf btnPdf = new GenPdf(listTab, "Trombi.pdf");
 
         
 

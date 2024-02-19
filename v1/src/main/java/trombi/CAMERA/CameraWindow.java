@@ -14,51 +14,53 @@ import io.qt.widgets.QWidget;
 
 public class CameraWindow {
     private QImageCapture imageCapture;
-    public CameraWindow(QWidget widgetParent)
-    {
+
+    public CameraWindow(QWidget widgetParent) {
         // Liste des cameras disponibles
-        QList<QCameraDevice> cameras = new QList<QCameraDevice>(QMediaDevices.getVideoInputs()); 
+        QList<QCameraDevice> cameras = new QList<QCameraDevice>(QMediaDevices.getVideoInputs());
         QComboBox cameraList = new QComboBox(widgetParent);
         cameraList.resize(widgetParent.getWidth(), 35);
         for (QCameraDevice camera : cameras) {
             cameraList.addItem(camera.getDescription());
         }
-          
+
         QMediaCaptureSession captureSession = new QMediaCaptureSession();
-        QCamera camera =  new QCamera(cameras.get(0));
-        captureSession.setCamera(camera);
-        QVideoWidget viewfinder = new QVideoWidget(widgetParent);
-        viewfinder.show();
-        captureSession.setVideoOutput(viewfinder);
+        if (!cameras.isEmpty()) {
+            QCamera camera = new QCamera(cameras.get(0));
+            captureSession.setCamera(camera);
+            QVideoWidget viewfinder = new QVideoWidget(widgetParent);
+            viewfinder.show();
+            captureSession.setVideoOutput(viewfinder);
 
-        imageCapture = new QImageCapture(camera);
-        captureSession.setImageCapture(imageCapture);
-        camera.start();
+            imageCapture = new QImageCapture(camera);
+            captureSession.setImageCapture(imageCapture);
+            camera.start();
 
-        //Taille
-        viewfinder.resize(500, 400);
+            // Taille
+            viewfinder.resize(500, 400);
 
-        //Position
-        viewfinder.move(50,50);
+            // Position
+            viewfinder.move(50, 50);
+        }
 
-       //Onglet nom et bouton de capture 
-       QTabWidget listTabcapture = new QTabWidget(widgetParent);
-       QWidget widCapture = new QWidget();
-       listTabcapture.addTab(widCapture, "Capture");
-       listTabcapture.move(640, 0);
-       listTabcapture.resize(160, widgetParent.getMaximumHeight());
-       QPushButton capButton = new QPushButton("Capture", widCapture);
-       capButton.move(5,200);
-       capButton.resize(150,40);
+        // Onglet nom et bouton de capture
+        QTabWidget listTabcapture = new QTabWidget(widgetParent);
+        QWidget widCapture = new QWidget();
+        listTabcapture.addTab(widCapture, "Capture");
+        listTabcapture.move(640, 0);
+        listTabcapture.resize(160, widgetParent.getMaximumHeight());
+        QPushButton capButton = new QPushButton("Capture", widCapture);
+        capButton.move(5, 200);
+        capButton.resize(150, 40);
 
-       capButton.clicked.connect(this, "capture()");
+        capButton.clicked.connect(this, "capture()");
 
     }
 
     public void capture() {
-        //mettre chemin absolue du rep du projet dans les parenthèses /cheminabsolue/nomDuFichier
+        // mettre chemin absolue du rep du projet dans les parenthèses
+        // /cheminabsolue/nomDuFichier
         this.imageCapture.captureToFile("");
     }
 
-    
 }
