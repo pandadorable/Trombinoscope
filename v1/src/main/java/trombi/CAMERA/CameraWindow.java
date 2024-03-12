@@ -1,5 +1,6 @@
 package trombi.CAMERA;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -85,6 +86,8 @@ public class CameraWindow {
             if(capture < 100) id+='0';
             if(capture < 10) id+='0';
             id += capture+".jpg";
+            File imageExist = new File(id);
+            if(!imageExist.exists()) id = "mario.png";
             try {
                 MariaDB.insertImage("mario.bros@univ-rennes.fr", id);
             } catch (IOException e) {
