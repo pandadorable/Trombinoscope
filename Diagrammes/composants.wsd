@@ -1,5 +1,4 @@
 @startuml Diagrame composants
-[Base de données]
 [Caméra]
 [Dossier des photographies] as dossier
 [Génération de PDF] as pdf
