@@ -12,7 +12,7 @@ import com.itextpdf.layout.properties.UnitValue;
 
 public class GenererEmargement {
 
-    //path de destination pour l'émargement
+    //path de destination pour le fichier créé
     private final String dest;
 
     public GenererEmargement(String dest) {
@@ -30,20 +30,23 @@ public class GenererEmargement {
         //File file = new File(this.dest);
         //file.getParentFile().mkdirs();
 
+        //Création du document
         PdfDocument pdfDoc = new PdfDocument(new PdfWriter(this.dest));
         Document doc = new Document(pdfDoc);
 
-
+        //Création d'un paragraphe (champ de texte) avec le nom du document 
         Paragraph titre = new Paragraph(nomPdf);
         titre.setTextAlignment(com.itextpdf.layout.properties.TextAlignment.CENTER);
         titre.setBold();
         doc.add(titre);
 
-        int nbCellules = 6;
+        int nbCellules = 6;//Nombre de séances
 
+        //Création de la table avec nbCellules + 1(nom de l'élève) colonnes
         Table table = new Table(UnitValue.createPercentArray(nbCellules + 1)).useAllAvailableWidth();
         table.setMargin(15);
 
+        //Labelisation des colonnes
         table.addCell(new Cell().add(new Paragraph("Nom")));
         for (int i = 0; i < nbCellules; i++) {
             Cell cell = new Cell();
@@ -52,11 +55,15 @@ public class GenererEmargement {
             table.addCell(cell);
         }
 
+        //Ajout des noms des élèves sur chaque ligne
         for (String eleve : nomEleve) {
-            Cell cell = new Cell(); //Creation de la cellule
-            Paragraph pNom = new Paragraph(eleve); //Creation d'un "paragraphe" pour le nom de l'élève
+            Cell cell = new Cell(); //Création de la cellule
+            Paragraph pNom = new Paragraph(eleve); //Création d'un "paragraphe" pour le nom de l'élève
             cell.add(pNom);
             table.addCell(cell);
+
+            //Ajout de cellules vide pour pouvoir indiquer la présence à la séance concernée
+            
             for (int i = 0; i < nbCellules; i++) {
                 Cell emptyCell = new Cell();
                 table.addCell(emptyCell);
