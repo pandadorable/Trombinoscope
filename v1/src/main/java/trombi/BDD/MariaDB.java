@@ -19,6 +19,7 @@ import java.sql.SQLException;
 
 public class MariaDB {
 
+    //Connection à la BDD
     private static Connection CONNECTION = null;
 
     /**
@@ -140,9 +141,10 @@ public class MariaDB {
     }
 
     /**
-     * 
-     * @param email     le mail de l'etudiant à qui ajouté une image
-     * @param pathImage
+     * Insertion d'une image dans la base de données associée à un élève
+     *
+     * @param email     de l'élève à qui associer l'image
+     * @param pathImage le chemin vers l'image à associer
      * @throws IOException
      * @throws SQLException
      */
@@ -174,6 +176,14 @@ public class MariaDB {
         System.out.println("Insertion image pour : " + email);
     }
 
+    /**
+     * Renvoie l'image associée à un élève
+     *
+     * @param email de l'élève dont on veut l'image
+     * @return l'image associée à l'adresse email
+     * @throws IOException
+     * @throws SQLException
+     */
     public static byte[] getImage(String email) throws IOException, SQLException {
         Connection connection = getConnection();
         try (PreparedStatement statement = connection.prepareStatement("""
@@ -210,8 +220,7 @@ public class MariaDB {
     };
 
     /**
-     * 
-     * @param connection
+     *
      * @param nomColumnWanted    : La liste des colonnes voulant être récupéré
      *                           dans la base de données
      * @param nomColumnCondition : La liste des colonnes sur lesquelles on pose

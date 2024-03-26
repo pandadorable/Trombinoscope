@@ -79,8 +79,7 @@ public class CameraWindow {
         }
         else
         {
-            int capture = this.imageCapture.captureToFile("/home/pandadorable/DATA/cours/esir2/Trombinoscope");
-            System.out.println(capture);
+            int capture = this.imageCapture.captureToFile("/home/rolyster/Documents/ProjetSI/Trombinoscope/");
             String id = "image_";
             if(capture < 1000) id+='0';
             if(capture < 100) id+='0';
