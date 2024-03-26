@@ -15,8 +15,15 @@ import java.sql.SQLException;
 
 public class MariaDB {
 
+    //Connection à la BDD
     private static Connection CONNECTION = null;
 
+    /**
+     * Initialisation de la connection si elle n'existe pas déjà, sinon renvoie la connection
+     *
+     * @return la connection
+     * @throws SQLException
+     */
     public static Connection getConnection() throws SQLException {
         if (CONNECTION == null) {
             String jdbcUrl = "jdbc:mariadb://localhost:3306/datatest";
@@ -30,9 +37,8 @@ public class MariaDB {
     /**
      * Conversion de XLSX en base de données.
      *
-     * @param xlsx       le nom du fichier à convertir (ex: "ESIR.xlsx")
-     * @param connection la connexion à la base de données
-     * @throws SQLException 
+     * @param xlsx le nom du fichier à convertir (ex: "ESIR.xlsx")
+     * @throws SQLException
      */
     public static void transformXLSXToBDD(String xlsx) throws SQLException {
         Connection connection = getConnection();
@@ -70,7 +76,7 @@ public class MariaDB {
                                         cell.getBooleanCellValue());
                                 default ->
                                     // Handle other cell types as needed
-                                    statement.setString(columnIndex, "");
+                                        statement.setString(columnIndex, "");
                             }
                         } else {
                             // Cellule nulle, ajouter une chaîne vide
@@ -80,7 +86,7 @@ public class MariaDB {
                     // date non présente
                     statement.setString(14, "2XXX");
                     int rowsInserted = statement.executeUpdate();
-                    
+
 
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -92,6 +98,14 @@ public class MariaDB {
         System.out.println("Insertion terminée");
     }
 
+    /**
+     * Insertion d'une image dans la base de données associée à un élève
+     *
+     * @param email     de l'élève à qui associer l'image
+     * @param pathImage le chemin vers l'image à associer
+     * @throws IOException
+     * @throws SQLException
+     */
     public static void insertImage(String email, String pathImage) throws IOException, SQLException {
         Connection connection = getConnection();
         File image = new File(pathImage);
@@ -120,6 +134,14 @@ public class MariaDB {
         System.out.println("Insertion image pour : " + email);
     }
 
+    /**
+     * Renvoie l'image associée à un élève
+     *
+     * @param email de l'élève dont on veut l'image
+     * @return l'image associée à l'adresse email
+     * @throws IOException
+     * @throws SQLException
+     */
     public static byte[] getImage(String email) throws IOException, SQLException {
         Connection connection = getConnection();
         try (PreparedStatement statement = connection.prepareStatement("""
@@ -136,8 +158,6 @@ public class MariaDB {
     }
 
     /**
-     * 
-     * @param connection
      * @param nomCollumnWanted    : La liste des collonnes voulant être récupéré
      *                            dans la base de données
      * @param nomCollumnCondition : La liste des collonnes sur lesquelles on pose
@@ -146,10 +166,10 @@ public class MariaDB {
      *                            taille que nomCollumnCondition, la condition à
      *                            l'indice 0 vaut pour la collumn à l'indice 0
      * @return Le ResultSet de la requete
-     * @throws SQLException 
+     * @throws SQLException
      */
     public static ResultSet autoRequest(String[] nomCollumnWanted, String[] nomCollumnCondition,
-            String[] condition) throws SQLException {
+                                        String[] condition) throws SQLException {
         assert (nomCollumnCondition.length == condition.length);
         boolean conflictWantedCondition = false;
         for (String e1 : nomCollumnCondition) {
@@ -177,7 +197,7 @@ public class MariaDB {
                 "SELECT " + listCollumn + " FROM ELEVE" + listCondition)) {
 
             for (int i = 0; i < condition.length; i++)
-                statement.setString(i+1, condition[i]);
+                statement.setString(i + 1, condition[i]);
             return statement.executeQuery();
 
         } catch (SQLException e) {
