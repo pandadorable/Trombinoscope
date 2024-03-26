@@ -7,9 +7,8 @@ import java.util.ArrayList;
 import trombi.BDD.MariaDB;
 
 public class pdf {
-    
-    public static void pdf()
-    {
+
+    public static void pdf() {
         ArrayList<String> nomEleve = new ArrayList<>();
         ArrayList<String> mailELeve = new ArrayList<>();
         try {

@@ -12,40 +12,66 @@ import io.qt.widgets.QTabWidget;
 import io.qt.widgets.QWidget;
 import trombi.BDD.MariaDB;
 import trombi.CAMERA.CameraWindow;
+import trombi.CAMERA.ImportWindow;
 import trombi.PDF.pdf;
 
-public class MainWindow extends QWidget{
+public class MainWindow extends QWidget {
 
     public MainWindow() {
-        
-       //Creer listTab
-       QTabWidget listTab = new QTabWidget(this);
-       listTab.resize(getMaximumSize());
 
-       //Creer tab camera
-       QWidget widCam = new QWidget();
+        //Creer listTab
+        QTabWidget listTab = new QTabWidget(this);
+        listTab.resize(getMaximumSize());
 
-       //Ajouter la tab au Qtabwidg
-       listTab.addTab(widCam, "Caméra");
+        /*
+         * CAMERA
+         */
+        //Creer tab camera
+        QWidget widCam = new QWidget();
 
-       //Onlget Camera
-       CameraWindow cameraWindow = new CameraWindow(widCam);
-        
-        //Boutons Xlsx
+        //Ajouter la tab au Qtabwidg
+        listTab.addTab(widCam, "Caméra");
+
+        //Onglet Camera
+        CameraWindow cameraWindow = new CameraWindow(widCam);
+
+        /*
+         * MODIF BDD
+         */
+        //Creer tab modif BDD
+        QWidget widBDD = new QWidget();
+
+        //Ajouter la tab au Qtabwidg
+        listTab.addTab(widBDD, "Modification BDD");
+
+        /*
+         * IMPORT IMAGE
+         */
+        //Creer tab modif BDD
+        QWidget widImport = new QWidget();
+
+        //Ajouter la tab au Qtabwidg
+        listTab.addTab(widImport, "Importer photo");
+
+        ImportWindow importWindow = new ImportWindow(widImport);
+        /*
+         * BOUTONS
+         */
+        //Bouton Xlsx
         QPushButton btnXlsx = new QPushButton("Importer XLSX", listTab);
-        btnXlsx.move(78, listTab.getY() + 2);
+        btnXlsx.move(360, listTab.getY() + 2);
         // Action xlsx
         // Selectionner le fichier
         btnXlsx.clicked.connect(this, "openFile()");
 
         //Bouton Pdf 
         QPushButton btnPdf = new QPushButton("Générer trombinoscope", listTab);
-        btnPdf.move(188, listTab.getY()+2);
+        btnPdf.move(460, listTab.getY() + 2);
         btnPdf.clicked.connect(this, "genererPdf()");
 
         //Bouton importer image
         QPushButton btnimage = new QPushButton("Importer photo", listTab);
-        btnimage.move(360, listTab.getY() + 2);
+        btnimage.move(610, listTab.getY() + 2);
         // Action image Selectionner le fichier
         btnimage.clicked.connect(this, "importPhoto()");
     }
@@ -56,7 +82,7 @@ public class MainWindow extends QWidget{
 
     void openFile() {
         @NonNull
-        Result<@NonNull String> file = QFileDialog.getOpenFileName(this,"Open Xlsx");
+        Result<@NonNull String> file = QFileDialog.getOpenFileName(this, "Open Xlsx");
         if (file != null) {
             // Chemin du fichier excel
             String filePath = file.result;
@@ -76,7 +102,7 @@ public class MainWindow extends QWidget{
 
     void importPhoto() {
         @NonNull
-        Result<@NonNull String> file = QFileDialog.getOpenFileName(this,"Importer photo");
+        Result<@NonNull String> file = QFileDialog.getOpenFileName(this, "Importer photo");
         if (file != null) {
             // Chemin de l'image
             String filePath = file.result;
@@ -94,5 +120,5 @@ public class MainWindow extends QWidget{
         }
 
     }
-   
+
 }

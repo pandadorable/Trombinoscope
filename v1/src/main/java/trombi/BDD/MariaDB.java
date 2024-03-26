@@ -41,7 +41,7 @@ public class MariaDB {
             while (scanner.hasNext()) {
                 String tmp = scanner.next();
                 if (tmp.charAt(0) != '#')
-                    lc.add(tmp);
+                    lc.add(tmp.replace("\r",""));
             }
             scanner.close();
 
@@ -243,7 +243,7 @@ public class MariaDB {
      * @param condition          : La liste des conditions /!\ doit faire la même
      *                           taille que nomColumnCondition, la condition à
      *                           l'indice 0 vaut pour la column à l'indice 0
-     * 
+     *
      * @param typeCondition      le type de requete souhaité (condition1 AND
      *                           condition2 AND ....) ou (condition1 OR condition2
      *                           OR ....)
@@ -285,20 +285,20 @@ public class MariaDB {
     /**
      *
      * @param columnToModif      : La colonne voulant être modifiés
-     * 
+     *
      * @param dataToAdd          : La valeurs a rentrer dans la BDD
-     * 
+     *
      * @param nomColumnCondition : La liste des colonnes sur lesquelles on pose
      *                           une condition
-     * 
+     *
      * @param condition          : La liste des conditions /!\ doit faire la même
      *                           taille que nomColumnCondition, la condition à
      *                           l'indice 0 vaut pour la column à l'indice 0
-     * 
+     *
      * @param typeCondition      le type de requete souhaité (condition1 AND
      *                           condition2 AND ....) ou (condition1 OR condition2
      *                           OR ....)
-     * 
+     *
      * @return Le ResultSet de la requete
      * @throws SQLException
      * @throws FileNotFoundException
