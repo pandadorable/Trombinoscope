@@ -29,7 +29,7 @@ public class MariaDB {
     /**
      * @return Instance de la connection à la BDD
      * @throws SQLException
-     * @throws FileNotFoundException 
+     * @throws FileNotFoundException
      */
     public static Connection getConnection() throws SQLException, FileNotFoundException {
         if (CONNECTION == null) {
@@ -38,10 +38,10 @@ public class MariaDB {
             String file = "v1/config";
             Scanner scanner = new Scanner(new File(file));
             scanner.useDelimiter("\n");
-            while(scanner.hasNext())
-            {
+            while (scanner.hasNext()) {
                 String tmp = scanner.next();
-                if(tmp.charAt(0) != '#') lc.add(tmp);
+                if (tmp.charAt(0) != '#')
+                    lc.add(tmp);
             }
             scanner.close();
 
@@ -64,7 +64,7 @@ public class MariaDB {
 
             String BDD_username = lc.get(7);
             String BDD_password = lc.get(8);
-            String jdbcUrl = "jdbc:mariadb://localhost:" + localPort + lc.get(9);
+            String jdbcUrl = "jdbc:mariadb://localhost:" + localPort +"/"+ lc.get(9);
 
             CONNECTION = DriverManager.getConnection(jdbcUrl, BDD_username, BDD_password);
         }
@@ -96,7 +96,7 @@ public class MariaDB {
      *
      * @param xlsx le nom du fichier à convertir (ex: "ESIR.xlsx")
      * @throws SQLException
-     * @throws FileNotFoundException 
+     * @throws FileNotFoundException
      */
     public static void transformXLSXToBDD(String xlsx) throws SQLException, FileNotFoundException {
         Connection connection = getConnection();
@@ -243,20 +243,17 @@ public class MariaDB {
      * @param condition          : La liste des conditions /!\ doit faire la même
      *                           taille que nomColumnCondition, la condition à
      *                           l'indice 0 vaut pour la column à l'indice 0
+     * 
+     * @param typeCondition      le type de requete souhaité (condition1 AND
+     *                           condition2 AND ....) ou (condition1 OR condition2
+     *                           OR ....)
      * @return Le ResultSet de la requete
      * @throws SQLException
-     * @throws FileNotFoundException 
+     * @throws FileNotFoundException
      */
     public static ResultSet autoRequest(String[] nomColumnWanted, String[] nomColumnCondition,
             String[] condition, typeCondition typeCondition) throws SQLException, FileNotFoundException {
         assert (nomColumnCondition.length == condition.length);
-        boolean conflictWantedCondition = false;
-        for (String e1 : nomColumnCondition) {
-            for (String e2 : nomColumnWanted) {
-                conflictWantedCondition = conflictWantedCondition || e1.equals(e2);
-            }
-        }
-        assert (!conflictWantedCondition);
         Connection connection = getConnection();
         String listColumn = "";
         for (int i = 0; i < nomColumnWanted.length; i++) {
@@ -274,6 +271,53 @@ public class MariaDB {
 
         try (PreparedStatement statement = connection.prepareStatement(
                 "SELECT " + listColumn + " FROM ELEVE" + listCondition)) {
+
+            for (int i = 0; i < condition.length; i++)
+                statement.setString(i + 1, condition[i]);
+            return statement.executeQuery();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     *
+     * @param columnToModif      : La colonne voulant être modifiés
+     * 
+     * @param dataToAdd          : La valeurs a rentrer dans la BDD
+     * 
+     * @param nomColumnCondition : La liste des colonnes sur lesquelles on pose
+     *                           une condition
+     * 
+     * @param condition          : La liste des conditions /!\ doit faire la même
+     *                           taille que nomColumnCondition, la condition à
+     *                           l'indice 0 vaut pour la column à l'indice 0
+     * 
+     * @param typeCondition      le type de requete souhaité (condition1 AND
+     *                           condition2 AND ....) ou (condition1 OR condition2
+     *                           OR ....)
+     * 
+     * @return Le ResultSet de la requete
+     * @throws SQLException
+     * @throws FileNotFoundException
+     */
+    public static ResultSet modifRequest(String columnToModif, String dataToAdd, String[] nomColumnCondition,
+            String[] condition, typeCondition typeCondition) throws SQLException, FileNotFoundException {
+        assert (nomColumnCondition.length == condition.length);
+
+        String listCondition = "";
+        listCondition += " WHERE ";
+        for (int i = 0; i < nomColumnCondition.length; i++) {
+            listCondition += nomColumnCondition[i] + " = ?";
+            if (i < nomColumnCondition.length - 1)
+                listCondition += typeCondition.toString();
+        }
+
+        Connection connection = getConnection();
+        try (PreparedStatement statement = connection.prepareStatement(
+                "UPDATE ELEVE SET " + columnToModif + " = " + "'" + dataToAdd + "'" + listCondition)) {
 
             for (int i = 0; i < condition.length; i++)
                 statement.setString(i + 1, condition[i]);
