@@ -19,9 +19,7 @@ public class MariaDB {
     private static Connection CONNECTION = null;
 
     /**
-     * Initialisation de la connection si elle n'existe pas déjà, sinon renvoie la connection
-     *
-     * @return la connection
+     * @return Instance de la connection à la BDD
      * @throws SQLException
      */
     public static Connection getConnection() throws SQLException {
@@ -76,7 +74,7 @@ public class MariaDB {
                                         cell.getBooleanCellValue());
                                 default ->
                                     // Handle other cell types as needed
-                                        statement.setString(columnIndex, "");
+                                    statement.setString(columnIndex, "");
                             }
                         } else {
                             // Cellule nulle, ajouter une chaîne vide
@@ -86,7 +84,7 @@ public class MariaDB {
                     // date non présente
                     statement.setString(14, "2XXX");
                     int rowsInserted = statement.executeUpdate();
-
+                    
 
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -158,46 +156,66 @@ public class MariaDB {
     }
 
     /**
-     * @param nomCollumnWanted    : La liste des collonnes voulant être récupéré
+     * Liste des types de conditions pour autoRequest
+     */
+    public static enum typeCondition {
+        OR {
+            @Override
+            public String toString() {
+                return " OR ";
+            }
+        },
+        AND {
+            @Override
+            public String toString() {
+                return " AND ";
+            }
+        };
+        public abstract String toString();
+    };
+
+    /**
+     *
+     * @param nomColumnWanted    : La liste des colonnes voulant être récupéré
      *                            dans la base de données
-     * @param nomCollumnCondition : La liste des collonnes sur lesquelles on pose
+     * @param nomColumnCondition : La liste des colonnes sur lesquelles on pose
      *                            une condition
      * @param condition           : La liste des conditions /!\ doit faire la même
-     *                            taille que nomCollumnCondition, la condition à
-     *                            l'indice 0 vaut pour la collumn à l'indice 0
+     *                            taille que nomColumnCondition, la condition à
+     *                            l'indice 0 vaut pour la column à l'indice 0
      * @return Le ResultSet de la requete
      * @throws SQLException
      */
-    public static ResultSet autoRequest(String[] nomCollumnWanted, String[] nomCollumnCondition,
-                                        String[] condition) throws SQLException {
-        assert (nomCollumnCondition.length == condition.length);
+    public static ResultSet autoRequest(String[] nomColumnWanted, String[] nomColumnCondition,
+            String[] condition, typeCondition typeCondition) throws SQLException {
+        assert (nomColumnCondition.length == condition.length);
         boolean conflictWantedCondition = false;
-        for (String e1 : nomCollumnCondition) {
-            for (String e2 : nomCollumnWanted) {
+        for (String e1 : nomColumnCondition) {
+            for (String e2 : nomColumnWanted) {
                 conflictWantedCondition = conflictWantedCondition || e1.equals(e2);
             }
         }
         assert (!conflictWantedCondition);
         Connection connection = getConnection();
-        String listCollumn = "";
-        for (int i = 0; i < nomCollumnWanted.length; i++) {
-            listCollumn += " " + nomCollumnWanted[i];
-            if (i < nomCollumnWanted.length - 1)
-                listCollumn += ",";
+        String listColumn = "";
+        for (int i = 0; i < nomColumnWanted.length; i++) {
+            listColumn += " " + nomColumnWanted[i];
+            if (i < nomColumnWanted.length - 1)
+                listColumn += ",";
         }
         String listCondition = "";
         listCondition += " WHERE ";
-        for (int i = 0; i < nomCollumnCondition.length; i++) {
-            listCondition += nomCollumnCondition[i] + " = ?";
-            if (i < nomCollumnCondition.length - 1)
-                listCondition += " OR ";
+        for (int i = 0; i < nomColumnCondition.length; i++) {
+            listCondition += nomColumnCondition[i] + " = ?";
+            if (i < nomColumnCondition.length - 1)
+                listCondition += typeCondition.toString();
         }
 
         try (PreparedStatement statement = connection.prepareStatement(
-                "SELECT " + listCollumn + " FROM ELEVE" + listCondition)) {
+                "SELECT " + listColumn + " FROM ELEVE" + listCondition)) {
 
             for (int i = 0; i < condition.length; i++)
-                statement.setString(i + 1, condition[i]);
+                statement.setString(i+1, condition[i]);
             return statement.executeQuery();
 
         } catch (SQLException e) {

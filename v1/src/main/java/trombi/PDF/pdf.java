@@ -16,7 +16,7 @@ public class pdf {
             String[] collomnWanted = {"nom","prenom","email"};
             String[] collomnCondition = {"ang","ang"};
             String[] conditions = {"G1","G3"};
-            ResultSet resultSet = MariaDB.autoRequest(collomnWanted, collomnCondition, conditions);
+            ResultSet resultSet = MariaDB.autoRequest(collomnWanted, collomnCondition, conditions,MariaDB.typeCondition.OR);
 
             while (resultSet.next()) {               // Position the cursor
                 
