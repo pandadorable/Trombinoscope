@@ -3,6 +3,10 @@ package trombi.BDD;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.Session;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -23,19 +27,60 @@ public class MariaDB {
      */
     public static Connection getConnection() throws SQLException {
         if (CONNECTION == null) {
-            String jdbcUrl = "jdbc:mariadb://localhost:3306/datatest";
-            String username = "root";
-            String password = "trombipw";
-            CONNECTION = DriverManager.getConnection(jdbcUrl, username, password);
+
+            // JScH data
+            String ssh_username = "zprojet";
+            String ssh_password = "V#M135ES1R!?";
+            String ssh_host = "TROMBINOSCOPE.esir.univ-rennes1.fr";
+            int ssh_port = 22;
+
+            String ssh_RemoteHost = "localhost";
+            int remotePort = 3306;
+            int localPort = 0;
+            
+            try {
+                localPort = sshTunnel(ssh_username,ssh_password,ssh_host,ssh_port,ssh_RemoteHost,remotePort);
+            } catch (JSchException e) {
+                e.printStackTrace();
+                System.out.println("UwU");
+            }
+            finally {}
+
+            String BDD_username = "root";
+            String BDD_password = "trombipw";
+            String jdbcUrl = "jdbc:mariadb://localhost:" + localPort +"/datatest";
+
+            CONNECTION = DriverManager.getConnection(jdbcUrl, BDD_username, BDD_password);
         }
         return CONNECTION;
     }
 
     /**
+     * 
+     * @param ssh_username
+     * @param ssh_password
+     * @param ssh_host
+     * @param ssh_port
+     * @param ssh_RemoteHost
+     * @param remotePort
+     * @throws JSchException
+     */
+    public static int sshTunnel(String ssh_username, String ssh_password, String ssh_host, int ssh_port,
+        String ssh_RemoteHost, int remotePort) throws JSchException 
+    {
+            Session session = null;
+            session = new JSch().getSession(ssh_username, ssh_host, ssh_port);
+            session.setPassword(ssh_password);
+            session.setConfig("StrictHostKeyChecking", "no");
+            session.connect();
+            return session.setPortForwardingL(0, ssh_RemoteHost, remotePort);
+    }
+
+    /**
      * Conversion de XLSX en base de données.
      *
-     * @param xlsx       le nom du fichier à convertir (ex: "ESIR.xlsx")
-     * @throws SQLException 
+     * @param xlsx le nom du fichier à convertir (ex: "ESIR.xlsx")
+     * @throws SQLException
      */
     public static void transformXLSXToBDD(String xlsx) throws SQLException {
         Connection connection = getConnection();
@@ -83,7 +128,6 @@ public class MariaDB {
                     // date non présente
                     statement.setString(14, "2XXX");
                     int rowsInserted = statement.executeUpdate();
-                    
 
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -97,7 +141,7 @@ public class MariaDB {
 
     /**
      * 
-     * @param email le mail de l'etudiant à qui ajouté une image
+     * @param email     le mail de l'etudiant à qui ajouté une image
      * @param pathImage
      * @throws IOException
      * @throws SQLException
@@ -146,7 +190,7 @@ public class MariaDB {
     }
 
     /**
-     * Liste des types de conditions pour autoRequest  
+     * Liste des types de conditions pour autoRequest
      */
     public static enum typeCondition {
         OR {
@@ -161,6 +205,7 @@ public class MariaDB {
                 return " AND ";
             }
         };
+
         public abstract String toString();
     };
 
@@ -168,14 +213,14 @@ public class MariaDB {
      * 
      * @param connection
      * @param nomColumnWanted    : La liste des colonnes voulant être récupéré
-     *                            dans la base de données
+     *                           dans la base de données
      * @param nomColumnCondition : La liste des colonnes sur lesquelles on pose
-     *                            une condition
-     * @param condition           : La liste des conditions /!\ doit faire la même
-     *                            taille que nomColumnCondition, la condition à
-     *                            l'indice 0 vaut pour la column à l'indice 0
+     *                           une condition
+     * @param condition          : La liste des conditions /!\ doit faire la même
+     *                           taille que nomColumnCondition, la condition à
+     *                           l'indice 0 vaut pour la column à l'indice 0
      * @return Le ResultSet de la requete
-     * @throws SQLException 
+     * @throws SQLException
      */
     public static ResultSet autoRequest(String[] nomColumnWanted, String[] nomColumnCondition,
             String[] condition, typeCondition typeCondition) throws SQLException {
@@ -206,7 +251,7 @@ public class MariaDB {
                 "SELECT " + listColumn + " FROM ELEVE" + listCondition)) {
 
             for (int i = 0; i < condition.length; i++)
-                statement.setString(i+1, condition[i]);
+                statement.setString(i + 1, condition[i]);
             return statement.executeQuery();
 
         } catch (SQLException e) {
