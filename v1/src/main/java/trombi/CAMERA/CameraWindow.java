@@ -10,6 +10,7 @@ import io.qt.multimedia.QCameraDevice;
 import io.qt.multimedia.QImageCapture;
 import io.qt.multimedia.QMediaCaptureSession;
 import io.qt.multimedia.QMediaDevices;
+import io.qt.multimedia.QImageCapture.Quality;
 import io.qt.multimedia.widgets.QVideoWidget;
 import io.qt.widgets.QComboBox;
 import io.qt.widgets.QPushButton;
@@ -36,8 +37,9 @@ public class CameraWindow {
             QVideoWidget viewfinder = new QVideoWidget(widgetParent);
             viewfinder.show();
             captureSession.setVideoOutput(viewfinder);
-
             imageCapture = new QImageCapture(camera);
+            imageCapture.setResolution(500, 500); //Resolution des images
+            imageCapture.setQuality(Quality.VeryLowQuality);  //Gestion de la qualité
             captureSession.setImageCapture(imageCapture);
             camera.start();
 
@@ -86,7 +88,7 @@ public class CameraWindow {
             if(capture < 10) id+='0';
             id += capture+".jpg";
             File imageExist = new File(id);
-            if(!imageExist.exists()) id = "mario.png";
+            if(!(imageExist.exists())) {id = "mario.png";}
             try {
                 MariaDB.insertImage("mario.bros@univ-rennes.fr", id);
             } catch (IOException e) {
