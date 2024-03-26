@@ -1,5 +1,6 @@
 package trombi.APP;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -64,6 +65,9 @@ public class MainWindow extends QWidget{
             try {
                 MariaDB.transformXLSXToBDD(filePath);
             } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (FileNotFoundException e) {
+                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }

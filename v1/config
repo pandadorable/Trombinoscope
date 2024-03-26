@@ -1,0 +1,23 @@
+### CONNECTION SSH
+## nom d'utilisateur de connection à la machine distante
+zprojet
+## mot de passe de connection à la machine distante
+V#M135ES1R!?
+## addresse de la machine distante
+TROMBINOSCOPE.esir.univ-rennes1.fr
+## port de la machine distante
+22
+### Tunnel SSH
+## Hote distant (localhost dans le cas ou la BDD est sur la machine distante)
+localhost
+## Port de la BDD
+3306
+## Port local (0 pour l'utilisation automatique de TCP)
+0
+### BDD
+## nom d'utilisateur de la BDD
+root
+## mot de passe de la BDD
+trombipw
+## nom de la database
+datatest

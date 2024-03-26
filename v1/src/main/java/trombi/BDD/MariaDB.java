@@ -9,6 +9,7 @@ import com.jcraft.jsch.Session;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
@@ -16,40 +17,54 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 public class MariaDB {
 
-    //Connection à la BDD
+    // Connection à la BDD
     private static Connection CONNECTION = null;
 
     /**
      * @return Instance de la connection à la BDD
      * @throws SQLException
+     * @throws FileNotFoundException 
      */
-    public static Connection getConnection() throws SQLException {
+    public static Connection getConnection() throws SQLException, FileNotFoundException {
         if (CONNECTION == null) {
+            // Scanner du fichier config
+            List<String> lc = new ArrayList<>();
+            String file = "v1/config";
+            Scanner scanner = new Scanner(new File(file));
+            scanner.useDelimiter("\n");
+            while(scanner.hasNext())
+            {
+                String tmp = scanner.next();
+                if(tmp.charAt(0) != '#') lc.add(tmp);
+            }
+            scanner.close();
 
             // JScH data
-            String ssh_username = "zprojet";
-            String ssh_password = "V#M135ES1R!?";
-            String ssh_host = "TROMBINOSCOPE.esir.univ-rennes1.fr";
-            int ssh_port = 22;
+            String ssh_username = lc.get(0);
+            String ssh_password = lc.get(1);
+            String ssh_host = lc.get(2);
+            int ssh_port = Integer.valueOf(lc.get(3));
 
-            String ssh_RemoteHost = "localhost";
-            int remotePort = 3306;
-            int localPort = 0;
-            
+            String ssh_RemoteHost = lc.get(4);
+            int remotePort = Integer.valueOf(lc.get(5));
+            int localPort = Integer.valueOf(lc.get(6));
+
             try {
-                localPort = sshTunnel(ssh_username,ssh_password,ssh_host,ssh_port,ssh_RemoteHost,remotePort);
+                localPort = sshTunnel(ssh_username, ssh_password, ssh_host, ssh_port, ssh_RemoteHost, remotePort);
             } catch (JSchException e) {
                 e.printStackTrace();
-                System.out.println("UwU");
+            } finally {
             }
-            finally {}
 
-            String BDD_username = "root";
-            String BDD_password = "trombipw";
-            String jdbcUrl = "jdbc:mariadb://localhost:" + localPort +"/datatest";
+            String BDD_username = lc.get(7);
+            String BDD_password = lc.get(8);
+            String jdbcUrl = "jdbc:mariadb://localhost:" + localPort + lc.get(9);
 
             CONNECTION = DriverManager.getConnection(jdbcUrl, BDD_username, BDD_password);
         }
@@ -67,14 +82,13 @@ public class MariaDB {
      * @throws JSchException
      */
     public static int sshTunnel(String ssh_username, String ssh_password, String ssh_host, int ssh_port,
-        String ssh_RemoteHost, int remotePort) throws JSchException 
-    {
-            Session session = null;
-            session = new JSch().getSession(ssh_username, ssh_host, ssh_port);
-            session.setPassword(ssh_password);
-            session.setConfig("StrictHostKeyChecking", "no");
-            session.connect();
-            return session.setPortForwardingL(0, ssh_RemoteHost, remotePort);
+            String ssh_RemoteHost, int remotePort) throws JSchException {
+        Session session = null;
+        session = new JSch().getSession(ssh_username, ssh_host, ssh_port);
+        session.setPassword(ssh_password);
+        session.setConfig("StrictHostKeyChecking", "no");
+        session.connect();
+        return session.setPortForwardingL(0, ssh_RemoteHost, remotePort);
     }
 
     /**
@@ -82,8 +96,9 @@ public class MariaDB {
      *
      * @param xlsx le nom du fichier à convertir (ex: "ESIR.xlsx")
      * @throws SQLException
+     * @throws FileNotFoundException 
      */
-    public static void transformXLSXToBDD(String xlsx) throws SQLException {
+    public static void transformXLSXToBDD(String xlsx) throws SQLException, FileNotFoundException {
         Connection connection = getConnection();
         try (FileInputStream fileInputStream = new FileInputStream(xlsx)) {
             Workbook workbook = new XSSFWorkbook(fileInputStream);
@@ -230,9 +245,10 @@ public class MariaDB {
      *                           l'indice 0 vaut pour la column à l'indice 0
      * @return Le ResultSet de la requete
      * @throws SQLException
+     * @throws FileNotFoundException 
      */
     public static ResultSet autoRequest(String[] nomColumnWanted, String[] nomColumnCondition,
-            String[] condition, typeCondition typeCondition) throws SQLException {
+            String[] condition, typeCondition typeCondition) throws SQLException, FileNotFoundException {
         assert (nomColumnCondition.length == condition.length);
         boolean conflictWantedCondition = false;
         for (String e1 : nomColumnCondition) {
