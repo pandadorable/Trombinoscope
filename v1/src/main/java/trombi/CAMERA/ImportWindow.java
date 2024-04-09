@@ -1,6 +1,9 @@
 package trombi.CAMERA;
 
 import io.qt.NonNull;
+import io.qt.core.QSize;
+import io.qt.gui.QImage;
+import io.qt.gui.QImageReader;
 import io.qt.widgets.*;
 import trombi.BDD.MariaDB;
 
@@ -42,6 +45,7 @@ public class ImportWindow extends QWidget {
     public void photo() {
         QFileDialog.Result<@NonNull String> file = QFileDialog.getOpenFileName(this, "Importer photo");
         filePath = file.result;
+        traitementImageImport(filePath, 500, 280);
     }
 
     void importPhoto() {
@@ -61,6 +65,13 @@ public class ImportWindow extends QWidget {
         } else {
             verifEmail.setText("Email invalide, veuillez réessayer :/");
         }
+    }
+
+    void traitementImageImport(String filePath, int width, int height) {
+        QImageReader imageReader = new QImageReader(filePath);
+        imageReader.setScaledSize(new QSize(width, height));
+        QImage pic = imageReader.read();
+        pic.save("import.png");
     }
 
 }
