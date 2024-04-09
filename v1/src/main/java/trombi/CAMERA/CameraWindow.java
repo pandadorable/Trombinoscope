@@ -12,14 +12,13 @@ import io.qt.multimedia.QMediaCaptureSession;
 import io.qt.multimedia.QMediaDevices;
 import io.qt.multimedia.QImageCapture.Quality;
 import io.qt.multimedia.widgets.QVideoWidget;
-import io.qt.widgets.QComboBox;
-import io.qt.widgets.QPushButton;
-import io.qt.widgets.QTabWidget;
-import io.qt.widgets.QWidget;
+import io.qt.widgets.*;
 import trombi.BDD.MariaDB;
 
 public class CameraWindow {
     private QImageCapture imageCapture;
+    QLineEdit champEmail;
+    private String email;
 
     public CameraWindow(QWidget widgetParent) {
         // Liste des cameras disponibles
@@ -48,6 +47,16 @@ public class CameraWindow {
 
             // Position
             viewfinder.move(50, 50);
+
+            champEmail = new QLineEdit(widgetParent);
+            champEmail.move(5, 500);
+            champEmail.resize(150, 40);
+            String mail = champEmail.text();
+
+            QPushButton emailButton = new QPushButton("Valider email", widgetParent);
+            emailButton.move(160, 500);
+            emailButton.resize(150, 40);
+            emailButton.clicked.connect(this, "setEmail()");
         }
 
         // Onglet nom et bouton de capture
@@ -64,24 +73,25 @@ public class CameraWindow {
 
     }
 
+    public void setEmail() {
+        email = champEmail.text();
+    }
+
     public void capture() {
         // mettre chemin absolue du rep du projet dans les parenthèses
         // /cheminabsolue/nomDuFichier
         if(this.imageCapture == null) 
         {
             try {
-                MariaDB.insertImage("mario.bros@univ-rennes.fr", "mario.png");
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (SQLException e) {
+                MariaDB.insertImage(email, "mario.png");
+            } catch (IOException | SQLException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
         else
         {
-            int capture = this.imageCapture.captureToFile("/home/rolyster/Documents/ProjetSI/Trombinoscope/");
+            int capture = this.imageCapture.captureToFile("C:/Users/Moira/IdeaProjects/Trombinoscope");
             String id = "image_";
             if(capture < 1000) id+='0';
             if(capture < 100) id+='0';
@@ -90,15 +100,12 @@ public class CameraWindow {
             File imageExist = new File(id);
             if(!(imageExist.exists())) {id = "mario.png";}
             try {
-                MariaDB.insertImage("mario.bros@univ-rennes.fr", id);
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (SQLException e) {
+                System.out.println("ici");
+                MariaDB.insertImage(email, id);
+            } catch (IOException | SQLException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         } 
     }
-
 }

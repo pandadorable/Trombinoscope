@@ -13,19 +13,18 @@ public class ImportWindow extends QWidget {
     private String filePath;
 
     public ImportWindow(QWidget widgetParent) {
-        //TODO placement des boutons
         champEmail = new QLineEdit(widgetParent);
         champEmail.move(5, 150);
         champEmail.resize(150, 40);
         String mail = champEmail.text();
 
-        QPushButton emailButton = new QPushButton("Valider", widgetParent);
+        QPushButton emailButton = new QPushButton("Valider email", widgetParent);
         emailButton.move(5, 200);
         emailButton.resize(150, 40);
         emailButton.clicked.connect(this, "setEmail()");
 
         QPushButton photoButton = new QPushButton("Choix photo", widgetParent);
-        photoButton.move(100, 200);
+        photoButton.move(150, 200);
         photoButton.resize(150, 40);
 
         photoButton.clicked.connect(this, "photo()");
