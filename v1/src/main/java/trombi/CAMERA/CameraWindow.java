@@ -1,6 +1,7 @@
 package trombi.CAMERA;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -18,6 +19,7 @@ import trombi.BDD.MariaDB;
 public class CameraWindow {
     private QImageCapture imageCapture;
     QLineEdit champEmail;
+    private QLabel verifEmail;
     private String email;
     QMediaCaptureSession captureSession;
 
@@ -55,10 +57,10 @@ public class CameraWindow {
             champEmail.resize(150, 40);
             String mail = champEmail.text();
 
-            QPushButton emailButton = new QPushButton("Valider email", widgetParent);
-            emailButton.move(160, 500);
-            emailButton.resize(150, 40);
-            emailButton.clicked.connect(this, "setEmail()");
+            verifEmail = new QLabel(widgetParent);
+            verifEmail.move(5, 450);
+            verifEmail.resize(150, 40);
+            champEmail.textEdited.connect(this, "verifEmail()");
         }
 
         // Onglet nom et bouton de capture
@@ -132,5 +134,13 @@ public class CameraWindow {
                 e.printStackTrace();
             }*/
         } 
+    }
+    void verifEmail() throws SQLException, FileNotFoundException {
+        if (MariaDB.isMailExist(champEmail.text())) {
+            email = champEmail.text();
+            verifEmail.setText("Email valide Bravo :D");
+        } else {
+            verifEmail.setText("Email invalide, veuillez réessayer :/");
+        }
     }
 }

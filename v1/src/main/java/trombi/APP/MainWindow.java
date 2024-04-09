@@ -12,11 +12,12 @@ import io.qt.widgets.QWidget;
 import trombi.BDD.MariaDB;
 import trombi.CAMERA.CameraWindow;
 import trombi.CAMERA.ImportWindow;
+import trombi.PDF.PDFWindow;
 import trombi.PDF.pdf;
 
 public class MainWindow extends QWidget {
 
-    CameraWindow cameraWindow;
+    public static CameraWindow cameraWindow;
 
     public MainWindow() {
 
@@ -57,24 +58,25 @@ public class MainWindow extends QWidget {
         ImportWindow importWindow = new ImportWindow(widImport);
 
         /*
+         * GENERER PDF
+         */
+        //Creer tab modif BDD
+        QWidget widPDF = new QWidget();
+
+        //Ajouter la tab au Qtabwidg
+        listTab.addTab(widPDF, "Générer trombinoscope");
+
+        PDFWindow pdfWindow = new PDFWindow(widPDF);
+
+        /*
          * BOUTONS
          */
         //Bouton Xlsx
         QPushButton btnXlsx = new QPushButton("Importer XLSX", listTab);
-        btnXlsx.move(360, listTab.getY() + 2);
+        btnXlsx.move(460, listTab.getY() + 2);
         // Action xlsx
         // Selectionner le fichier
         btnXlsx.clicked.connect(this, "openFile()");
-
-        //Bouton Pdf
-        QPushButton btnPdf = new QPushButton("Générer trombinoscope", listTab);
-        btnPdf.move(460, listTab.getY() + 2);
-        btnPdf.pressed.connect(this, "genererPdf()");
-    }
-
-    void genererPdf() {
-        pdf.pdf();
-        cameraWindow.getCaptureSession().getVideoOutput();
     }
 
     void openFile() {

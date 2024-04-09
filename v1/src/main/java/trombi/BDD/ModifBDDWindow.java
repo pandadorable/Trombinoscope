@@ -5,7 +5,7 @@ import io.qt.multimedia.*;
 import io.qt.multimedia.widgets.QVideoWidget;
 import io.qt.widgets.*;
 
-public class ModifBDDWindow {
+public class ModifBDDWindow extends QWidget {
     QLineEdit champEmail;
     private String email;
 
