@@ -38,8 +38,9 @@ public class CameraWindow {
             viewfinder.show();
             captureSession.setVideoOutput(viewfinder);
             imageCapture = new QImageCapture(camera);
-            imageCapture.setResolution(500, 500); //Resolution des images
-            imageCapture.setQuality(Quality.VeryLowQuality);  //Gestion de la qualité
+            traitementImage(imageCapture);
+            /*imageCapture.setResolution(500, 500); //Resolution des images
+            imageCapture.setQuality(Quality.VeryLowQuality);  //Gestion de la qualité*/
             captureSession.setImageCapture(imageCapture);
             camera.start();
 
@@ -74,6 +75,21 @@ public class CameraWindow {
 
     }
 
+    public void traitementImage(QImageCapture image, int width, int height, Quality quality) {
+        imageCapture.setResolution(width, height); //Resolution des images
+        imageCapture.setQuality(quality);  //Qualité des images
+    }
+
+    public void traitementImage(QImageCapture image) {
+        imageCapture.setResolution(500, 280); //Resolution des images
+        imageCapture.setQuality(Quality.VeryHighQuality);  //Qualité des images
+    }
+
+    public void traitementImage(QImageCapture image, Quality quality) {
+        imageCapture.setResolution(500, 500); //Resolution des images
+        imageCapture.setQuality(quality);  //Qualité des images
+    }
+
     public QMediaCaptureSession getCaptureSession() {
         return captureSession;
     }
@@ -96,7 +112,7 @@ public class CameraWindow {
         }
         else
         {
-            int capture = this.imageCapture.captureToFile("C:/Users/Moira/IdeaProjects/Trombinoscope");
+            int capture = this.imageCapture.captureToFile();
             String id = "image_";
             if(capture < 1000) id+='0';
             if(capture < 100) id+='0';
@@ -104,13 +120,13 @@ public class CameraWindow {
             id += capture+".jpg";
             File imageExist = new File(id);
             if(!(imageExist.exists())) {id = "mario.png";}
-            try {
+            /*try {
                 System.out.println("ici");
                 MariaDB.insertImage(email, id);
             } catch (IOException | SQLException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
-            }
+            }*/
         } 
     }
 }
