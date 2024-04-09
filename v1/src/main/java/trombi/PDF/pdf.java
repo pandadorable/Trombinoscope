@@ -12,10 +12,10 @@ public class pdf {
         ArrayList<String> nomEleve = new ArrayList<>();
         ArrayList<String> mailELeve = new ArrayList<>();
         try {
-            String[] collomnWanted = {"nom","prenom","email"};
-            String[] collomnCondition = {"ang","ang"};
+            String[] columnWanted = {"nom","prenom","email"};
+            String[] columnCondition = {"ang","ang"};
             String[] conditions = {"G1","G3"};
-            ResultSet resultSet = MariaDB.autoRequest(collomnWanted, collomnCondition, conditions,MariaDB.typeCondition.OR);
+            ResultSet resultSet = MariaDB.autoRequest(columnWanted, columnCondition, conditions,MariaDB.typeCondition.OR);
 
             while (resultSet.next()) {               // Position the cursor
                 
@@ -35,8 +35,6 @@ public class pdf {
             trombi.manipulatePdf(nomEleve, mailELeve, "Trombinoscope");
             GenererEmargement emargement = new GenererEmargement("OUTPUT/emargement.pdf");
             emargement.manipulatePdf(nomEleve, "emargement");
-        } catch (SQLException e) {
-            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }

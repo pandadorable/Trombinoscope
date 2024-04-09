@@ -1,7 +1,6 @@
 package trombi.APP;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.sql.SQLException;
 
 import io.qt.NonNull;
@@ -56,6 +55,7 @@ public class MainWindow extends QWidget {
         listTab.addTab(widImport, "Importer photo");
 
         ImportWindow importWindow = new ImportWindow(widImport);
+
         /*
          * BOUTONS
          */
@@ -66,16 +66,10 @@ public class MainWindow extends QWidget {
         // Selectionner le fichier
         btnXlsx.clicked.connect(this, "openFile()");
 
-        //Bouton Pdf 
+        //Bouton Pdf
         QPushButton btnPdf = new QPushButton("Générer trombinoscope", listTab);
         btnPdf.move(460, listTab.getY() + 2);
-        btnPdf.clicked.connect(this, "genererPdf()");
-
-        //Bouton importer image
-        QPushButton btnimage = new QPushButton("Importer photo", listTab);
-        btnimage.move(610, listTab.getY() + 2);
-        // Action image Selectionner le fichier
-        btnimage.clicked.connect(this, "importPhoto()");
+        btnPdf.pressed.connect(this, "genererPdf()");
     }
 
     void genererPdf() {
@@ -100,28 +94,5 @@ public class MainWindow extends QWidget {
                 e.printStackTrace();
             }
         }
-
     }
-
-    void importPhoto() {
-        @NonNull
-        Result<@NonNull String> file = QFileDialog.getOpenFileName(this, "Importer photo");
-        if (file != null) {
-            // Chemin de l'image
-            String filePath = file.result;
-
-            // Traitement ... A faire
-            try {
-                MariaDB.insertImage("mario.bros@univ-rennes.fr", filePath);
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
-
-    }
-
 }

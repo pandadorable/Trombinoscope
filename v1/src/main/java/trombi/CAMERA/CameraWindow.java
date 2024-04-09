@@ -105,7 +105,6 @@ public class CameraWindow {
             File imageExist = new File(id);
             if(!(imageExist.exists())) {id = "mario.png";}
             try {
-                System.out.println("ici");
                 MariaDB.insertImage(email, id);
             } catch (IOException | SQLException e) {
                 // TODO Auto-generated catch block

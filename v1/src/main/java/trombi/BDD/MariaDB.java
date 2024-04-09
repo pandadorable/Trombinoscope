@@ -333,23 +333,24 @@ public class MariaDB {
         return null;
     }
 
-    public static Boolean isDataExist(String columnToCheck, String dataToFind) throws SQLException, FileNotFoundException
+    public static boolean isDataExist(String columnToCheck, String dataToFind) throws SQLException, FileNotFoundException
     {
         Connection connection = getConnection();
         try (PreparedStatement statement = connection.prepareStatement(
             "SELECT COUNT(*) FROM ELEVE WHERE " + columnToCheck + " = ?")) {
                 statement.setString(1, dataToFind);
             ResultSet rs =  statement.executeQuery();
+            System.out.println(rs.next());
             return rs.next();
             
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return false;
     }
 
-    public static Boolean isMailExist(String email) throws SQLException, FileNotFoundException
+    public static boolean isMailExist(String email) throws SQLException, FileNotFoundException
     {
         return isDataExist("email",email);
     }
