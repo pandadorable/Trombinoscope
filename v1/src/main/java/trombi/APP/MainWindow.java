@@ -17,6 +17,8 @@ import trombi.PDF.pdf;
 
 public class MainWindow extends QWidget {
 
+    CameraWindow cameraWindow;
+
     public MainWindow() {
 
         //Creer listTab
@@ -33,7 +35,7 @@ public class MainWindow extends QWidget {
         listTab.addTab(widCam, "Caméra");
 
         //Onglet Camera
-        CameraWindow cameraWindow = new CameraWindow(widCam);
+        cameraWindow = new CameraWindow(widCam);
 
         /*
          * MODIF BDD
@@ -78,6 +80,7 @@ public class MainWindow extends QWidget {
 
     void genererPdf() {
         pdf.pdf();
+        cameraWindow.getCaptureSession().getVideoOutput();
     }
 
     void openFile() {

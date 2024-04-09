@@ -19,6 +19,7 @@ public class CameraWindow {
     private QImageCapture imageCapture;
     QLineEdit champEmail;
     private String email;
+    QMediaCaptureSession captureSession;
 
     public CameraWindow(QWidget widgetParent) {
         // Liste des cameras disponibles
@@ -29,7 +30,7 @@ public class CameraWindow {
             cameraList.addItem(camera.getDescription());
         }
 
-        QMediaCaptureSession captureSession = new QMediaCaptureSession();
+        captureSession = new QMediaCaptureSession();
         if (!cameras.isEmpty()) {
             QCamera camera = new QCamera(cameras.get(0));
             captureSession.setCamera(camera);
@@ -71,6 +72,10 @@ public class CameraWindow {
 
         capButton.clicked.connect(this, "capture()");
 
+    }
+
+    public QMediaCaptureSession getCaptureSession() {
+        return captureSession;
     }
 
     public void setEmail() {
