@@ -27,13 +27,13 @@ public class ImportWindow extends QWidget {
         champEmail.textEdited.connect(this,"verifEmail()");
 
         QPushButton photoButton = new QPushButton("Choix photo", widgetParent);
-        photoButton.move(150, 200);
+        photoButton.move(5, 200);
         photoButton.resize(150, 40);
 
         photoButton.clicked.connect(this, "photo()");
 
         QPushButton valiButton = new QPushButton("Valider", widgetParent);
-        valiButton.move(100, 300);
+        valiButton.move(5, 300);
         valiButton.resize(150, 40);
 
         valiButton.clicked.connect(this, "importPhoto()");

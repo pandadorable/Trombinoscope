@@ -10,6 +10,7 @@ import io.qt.widgets.QPushButton;
 import io.qt.widgets.QTabWidget;
 import io.qt.widgets.QWidget;
 import trombi.BDD.MariaDB;
+import trombi.BDD.ModifBDDWindow;
 import trombi.CAMERA.CameraWindow;
 import trombi.CAMERA.ImportWindow;
 import trombi.PDF.pdf;
@@ -17,6 +18,7 @@ import trombi.PDF.pdf;
 public class MainWindow extends QWidget {
 
     CameraWindow cameraWindow;
+    ModifBDDWindow modifBDDWindow;
 
     public MainWindow() {
 
@@ -44,6 +46,8 @@ public class MainWindow extends QWidget {
 
         //Ajouter la tab au Qtabwidg
         listTab.addTab(widBDD, "Modification BDD");
+
+        modifBDDWindow = new ModifBDDWindow(widBDD);
 
         /*
          * IMPORT IMAGE
