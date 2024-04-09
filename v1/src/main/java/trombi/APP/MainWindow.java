@@ -13,38 +13,39 @@ import trombi.BDD.MariaDB;
 import trombi.BDD.ModifBDDWindow;
 import trombi.CAMERA.CameraWindow;
 import trombi.CAMERA.ImportWindow;
+import trombi.PDF.PDFWindow;
 import trombi.PDF.pdf;
 
 public class MainWindow extends QWidget {
 
-    CameraWindow cameraWindow;
-    ModifBDDWindow modifBDDWindow;
+    public static CameraWindow cameraWindow;
+    public static ModifBDDWindow modifBDDWindow;
 
     public MainWindow() {
 
-        //Creer listTab
+        // Creer listTab
         QTabWidget listTab = new QTabWidget(this);
         listTab.resize(getMaximumSize());
 
         /*
          * CAMERA
          */
-        //Creer tab camera
+        // Creer tab camera
         QWidget widCam = new QWidget();
 
-        //Ajouter la tab au Qtabwidg
+        // Ajouter la tab au Qtabwidg
         listTab.addTab(widCam, "Caméra");
 
-        //Onglet Camera
+        // Onglet Camera
         cameraWindow = new CameraWindow(widCam);
 
         /*
          * MODIF BDD
          */
-        //Creer tab modif BDD
+        // Creer tab modif BDD
         QWidget widBDD = new QWidget();
 
-        //Ajouter la tab au Qtabwidg
+        // Ajouter la tab au Qtabwidg
         listTab.addTab(widBDD, "Modification BDD");
 
         modifBDDWindow = new ModifBDDWindow(widBDD);
@@ -52,33 +53,34 @@ public class MainWindow extends QWidget {
         /*
          * IMPORT IMAGE
          */
-        //Creer tab modif BDD
+        // Creer tab modif BDD
         QWidget widImport = new QWidget();
 
-        //Ajouter la tab au Qtabwidg
+        // Ajouter la tab au Qtabwidg
         listTab.addTab(widImport, "Importer photo");
 
         ImportWindow importWindow = new ImportWindow(widImport);
 
         /*
+         * GENERER PDF
+         */
+        // Creer tab modif BDD
+        QWidget widPDF = new QWidget();
+
+        // Ajouter la tab au Qtabwidg
+        listTab.addTab(widPDF, "Générer trombinoscope");
+
+        PDFWindow pdfWindow = new PDFWindow(widPDF);
+
+        /*
          * BOUTONS
          */
-        //Bouton Xlsx
+        // Bouton Xlsx
         QPushButton btnXlsx = new QPushButton("Importer XLSX", listTab);
-        btnXlsx.move(360, listTab.getY() + 2);
+        btnXlsx.move(460, listTab.getY() + 2);
         // Action xlsx
         // Selectionner le fichier
         btnXlsx.clicked.connect(this, "openFile()");
-
-        //Bouton Pdf
-        QPushButton btnPdf = new QPushButton("Générer trombinoscope", listTab);
-        btnPdf.move(460, listTab.getY() + 2);
-        btnPdf.pressed.connect(this, "genererPdf()");
-    }
-
-    void genererPdf() {
-        pdf.pdf();
-        cameraWindow.getCaptureSession().getVideoOutput();
     }
 
     void openFile() {

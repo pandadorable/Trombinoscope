@@ -1,6 +1,9 @@
 package trombi.CAMERA;
 
 import io.qt.NonNull;
+import io.qt.core.QSize;
+import io.qt.gui.QImage;
+import io.qt.gui.QImageReader;
 import io.qt.widgets.*;
 import trombi.BDD.MariaDB;
 
@@ -10,10 +13,9 @@ import java.sql.SQLException;
 
 public class ImportWindow extends QWidget {
     QLineEdit champEmail;
-    QLabel verifEmail;
+    private QLabel verifEmail;
     private String email;
     private String filePath;
-    private boolean correctEmail;
 
     public ImportWindow(QWidget widgetParent) {
         champEmail = new QLineEdit(widgetParent);
@@ -23,8 +25,8 @@ public class ImportWindow extends QWidget {
 
         verifEmail = new QLabel(widgetParent);
         verifEmail.move(5, 100);
-        verifEmail.resize(150,40);
-        champEmail.textEdited.connect(this,"verifEmail()");
+        verifEmail.resize(150, 40);
+        champEmail.textEdited.connect(this, "verifEmail()");
 
         QPushButton photoButton = new QPushButton("Choix photo", widgetParent);
         photoButton.move(5, 200);
@@ -43,10 +45,7 @@ public class ImportWindow extends QWidget {
     public void photo() {
         QFileDialog.Result<@NonNull String> file = QFileDialog.getOpenFileName(this, "Importer photo");
         filePath = file.result;
-    }
-
-    public void setEmail() {
-        email = champEmail.text();
+        traitementImageImport(filePath, 500, 280);
     }
 
     void importPhoto() {
@@ -60,15 +59,19 @@ public class ImportWindow extends QWidget {
     }
 
     void verifEmail() throws SQLException, FileNotFoundException {
-        if(MariaDB.isMailExist(champEmail.text()))
-        {
+        if (MariaDB.isMailExist(champEmail.text())) {
             email = champEmail.text();
             verifEmail.setText("Email valide Bravo :D");
-        }
-        else 
-        {
+        } else {
             verifEmail.setText("Email invalide, veuillez réessayer :/");
         }
+    }
+
+    void traitementImageImport(String filePath, int width, int height) {
+        QImageReader imageReader = new QImageReader(filePath);
+        imageReader.setScaledSize(new QSize(width, height));
+        QImage pic = imageReader.read();
+        pic.save("import.png");
     }
 
 }

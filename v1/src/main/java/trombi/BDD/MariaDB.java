@@ -341,8 +341,6 @@ public class MariaDB {
                 statement.setString(1, dataToFind);
             ResultSet rs =  statement.executeQuery();
             return rs.next();
-            
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
