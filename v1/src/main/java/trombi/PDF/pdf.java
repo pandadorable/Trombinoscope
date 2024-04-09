@@ -8,13 +8,10 @@ import trombi.BDD.MariaDB;
 
 public class pdf {
 
-    public static void pdf() {
+    public static void pdf(String[] columnWanted, String[] columnCondition, String[] conditions) {
         ArrayList<String> nomEleve = new ArrayList<>();
         ArrayList<String> mailELeve = new ArrayList<>();
         try {
-            String[] columnWanted = {"nom","prenom","email"};
-            String[] columnCondition = {"ang","ang"};
-            String[] conditions = {"G1","G3"};
             ResultSet resultSet = MariaDB.autoRequest(columnWanted, columnCondition, conditions,MariaDB.typeCondition.OR);
 
             while (resultSet.next()) {               // Position the cursor

@@ -31,23 +31,26 @@ public class ImportWindow extends QWidget {
         QPushButton photoButton = new QPushButton("Choix photo", widgetParent);
         photoButton.move(150, 200);
         photoButton.resize(150, 40);
-
         photoButton.clicked.connect(this, "photo()");
 
         QPushButton valiButton = new QPushButton("Valider", widgetParent);
         valiButton.move(100, 300);
         valiButton.resize(150, 40);
-
         valiButton.clicked.connect(this, "importPhoto()");
-
     }
 
+    /**
+     * Choix de la photo à associer
+     */
     public void photo() {
         QFileDialog.Result<@NonNull String> file = QFileDialog.getOpenFileName(this, "Importer photo");
         filePath = file.result;
         traitementImageImport(filePath, 500, 280);
     }
 
+    /**
+     * Association de la photo à l'adresse email
+     */
     void importPhoto() {
         // Traitement ... A faire
         try {
@@ -58,6 +61,12 @@ public class ImportWindow extends QWidget {
         }
     }
 
+    /**
+     * Vérification de la présence de l'email entré dans la BDD
+     *
+     * @throws SQLException
+     * @throws FileNotFoundException
+     */
     void verifEmail() throws SQLException, FileNotFoundException {
         if (MariaDB.isMailExist(champEmail.text())) {
             email = champEmail.text();
@@ -73,5 +82,4 @@ public class ImportWindow extends QWidget {
         QImage pic = imageReader.read();
         pic.save("import.png");
     }
-
 }
