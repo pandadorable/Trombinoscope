@@ -167,28 +167,32 @@ public class MariaDB {
         Connection connection = getConnection();
         File image = new File(pathImage);
         FileInputStream inputStream = null;
-        try {
-            // create an input stream pointing to the file
-            inputStream = new FileInputStream(image);
-            try (PreparedStatement statement = connection.prepareStatement("""
-                      UPDATE ELEVE SET image = ? WHERE email = ?
-                    """)) {
-                statement.setString(2, email);
-                statement.setBlob(1, inputStream);
-                statement.executeUpdate();
-            } catch (SQLException e) {
-                e.printStackTrace();
+        if(isMailExist(email))
+        {
+            try {
+                // create an input stream pointing to the file
+                inputStream = new FileInputStream(image);
+                try (PreparedStatement statement = connection.prepareStatement("""
+                        UPDATE ELEVE SET image = ? WHERE email = ?
+                        """)) {
+                    statement.setString(2, email);
+                    statement.setBlob(1, inputStream);
+                    statement.executeUpdate();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            } catch (IOException e) {
+                throw new IOException("Unable to convert file to byte array. " +
+                        e.getMessage());
+            } finally {
+                // close input stream
+                if (inputStream != null) {
+                    inputStream.close();
+                }
             }
-        } catch (IOException e) {
-            throw new IOException("Unable to convert file to byte array. " +
-                    e.getMessage());
-        } finally {
-            // close input stream
-            if (inputStream != null) {
-                inputStream.close();
-            }
+            System.out.println("Insertion image pour : " + email);
         }
-        System.out.println("Insertion image pour : " + email);
+        else System.out.println("Email introuvable :/");
     }
 
     /**
