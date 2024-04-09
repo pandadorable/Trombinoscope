@@ -1,7 +1,6 @@
 package trombi.PDF;
 
 import io.qt.widgets.QCheckBox;
-import io.qt.widgets.QLabel;
 import io.qt.widgets.QPushButton;
 import io.qt.widgets.QWidget;
 
@@ -16,7 +15,7 @@ public class PDFWindow extends QWidget {
     String[] conditions;
     public PDFWindow(QWidget widgetParent){
         QPushButton pdfButton = new QPushButton("Générer trombinoscope",widgetParent);
-        pdfButton.move(5, 600);
+        pdfButton.move(5, 500);
         pdfButton.resize(150, 40);
         pdfButton.clicked.connect(this, "genererPDF()");
 

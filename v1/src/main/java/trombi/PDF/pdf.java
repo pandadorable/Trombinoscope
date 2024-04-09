@@ -1,7 +1,6 @@
 package trombi.PDF;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import trombi.BDD.MariaDB;

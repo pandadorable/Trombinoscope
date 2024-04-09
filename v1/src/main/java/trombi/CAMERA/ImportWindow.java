@@ -21,7 +21,6 @@ public class ImportWindow extends QWidget {
         champEmail = new QLineEdit(widgetParent);
         champEmail.move(5, 150);
         champEmail.resize(150, 40);
-        String mail = champEmail.text();
 
         verifEmail = new QLabel(widgetParent);
         verifEmail.move(5, 100);
