@@ -80,13 +80,16 @@ public class CameraWindow {
         imageCapture.setQuality(quality);  //Qualité des images
     }
 
+    public void traitementImage(QImageCapture image, int width, int height) {
+        imageCapture.setResolution(width, height); //Resolution des images
+    }
+
     public void traitementImage(QImageCapture image) {
         imageCapture.setResolution(500, 280); //Resolution des images
         imageCapture.setQuality(Quality.VeryHighQuality);  //Qualité des images
     }
 
     public void traitementImage(QImageCapture image, Quality quality) {
-        imageCapture.setResolution(500, 500); //Resolution des images
         imageCapture.setQuality(quality);  //Qualité des images
     }
 
