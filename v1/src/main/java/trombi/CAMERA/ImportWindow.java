@@ -10,6 +10,7 @@ import java.sql.SQLException;
 
 public class ImportWindow extends QWidget {
     QLineEdit champEmail;
+    QLabel verifEmail;
     private String email;
     private String filePath;
     private boolean correctEmail;
@@ -20,15 +21,10 @@ public class ImportWindow extends QWidget {
         champEmail.resize(150, 40);
         String mail = champEmail.text();
 
-        QLabel verifEmail = new QLabel(widgetParent);
+        verifEmail = new QLabel(widgetParent);
         verifEmail.move(5, 100);
         verifEmail.resize(150,40);
-        champEmail.textChanged.connect(this,"verifEmail()");
-
-        QPushButton emailButton = new QPushButton("Valider email", widgetParent);
-        emailButton.move(5, 200);
-        emailButton.resize(150, 40);
-        emailButton.clicked.connect(this, "setEmail()");
+        champEmail.textEdited.connect(this,"verifEmail()");
 
         QPushButton photoButton = new QPushButton("Choix photo", widgetParent);
         photoButton.move(150, 200);
@@ -64,8 +60,15 @@ public class ImportWindow extends QWidget {
     }
 
     void verifEmail() throws SQLException, FileNotFoundException {
-        correctEmail = MariaDB.isMailExist(email);
-
+        if(MariaDB.isMailExist(champEmail.text()))
+        {
+            email = champEmail.text();
+            verifEmail.setText("Email valide Bravo :D");
+        }
+        else 
+        {
+            verifEmail.setText("Email invalide, veuillez réessayer :/");
+        }
     }
 
 }

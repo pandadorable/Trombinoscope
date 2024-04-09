@@ -337,10 +337,9 @@ public class MariaDB {
     {
         Connection connection = getConnection();
         try (PreparedStatement statement = connection.prepareStatement(
-            "SELECT COUNT(*) FROM ELEVE WHERE " + columnToCheck + " = ?")) {
+            "SELECT * FROM ELEVE WHERE " + columnToCheck + " = ?")) {
                 statement.setString(1, dataToFind);
             ResultSet rs =  statement.executeQuery();
-            System.out.println(rs.next());
             return rs.next();
             
 
