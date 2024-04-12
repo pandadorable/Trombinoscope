@@ -333,6 +333,33 @@ public class MariaDB {
         return null;
     }
 
+    public static int howMuchDataExist(String[] columnToCheck, String[] dataToFind, typeCondition typeCondition) throws SQLException, FileNotFoundException
+    {
+        Connection connection = getConnection();
+        String statementString = "SELECT * FROM ELEVE";
+        if(columnToCheck.length > 0 ) statementString += " WHERE ";
+        for(int i = 0 ; i < columnToCheck.length ; i++) {
+            statementString += columnToCheck[i] + " = ?";
+            if(i != columnToCheck.length-1) statementString += typeCondition.toString();
+        }
+        statementString += ";";
+        try (PreparedStatement statement = connection.prepareStatement(
+             statementString )) {
+                for(int i = 0 ; i < columnToCheck.length ; i++) {
+                    statement.setString(i+1, dataToFind[i]);
+                }
+            ResultSet rs =  statement.executeQuery();
+            int sum = 0;
+            while(rs.next()){
+                sum++;
+            }
+            return sum;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
     public static boolean isDataExist(String columnToCheck, String dataToFind) throws SQLException, FileNotFoundException
     {
         Connection connection = getConnection();

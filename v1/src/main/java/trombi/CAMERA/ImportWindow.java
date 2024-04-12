@@ -26,7 +26,6 @@ public class ImportWindow extends QWidget {
         verifEmail = new QLabel(widgetParent);
         verifEmail.move(5, 100);
         verifEmail.resize(150, 40);
-        champEmail.textEdited.connect(this, "verifEmail()");
 
         QPushButton photoButton = new QPushButton("Choix photo", widgetParent);
         photoButton.move(5, 200);
@@ -51,19 +50,23 @@ public class ImportWindow extends QWidget {
     void importPhoto() {
         // Traitement ... A faire
         try {
-            MariaDB.insertImage(email, filePath);
-        } catch (IOException | SQLException e) {
+            if (MariaDB.isMailExist(champEmail.text())) {
+                email = champEmail.text();
+                verifEmail.setText("Email valide Bravo :D");
+
+                MariaDB.insertImage(email, filePath);
+            } else {
+                verifEmail.setText("Email invalide, veuillez réessayer :/");
+            }
+        } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        }
-    }
-
-    void verifEmail() throws SQLException, FileNotFoundException {
-        if (MariaDB.isMailExist(champEmail.text())) {
-            email = champEmail.text();
-            verifEmail.setText("Email valide Bravo :D");
-        } else {
-            verifEmail.setText("Email invalide, veuillez réessayer :/");
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
     }
 

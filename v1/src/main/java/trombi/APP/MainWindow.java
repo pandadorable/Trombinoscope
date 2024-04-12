@@ -10,7 +10,7 @@ import io.qt.widgets.QPushButton;
 import io.qt.widgets.QTabWidget;
 import io.qt.widgets.QWidget;
 import trombi.BDD.MariaDB;
-import trombi.BDD.ModifBDDWindow;
+import trombi.BDD.MODIF_BDD.ModifBDDWindow;
 import trombi.CAMERA.CameraWindow;
 import trombi.CAMERA.ImportWindow;
 import trombi.PDF.PDFWindow;
