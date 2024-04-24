@@ -3,10 +3,17 @@ package trombi.BDD;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import com.itextpdf.commons.utils.Base64.InputStream;
+import com.itextpdf.io.source.ByteArrayOutputStream;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.image.ImageView;
+
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -21,6 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.imageio.ImageIO;
+
 public class MariaDB {
 
     // Connection à la BDD
@@ -31,19 +40,25 @@ public class MariaDB {
      * @throws SQLException
      * @throws FileNotFoundException
      */
-    public static Connection getConnection() throws SQLException, FileNotFoundException {
+    public static Connection getConnection() {
         if (CONNECTION == null) {
             // Scanner du fichier config
             List<String> lc = new ArrayList<>();
-            String file = "v1/config";
-            Scanner scanner = new Scanner(new File(file));
-            scanner.useDelimiter("\n");
-            while (scanner.hasNext()) {
-                String tmp = scanner.next();
-                if (tmp.charAt(0) != '#')
-                    lc.add(tmp.replace("\r",""));
+            String file = "config";
+            Scanner scanner;
+            try {
+                scanner = new Scanner(new File(file));
+                scanner.useDelimiter("\n");
+                while (scanner.hasNext()) {
+                    String tmp = scanner.next();
+                    if (tmp.charAt(0) != '#')
+                        lc.add(tmp.replace("\r", ""));
+                }
+                scanner.close();
+            } catch (FileNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
-            scanner.close();
 
             // JScH data
             String ssh_username = lc.get(0);
@@ -64,9 +79,14 @@ public class MariaDB {
 
             String BDD_username = lc.get(7);
             String BDD_password = lc.get(8);
-            String jdbcUrl = "jdbc:mariadb://localhost:" + localPort +"/"+ lc.get(9);
+            String jdbcUrl = "jdbc:mariadb://localhost:" + localPort + "/" + lc.get(9);
 
-            CONNECTION = DriverManager.getConnection(jdbcUrl, BDD_username, BDD_password);
+            try {
+                CONNECTION = DriverManager.getConnection(jdbcUrl, BDD_username, BDD_password);
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         }
         return CONNECTION;
     }
@@ -159,19 +179,23 @@ public class MariaDB {
      * Insertion d'une image dans la base de données associée à un élève
      *
      * @param email     de l'élève à qui associer l'image
-     * @param pathImage le chemin vers l'image à associer
+     * @param image     ImageView à insérer dans la BDD
      * @throws IOException
      * @throws SQLException
      */
-    public static void insertImage(String email, String pathImage) throws IOException, SQLException {
+    public static void insertImage(String email, ImageView image){
         Connection connection = getConnection();
-        File image = new File(pathImage);
-        FileInputStream inputStream = null;
-        if(isMailExist(email))
-        {
+        ByteArrayInputStream inputStream = null;
+        if (isMailExist(email)) {
             try {
                 // create an input stream pointing to the file
-                inputStream = new FileInputStream(image);
+                BufferedImage bImage = SwingFXUtils.fromFXImage(image.getImage(), null);
+                ByteArrayOutputStream s = new ByteArrayOutputStream();
+                ImageIO.write(bImage, "png", s);
+                byte[] res = s.toByteArray();
+                inputStream = new ByteArrayInputStream(res);
+                s.close();
+
                 try (PreparedStatement statement = connection.prepareStatement("""
                         UPDATE ELEVE SET image = ? WHERE email = ?
                         """)) {
@@ -182,17 +206,27 @@ public class MariaDB {
                     e.printStackTrace();
                 }
             } catch (IOException e) {
-                throw new IOException("Unable to convert file to byte array. " +
-                        e.getMessage());
+                try {
+                    throw new IOException("Unable to convert file to byte array. " +
+                            e.getMessage());
+                } catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
             } finally {
                 // close input stream
                 if (inputStream != null) {
-                    inputStream.close();
+                    try {
+                        inputStream.close();
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
                 }
             }
             System.out.println("Insertion image pour : " + email);
-        }
-        else System.out.println("Email introuvable :/");
+        } else
+            System.out.println("Email introuvable :/");
     }
 
     /**
@@ -258,6 +292,7 @@ public class MariaDB {
     public static ResultSet autoRequest(String[] nomColumnWanted, String[] nomColumnCondition,
             String[] condition, typeCondition typeCondition) throws SQLException, FileNotFoundException {
         assert (nomColumnCondition.length == condition.length);
+
         Connection connection = getConnection();
         String listColumn = "";
         for (int i = 0; i < nomColumnWanted.length; i++) {
@@ -266,11 +301,14 @@ public class MariaDB {
                 listColumn += ",";
         }
         String listCondition = "";
-        listCondition += " WHERE ";
-        for (int i = 0; i < nomColumnCondition.length; i++) {
-            listCondition += nomColumnCondition[i] + " = ?";
-            if (i < nomColumnCondition.length - 1)
-                listCondition += typeCondition.toString();
+        if(nomColumnWanted.length > 0)
+        {
+            listCondition += " WHERE ";
+            for (int i = 0; i < nomColumnCondition.length; i++) {
+                listCondition += nomColumnCondition[i] + " = ?";
+                if (i < nomColumnCondition.length - 1)
+                    listCondition += typeCondition.toString();
+            }
         }
 
         try (PreparedStatement statement = connection.prepareStatement(
@@ -333,24 +371,26 @@ public class MariaDB {
         return null;
     }
 
-    public static int howMuchDataExist(String[] columnToCheck, String[] dataToFind, typeCondition typeCondition) throws SQLException, FileNotFoundException
-    {
+    public static int howMuchDataExist(String[] columnToCheck, String[] dataToFind, typeCondition typeCondition)
+            throws SQLException, FileNotFoundException {
         Connection connection = getConnection();
         String statementString = "SELECT * FROM ELEVE";
-        if(columnToCheck.length > 0 ) statementString += " WHERE ";
-        for(int i = 0 ; i < columnToCheck.length ; i++) {
+        if (columnToCheck.length > 0)
+            statementString += " WHERE ";
+        for (int i = 0; i < columnToCheck.length; i++) {
             statementString += columnToCheck[i] + " = ?";
-            if(i != columnToCheck.length-1) statementString += typeCondition.toString();
+            if (i != columnToCheck.length - 1)
+                statementString += typeCondition.toString();
         }
         statementString += ";";
         try (PreparedStatement statement = connection.prepareStatement(
-             statementString )) {
-                for(int i = 0 ; i < columnToCheck.length ; i++) {
-                    statement.setString(i+1, dataToFind[i]);
-                }
-            ResultSet rs =  statement.executeQuery();
+                statementString)) {
+            for (int i = 0; i < columnToCheck.length; i++) {
+                statement.setString(i + 1, dataToFind[i]);
+            }
+            ResultSet rs = statement.executeQuery();
             int sum = 0;
-            while(rs.next()){
+            while (rs.next()) {
                 sum++;
             }
             return sum;
@@ -360,13 +400,13 @@ public class MariaDB {
         return -1;
     }
 
-    public static boolean isDataExist(String columnToCheck, String dataToFind) throws SQLException, FileNotFoundException
-    {
+    public static boolean isDataExist(String columnToCheck, String dataToFind)
+            throws SQLException, FileNotFoundException {
         Connection connection = getConnection();
         try (PreparedStatement statement = connection.prepareStatement(
-            "SELECT * FROM ELEVE WHERE " + columnToCheck + " = ?")) {
-                statement.setString(1, dataToFind);
-            ResultSet rs =  statement.executeQuery();
+                "SELECT * FROM ELEVE WHERE " + columnToCheck + " = ?")) {
+            statement.setString(1, dataToFind);
+            ResultSet rs = statement.executeQuery();
             return rs.next();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -374,8 +414,12 @@ public class MariaDB {
         return false;
     }
 
-    public static boolean isMailExist(String email) throws SQLException, FileNotFoundException
-    {
-        return isDataExist("email",email);
+    public static boolean isMailExist(String email) {
+        try {
+            return isDataExist("email", email);
+        } catch (FileNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }
