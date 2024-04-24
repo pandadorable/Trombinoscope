@@ -41,9 +41,9 @@ public class CameraManager {
     /**
      * Get the list of available webcams.
      *
-     * @return the array of available webcams
+     * @return the a list of available webcams
      */
-    public static Webcam[] getAvailableWebcams() {
+    public static List<Webcam> getAvailableWebcams() {
         List<Webcam> webcams = Webcam.getWebcams();
         List<Webcam> nonVirtualWebcams = new java.util.ArrayList<Webcam>();
         for (Webcam webcam : webcams) {
@@ -51,7 +51,7 @@ public class CameraManager {
                 nonVirtualWebcams.add(webcam);
             }
         }
-        return nonVirtualWebcams.toArray(new Webcam[nonVirtualWebcams.size()]);
+        return nonVirtualWebcams;
     }
 
     /**
