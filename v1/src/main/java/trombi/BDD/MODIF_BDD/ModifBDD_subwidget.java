@@ -1,58 +1,62 @@
 package trombi.BDD.MODIF_BDD;
 
-import io.qt.widgets.QComboBox;
-import io.qt.widgets.QLabel;
-import io.qt.widgets.QLineEdit;
-import io.qt.widgets.QWidget;
+import java.util.ArrayList;
+import java.util.List;
+
+import javafx.collections.FXCollections;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.Pane;
 import trombi.BDD.listsType.colonnes;
 
-public class ModifBDD_subwidget {
-    QLabel titre;
-    QComboBox listCol;
-    QLabel valeur;
-    QLineEdit champsModif;
+public class ModifBDD_subwidget extends Pane {
+    Label titre;
+    List col_name;
+    ComboBox listCol;
+    Label valeur;
+    TextArea champsModif;
 
-    public ModifBDD_subwidget(QWidget widgetParent,String titreString) {
-        titre = new QLabel(widgetParent);
+    public ModifBDD_subwidget(String titreString) {
+        titre = new Label();
         titre.setText(titreString);
 
-        listCol = new QComboBox(widgetParent);
-        listCol.addItem("");
+        col_name = new ArrayList<String>();
+        col_name.add("");
         for (colonnes iterable_element : colonnes.values()) {
-            listCol.addItem(iterable_element.toString());
+            col_name.add(iterable_element.toString());
         }
+        listCol = new ComboBox<String>(FXCollections.observableList(col_name));
 
-        valeur = new QLabel(widgetParent);
+        valeur = new Label();
         valeur.setText("Quelles valeurs y mettre : ");
 
-        champsModif = new QLineEdit(widgetParent);
-        move(0,0);
+        champsModif = new TextArea();
+        champsModif.setPrefRowCount(1);
+        champsModif.setPrefWidth(300);
+        move(0, 0);
+
+        this.getChildren().add(titre);
+        this.getChildren().add(listCol);
+        this.getChildren().add(valeur);
+        this.getChildren().add(champsModif);
     }
+
 
 
     public void move(int x, int y) {
-        titre.move(5+x, 5+y);
-        listCol.move(5+x, 40+y);
-        valeur.move(105+x, 45+y);
-        champsModif.move(275+x,40+y);
-    }
-
-    public void hide() {
-        titre.hide();
-        listCol.hide();
-        valeur.hide();
-        champsModif.hide();
-    }
-
-    public void show() {
-        titre.show();
-        listCol.show();
-        valeur.show();
-        champsModif.show();
+        titre.setLayoutX(5+x);
+        titre.setLayoutY(5+y);
+        listCol.setLayoutX(5+x);
+        listCol.setLayoutY(40+y);
+        valeur.setLayoutX(120+x);
+        valeur.setLayoutY(45+y);
+        champsModif.setLayoutX(280+x);
+        champsModif.setLayoutY(40+y);
     }
 
     public String getColonne() {
-        return listCol.getCurrentText();
+        return listCol.getSelectionModel().getSelectedItem().toString();
     }
 
     public String getValeur() {
