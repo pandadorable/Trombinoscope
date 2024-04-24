@@ -1,31 +1,26 @@
 package trombi.PDF;
 
-import io.qt.widgets.QCheckBox;
-import io.qt.widgets.QPushButton;
-import io.qt.widgets.QWidget;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.layout.Pane;
 
-import static trombi.APP.MainWindow.cameraWindow;
-
-public class PDFWindow extends QWidget {
-    // TODO mettre les colonnes voulues
+public class PDFWindow extends Pane {
     // TODO mettre les colonnes de condition
     // TODO mettre les conditions
-    String[] columnWanted;
-    String[] columnCondition;
-    String[] conditions;
-    public PDFWindow(QWidget widgetParent){
-        QPushButton pdfButton = new QPushButton("Générer trombinoscope",widgetParent);
-        pdfButton.move(5, 500);
+    String[] columnCondition = {"SPECIALITE"};
+    String[] conditions = {"informatique"};
+    public PDFWindow(){
+        Button pdfButton = new Button("Générer trombinoscope");
+        pdfButton.setLayoutX(5);
+        pdfButton.setLayoutY(500);
         pdfButton.resize(150, 40);
-        pdfButton.clicked.connect(this, "genererPDF()");
+        pdfButton.setOnAction((envent) -> { pdf.pdf(columnCondition, conditions); });
+        this.getChildren().add(pdfButton);
 
-        QCheckBox wanted = new QCheckBox("Colonnes voulues", widgetParent);
-        wanted.move(5, 100);
+        CheckBox wanted = new CheckBox("Colonnes voulues");
+        wanted.setLayoutX(5);
+        wanted.setLayoutY(100);
         wanted.resize(150, 100);
-    }
-
-    void genererPDF() {
-        pdf.pdf(columnWanted,columnCondition,conditions);
-        cameraWindow.getCaptureSession().getVideoOutput();
+        this.getChildren().add(wanted);
     }
 }
