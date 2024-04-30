@@ -3,7 +3,6 @@ package trombi.BDD;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import com.itextpdf.commons.utils.Base64.InputStream;
 import com.itextpdf.io.source.ByteArrayOutputStream;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;

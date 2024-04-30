@@ -12,8 +12,8 @@ import trombi.BDD.listsType.colonnes;
 
 public class ModifBDD_subwidget extends Pane {
     Label titre;
-    List col_name;
-    ComboBox listCol;
+    List<String> col_name;
+    ComboBox<String> listCol;
     Label valeur;
     TextArea champsModif;
 
@@ -29,7 +29,7 @@ public class ModifBDD_subwidget extends Pane {
         listCol = new ComboBox<String>(FXCollections.observableList(col_name));
 
         valeur = new Label();
-        valeur.setText("Quelles valeurs y mettre : ");
+        valeur.setText("Quelles valeur y mettre : ");
 
         champsModif = new TextArea();
         champsModif.setPrefRowCount(1);
@@ -56,6 +56,7 @@ public class ModifBDD_subwidget extends Pane {
     }
 
     public String getColonne() {
+        if(listCol.getSelectionModel().getSelectedItem() == null) return "";
         return listCol.getSelectionModel().getSelectedItem().toString();
     }
 
