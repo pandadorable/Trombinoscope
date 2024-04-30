@@ -15,6 +15,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Line;
 import trombi.BDD.MariaDB;
 
 public class ImportWindow extends Pane {
@@ -26,18 +27,19 @@ public class ImportWindow extends Pane {
     ImageView image_temp = new ImageView();
 
     public ImportWindow() {
+        verifEmail = new Label();
+        verifEmail.setText("Mail de l'etudiant");
+        verifEmail.setLayoutX(5);
+        verifEmail.setLayoutY(130);
+        verifEmail.resize(150, 40);
+        this.getChildren().add(verifEmail);
+
         champEmail = new TextArea();
         champEmail.setPrefRowCount(1);
         champEmail.setLayoutX(5);
         champEmail.setLayoutY(150);
         champEmail.resize(150, 40);
         this.getChildren().add(champEmail);
-
-        verifEmail = new Label();
-        verifEmail.setLayoutX(5);
-        verifEmail.setLayoutY(100);
-        verifEmail.resize(150, 40);
-        this.getChildren().add(verifEmail);
 
         Button photoButton = new Button("Choix photo");
         photoButton.setLayoutX(5);
@@ -50,9 +52,15 @@ public class ImportWindow extends Pane {
             if (dialogue.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
                 fichier = dialogue.getSelectedFile();
                 image_temp.setImage(new Image(fichier.toURI().toString()));
+                image_temp.setFitWidth(500);
+                image_temp.setFitHeight(500);
+                image_temp.setPreserveRatio(true);
             }
         });
         this.getChildren().add(photoButton);
+        image_temp.setLayoutX(650);
+        image_temp.setLayoutY(20);
+        this.getChildren().add(image_temp);
 
         Button valiButton = new Button("Valider");
         valiButton.setLayoutX(5);
@@ -65,6 +73,10 @@ public class ImportWindow extends Pane {
             }
         });
         this.getChildren().add(valiButton);
+
+        // Séparateur
+            Line line = new Line(620, 20, 620, 520);
+            this.getChildren().add(line);
     }
 
     /**
@@ -77,6 +89,7 @@ public class ImportWindow extends Pane {
         // filePath = file.result;
         traitementImageImport(filePath, 500, 280);
     }
+    
 
     /**
      * Association de la photo à l'adresse email
