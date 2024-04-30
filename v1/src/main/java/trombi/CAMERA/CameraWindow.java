@@ -18,12 +18,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 import trombi.BDD.MariaDB;
 
 public class CameraWindow extends Pane {
 
     ImageView[] list_image = new ImageView[4];
     ToggleButton[] list_image_buttons = new ToggleButton[4];
+    Rectangle[] list_image_cadre = new Rectangle[4];
     int list_image_id = 0;
     int list_image_select = -1;
 
@@ -103,8 +105,14 @@ public class CameraWindow extends Pane {
             for (int i = 0; i < list_image.length; i++) {
                 list_image[i] = new ImageView();
                 list_image_buttons[i] = new ToggleButton("Image "+(i+1));
+                
             }
             ToggleGroup image_group = new ToggleGroup();
+
+            list_image_cadre[0] = new Rectangle(630, 20, 250, 210);
+            list_image_cadre[0].setFill(Color.YELLOW);
+            list_image_cadre[0].setVisible(false);
+            this.getChildren().add(list_image_cadre[0]);
             list_image[0].setFitWidth(230);
             list_image[0].setFitHeight(230);
             list_image[0].setPreserveRatio(true);
@@ -116,9 +124,17 @@ public class CameraWindow extends Pane {
             list_image_buttons[0].setLayoutY(210);
             list_image_buttons[0].setVisible(false);
             list_image_buttons[0].setToggleGroup(image_group);
-            list_image_buttons[0].setOnAction((event) -> {list_image_select = 0;});
+            list_image_buttons[0].setOnAction((event) -> {
+                list_image_select = 0; 
+                for (int i = 0 ; i < 4 ; i++) {
+                    list_image_cadre[i].setVisible(i == 0 && list_image_buttons[0].isSelected());
+            }});
             this.getChildren().add(list_image_buttons[0]);
 
+            list_image_cadre[1] = new Rectangle(880, 20, 250, 210);
+            list_image_cadre[1].setFill(Color.YELLOW);
+            list_image_cadre[1].setVisible(false);
+            this.getChildren().add(list_image_cadre[1]);
             list_image[1].setFitWidth(230);
             list_image[1].setFitHeight(230);
             list_image[1].setPreserveRatio(true);
@@ -130,9 +146,17 @@ public class CameraWindow extends Pane {
             list_image_buttons[1].setLayoutY(210);
             list_image_buttons[1].setVisible(false);
             list_image_buttons[1].setToggleGroup(image_group);
-            list_image_buttons[1].setOnAction((event) -> {list_image_select = 1;});
+            list_image_buttons[1].setOnAction((event) -> {
+                list_image_select = 1; 
+                for (int i = 0 ; i < 4 ; i++) {
+                    list_image_cadre[i].setVisible(i == 1 && list_image_buttons[1].isSelected());
+            }});
             this.getChildren().add(list_image_buttons[1]);
 
+            list_image_cadre[2] = new Rectangle(630, 240, 250, 210);
+            list_image_cadre[2].setFill(Color.YELLOW);
+            list_image_cadre[2].setVisible(false);
+            this.getChildren().add(list_image_cadre[2]);
             list_image[2].setFitWidth(230);
             list_image[2].setFitHeight(230);
             list_image[2].setPreserveRatio(true);
@@ -144,9 +168,17 @@ public class CameraWindow extends Pane {
             list_image_buttons[2].setLayoutY(430);
             list_image_buttons[2].setVisible(false);
             list_image_buttons[2].setToggleGroup(image_group);
-            list_image_buttons[2].setOnAction((event) -> {list_image_select = 2;});
+            list_image_buttons[2].setOnAction((event) -> {
+                list_image_select = 2; 
+                for (int i = 0 ; i < 4 ; i++) {
+                    list_image_cadre[i].setVisible(i == 2 && list_image_buttons[2].isSelected());
+            }});
             this.getChildren().add(list_image_buttons[2]);
 
+            list_image_cadre[3] = new Rectangle(880, 240, 250, 210);
+            list_image_cadre[3].setFill(Color.YELLOW);
+            list_image_cadre[3].setVisible(false);
+            this.getChildren().add(list_image_cadre[3]);
             list_image[3].setFitWidth(230);
             list_image[3].setFitHeight(230);
             list_image[3].setPreserveRatio(true);
@@ -158,7 +190,11 @@ public class CameraWindow extends Pane {
             list_image_buttons[3].setLayoutY(430);
             list_image_buttons[3].setVisible(false);
             list_image_buttons[3].setToggleGroup(image_group);
-            list_image_buttons[3].setOnAction((event) -> {list_image_select = 3;});
+            list_image_buttons[3].setOnAction((event) -> {
+                list_image_select = 3; 
+                for (int i = 0 ; i < 4 ; i++) {
+                    list_image_cadre[i].setVisible(i == 3 && list_image_buttons[3].isSelected());
+            }});
             this.getChildren().add(list_image_buttons[3]);
 
             // Mail associer à l'image
