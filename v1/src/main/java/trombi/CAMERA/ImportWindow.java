@@ -1,4 +1,4 @@
-package trombi.BDD;
+package trombi.CAMERA;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,6 +15,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import trombi.BDD.MariaDB;
 
 public class ImportWindow extends Pane {
     TextArea champEmail;
