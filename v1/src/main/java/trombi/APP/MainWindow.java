@@ -1,6 +1,9 @@
 package trombi.APP;
 
 import javafx.application.Application;
+import javafx.concurrent.Task;
+import javafx.embed.swing.SwingFXUtils;
+import trombi.CAMERA.ImportWindow;
 import trombi.BDD.MODIF_BDD.ModifBDDWindow;
 import trombi.CAMERA.CameraWindow;
 import trombi.CAMERA.ImportWindow;

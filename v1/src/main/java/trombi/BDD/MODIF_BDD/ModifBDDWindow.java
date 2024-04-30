@@ -10,6 +10,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 import trombi.BDD.MariaDB;
@@ -26,6 +27,7 @@ public class ModifBDDWindow extends Pane {
     public ModifBDDWindow() {
 
         tSubwidget = new ModifBDD_subwidget("Quelle colonne voulez vous modifier : ");
+        ((Label)tSubwidget.getChildren().get(2)).setText("Quelle valeur y mettre : ");
         this.getChildren().add(tSubwidget);
         Label condiLabel = new Label();
         condiLabel.setLayoutX(5);
