@@ -1,31 +1,15 @@
 package trombi.APP;
 
-import java.io.FileNotFoundException;
-import java.sql.SQLException;
-
 import javafx.application.Application;
-import javafx.concurrent.Task;
-import javafx.embed.swing.SwingFXUtils;
-import trombi.BDD.ImportWindow;
 import trombi.BDD.MODIF_BDD.ModifBDDWindow;
 import trombi.CAMERA.CameraWindow;
+import trombi.CAMERA.ImportWindow;
 import trombi.PDF.PDFWindow;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TabPane.TabClosingPolicy;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-
-import com.github.sarxos.webcam.Webcam;
-import com.github.sarxos.webcam.WebcamResolution;
 
 
 public class MainWindow extends Application {
@@ -51,7 +35,7 @@ public class MainWindow extends Application {
 
         // MODIF BDD
         Tab tab2 = new Tab();
-        tab2.setText("MODIFFICATION BDD");
+        tab2.setText("MODIFICATION BDD");
         ModifBDDWindow onglet_modif = new ModifBDDWindow();
         tab2.setContent(onglet_modif);
         root.getTabs().add(tab2);

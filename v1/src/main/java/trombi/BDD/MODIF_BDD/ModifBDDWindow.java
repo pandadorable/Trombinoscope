@@ -141,7 +141,6 @@ public class ModifBDDWindow extends Pane {
             tmp.setVisible(false);
             ModifBDDWindow.listCond.add(tmp);
         }
-
     }
 
     public static boolean checkAllBoxusable() {
