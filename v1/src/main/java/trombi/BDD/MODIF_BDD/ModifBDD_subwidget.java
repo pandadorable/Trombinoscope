@@ -28,7 +28,7 @@ public class ModifBDD_subwidget extends Pane {
         listCol.setLayoutY(40);
 
         Label valeur = new Label();
-        valeur.setText("Quelles valeur y mettre : ");
+        valeur.setText("Quelle valeur de condition: ");
         valeur.setLayoutX(120);
         valeur.setLayoutY(45);
 
@@ -46,8 +46,8 @@ public class ModifBDD_subwidget extends Pane {
 
 
     public String getColonne() {
-        if(((ComboBox)this.getChildren().get(1)).getSelectionModel().getSelectedItem() == null) return "";
-        return ((ComboBox)this.getChildren().get(1)).getSelectionModel().getSelectedItem().toString();
+        if(((ComboBox<String>)this.getChildren().get(1)).getSelectionModel().getSelectedItem() == null) return "";
+        return ((ComboBox<String>)this.getChildren().get(1)).getSelectionModel().getSelectedItem().toString();
     }
 
     public String getValeur() {

@@ -1,5 +1,6 @@
 package trombi.CAMERA;
 
+import java.awt.Paint;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
@@ -12,6 +13,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import trombi.BDD.MariaDB;
 
@@ -21,6 +23,8 @@ public class ImportWindow extends Pane {
     private String email;
     private String filePath;
 
+    
+    Label erreur = new Label();
     ImageView image_temp = new ImageView();
 
     public ImportWindow() {
@@ -66,10 +70,20 @@ public class ImportWindow extends Pane {
         valiButton.setOnAction((event) -> {
             if(MariaDB.isMailExist(champEmail.getText()))
             {
-                MariaDB.insertImage(champEmail.getText(), image_temp);
+                try {
+                    MariaDB.insertImage(champEmail.getText(), image_temp);
+                    erreur.setText("");
+                } catch (Exception e) {
+                    erreur.setText("Veuillez sélectionner une image valide !");
+                }
             }
         });
         this.getChildren().add(valiButton);
+
+        erreur.setLayoutX(5);
+        erreur.setLayoutY(325);
+        erreur.setTextFill(Color.RED);
+        this.getChildren().add(erreur);
 
         // Séparateur
             Line line = new Line(620, 20, 620, 520);
