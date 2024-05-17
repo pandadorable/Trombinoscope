@@ -8,10 +8,19 @@ import trombi.BDD.MariaDB;
 
 public class pdf {
 
-    public static void pdf(String[] columnCondition, String[] conditions, boolean needTrombi, boolean needEmarg) {
+    public static void pdf(String[] columnCondition, String[] conditions, boolean needTrombi, boolean needEmarg, boolean needMail) {
         ArrayList<String> nomEleve = new ArrayList<>();
         ArrayList<String> mailELeve = new ArrayList<>();
         String[] columnWanted = { "nom", "prenom", "email" };
+        String nomPdf = "";
+        
+        for (int i = 0; i < columnCondition.length; i++) {
+                nomPdf += columnCondition[i] + " " + conditions[i];
+                if (i != columnCondition.length - 1){
+                    nomPdf += " ";
+                }
+        }
+
         try {
             ResultSet resultSet = MariaDB.autoRequest(columnWanted, columnCondition, conditions,
                     MariaDB.typeCondition.OR);
@@ -21,22 +30,18 @@ public class pdf {
                 String nom = resultSet.getString("nom");
                 String prenom = resultSet.getString("prenom");
                 String mail = resultSet.getString("email");
-                /*
-                 * System.out.print("Nom = " + nom + " ; Prénom = " + prenom);
-                 * System.out.println();
-                 */
                 nomEleve.add(nom + "\n" + prenom);
                 mailELeve.add(mail);
             }
             resultSet.close();
 
             if (needTrombi) {
-                GenererPdf trombi = new GenererPdf("trombi.pdf");
-                trombi.manipulatePdf(nomEleve, mailELeve, "Trombinoscope");
+                GenererPdf trombi = new GenererPdf("Trombinoscope_"+nomPdf.replaceAll(" ", "_")+".pdf");
+                trombi.manipulatePdf(nomEleve, mailELeve, "Trombinoscope "+nomPdf, needMail);
             }
             if (needEmarg) {
-                GenererEmargement emargement = new GenererEmargement("emargement.pdf");
-                emargement.manipulatePdf(nomEleve, "emargement");
+                GenererEmargement emargement = new GenererEmargement("Emargement_"+nomPdf.replaceAll(" ", "_")+".pdf");
+                emargement.manipulatePdf(nomEleve, "Emargement "+nomPdf);
             }
 
         } catch (Exception e) {

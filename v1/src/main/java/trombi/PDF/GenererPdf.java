@@ -6,12 +6,16 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
+
+import org.checkerframework.checker.units.qual.m;
 
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.AreaBreak;
 import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
@@ -50,10 +54,6 @@ public class GenererPdf {
         titre.setBold();
         doc.add(titre);
 
-        //TODO : Nombre de cellules par lignes automatique
-        //Permet d'avoir toutes les photos sur une seule page
-        //(int) (double) (nomEleve.size() / 4)+1)
-
         //Création de la table
         Table table = new Table(nbCellules);
         table.setExtendBottomRow(false);
@@ -69,6 +69,16 @@ public class GenererPdf {
         }
 
         doc.add(table);
+        
+        if(needMail){
+            doc.add(new AreaBreak(com.itextpdf.layout.properties.AreaBreakType.NEXT_PAGE));
+            String mailList = "Liste des mails des élèves : \n\n";
+            for (String mail : mailEleve) {
+                mailList += mail + "\n";
+            }
+            doc.add(new Paragraph(mailList));
+        }
+        
         doc.close();
     }
     /**
