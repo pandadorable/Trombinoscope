@@ -41,7 +41,7 @@ public class GenererPdf {
      * @param nomPdf le nom du document
      * @throws Exception
      */
-    protected void manipulatePdf(ArrayList<String> nomEleve, ArrayList<String> mailEleve, String nomPdf) throws Exception {
+    protected void manipulatePdf(ArrayList<String> nomEleve, ArrayList<String> mailEleve, String nomPdf, boolean needMail) throws Exception {
 
         //Création du document
         PdfDocument pdfDoc = new PdfDocument(new PdfWriter(this.dest));
