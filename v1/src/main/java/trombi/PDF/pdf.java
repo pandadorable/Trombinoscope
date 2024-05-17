@@ -24,7 +24,7 @@ public class pdf {
                  * System.out.print("Nom = " + nom + " ; Prénom = " + prenom);
                  * System.out.println();
                  */
-                nomEleve.add(nom + " " + prenom);
+                nomEleve.add(nom + "\n" + prenom);
                 mailELeve.add(mail);
             }
             resultSet.close();

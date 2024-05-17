@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
@@ -22,7 +23,8 @@ import trombi.BDD.MariaDB;
 public class GenererPdf {
 
     private final String dest;//path de destination pour le fichier créé
-   
+    private static int nbCellules = 5; //nombre d'élève par lignes
+    private static float imageWidth = (PageSize.DEFAULT.getWidth()-90)/nbCellules;
 
     public GenererPdf(String dest) {
         this.dest = dest;
@@ -42,6 +44,7 @@ public class GenererPdf {
         //Création du document
         PdfDocument pdfDoc = new PdfDocument(new PdfWriter(this.dest));
         Document doc = new Document(pdfDoc);
+        
 
         //Création d'un paragraphe (champ de texte) avec le nom du document 
         Paragraph titre = new Paragraph(nomPdf);
@@ -53,11 +56,10 @@ public class GenererPdf {
         //Permet d'avoir toutes les photos sur une seule page
         //(int) (double) (nomEleve.size() / 4)+1)
 
-        int nbCellules = 4;//Nombre d'élèves par ligne
-
         //Création de la table
-        Table table = new Table(UnitValue.createPercentArray(nbCellules)).useAllAvailableWidth();
-        table.setMargin(15);
+        Table table = new Table(nbCellules);
+        table.setExtendBottomRow(false);
+        //table.setAutoLayout();
 
         //Ajout des élèves dans la table (nom + photo)
         for (int i = 0; i < nomEleve.size(); i++) {
@@ -77,19 +79,21 @@ public class GenererPdf {
      * @return une cellule contenant l'image correspondant à l'élève dont c'est le mail
      * @throws MalformedURLException
      */
-    private static Cell createImageCell(String mail) throws MalformedURLException {
+    private static Image createImageCell(String mail) throws MalformedURLException {
         Image img;
         try {
             byte[] imgData = MariaDB.getImage(mail);
             if(imgData == null)
             {
-                img = new Image(ImageDataFactory.create("zeldalogo.png"));
+                img = new Image(ImageDataFactory.create("nobody.png"));
+                img.setOpacity(0.3f);
             }
             else
             {
                 img = new Image(ImageDataFactory.create(imgData));
             }
-            return new Cell().add(img.setAutoScale(true).setWidth(UnitValue.createPercentValue(100)));
+            img.setWidth(imageWidth);
+            return img;
         } catch (IOException e) {
             e.printStackTrace();
         } catch (SQLException e) {
