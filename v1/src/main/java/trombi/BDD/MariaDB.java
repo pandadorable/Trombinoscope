@@ -90,6 +90,16 @@ public class MariaDB {
         return CONNECTION;
     }
 
+    public static void kill() throws SQLException
+    {
+        
+        if(CONNECTION != null)
+        {
+            System.out.println("kill CONNECTION");
+            CONNECTION.close();
+        }
+    }
+
     /**
      * 
      * @param ssh_username

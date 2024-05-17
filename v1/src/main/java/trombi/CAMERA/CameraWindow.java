@@ -29,6 +29,14 @@ public class CameraWindow extends Pane {
     int list_image_id = 0;
     int list_image_select = -1;
 
+    public static void kill()
+    {
+        List<Webcam> cameras = CameraManager.getAvailableWebcams();
+        for (Webcam webcam : cameras) {
+            webcam.close();
+        }
+    }
+
     @SuppressWarnings("unchecked")
     public CameraWindow() {
         // Liste des cameras disponibles
