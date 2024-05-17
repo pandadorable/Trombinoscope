@@ -3,6 +3,7 @@ package trombi.PDF;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import trombi.APP.Main;
 import trombi.BDD.MariaDB;
 
 public class pdf {
@@ -28,13 +29,13 @@ public class pdf {
                 mailELeve.add(mail);
             }
             resultSet.close();
-
+            
             if (needTrombi) {
-                GenererPdf trombi = new GenererPdf("OUTPUT/trombi.pdf");
+                GenererPdf trombi = new GenererPdf(Main.path+"/trombi.pdf");
                 trombi.manipulatePdf(nomEleve, mailELeve, "Trombinoscope");
             }
             if (needEmarg) {
-                GenererEmargement emargement = new GenererEmargement("OUTPUT/emargement.pdf");
+                GenererEmargement emargement = new GenererEmargement("emargement.pdf");
                 emargement.manipulatePdf(nomEleve, "emargement");
             }
 
