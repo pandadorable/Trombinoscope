@@ -1,6 +1,6 @@
 package trombi.BDD;
 
-public class listsType {
+public class listType {
     //Enum contenant les différents intitulés de colonnes du .xlsx original, et par extension les noms de celles de la BDD
     public static enum colonnes {
         prenom {

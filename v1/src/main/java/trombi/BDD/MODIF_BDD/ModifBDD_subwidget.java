@@ -8,7 +8,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
-import trombi.BDD.listsType.colonnes;
+import trombi.BDD.listType.colonnes;
 
 public class ModifBDD_subwidget extends Pane {
 
@@ -43,7 +43,6 @@ public class ModifBDD_subwidget extends Pane {
         this.getChildren().add(valeur);
         this.getChildren().add(champsModif);
     }
-
 
     public String getColonne() {
         if(((ComboBox<String>)this.getChildren().get(1)).getSelectionModel().getSelectedItem() == null) return "";

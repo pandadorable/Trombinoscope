@@ -38,8 +38,6 @@ public class GenererPdf {
      * @throws Exception
      */
     protected void manipulatePdf(ArrayList<String> nomEleve, ArrayList<String> mailEleve, String nomPdf) throws Exception {
-        File file = new File(this.dest); 
-        file.getParentFile().mkdirs();
 
         //Création du document
         PdfDocument pdfDoc = new PdfDocument(new PdfWriter(this.dest));

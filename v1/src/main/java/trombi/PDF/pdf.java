@@ -31,7 +31,7 @@ public class pdf {
             resultSet.close();
 
             if (needTrombi) {
-                GenererPdf trombi = new GenererPdf(Main.path+"/trombi.pdf");
+                GenererPdf trombi = new GenererPdf("trombi.pdf");
                 trombi.manipulatePdf(nomEleve, mailELeve, "Trombinoscope");
             }
             if (needEmarg) {

@@ -1,6 +1,5 @@
 package trombi.CAMERA;
 
-import java.awt.Paint;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
