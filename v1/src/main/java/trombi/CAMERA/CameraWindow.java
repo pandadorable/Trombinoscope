@@ -28,6 +28,7 @@ public class CameraWindow extends Pane {
     Rectangle[] list_image_cadre = new Rectangle[4];
     int list_image_id = 0;
     int list_image_select = -1;
+    ImageView imageView = new ImageView();
 
     public static void kill()
     {
@@ -47,46 +48,22 @@ public class CameraWindow extends Pane {
                 for (Webcam w : cameras) {
                     if (w.isOpen())
                         w.close();
+                        this.getChildren().remove(imageView);
                 }
                 cameras.get(cameraList.getSelectionModel().getSelectedIndex())
                         .setViewSize(WebcamResolution.VGA.getSize());
-                cameras.get(cameraList.getSelectionModel().getSelectedIndex()).open();
+                
+                startCam(cameraList);
             });
             cameraList.getSelectionModel().selectFirst();
             cameraList.setLayoutX(50);
             cameraList.setLayoutY(5);
             this.getChildren().add(cameraList);
 
-            // L'afficheur d'image
-            var imageView = new ImageView();
-            imageView.setFitWidth(500);
-            imageView.setFitHeight(500);
-            imageView.setPreserveRatio(true);
-            imageView.setLayoutX(50);
-            imageView.setLayoutY(50);
-            this.getChildren().add(imageView);
 
-            // ouvre camera par défaut
-            cameras.get(cameraList.getSelectionModel().getSelectedIndex()).open();
-            // Thread d'affichage
-            var task = new Task<Void>() {
-                @Override
-                protected Void call() throws Exception {
-                    boolean camStart = true;
-                    while (camStart) {
-                        // Conversion de l'image en image JavaFX
-                        var image = SwingFXUtils.toFXImage(
-                                cameras.get(cameraList.getSelectionModel().getSelectedIndex()).getImage(), null);
-                        // Affichage de l'image
-                        imageView.setImage(image);
-                    }
-                    return null;
-                }
-            };
-            // Tâche pour afficher l'image
-            var thread = new Thread(task);
-            thread.setDaemon(true); // Le thread est arrêté si l'application est quittée
-            thread.start();
+            startCam(cameraList);
+            
+            
 
             // Capture
             Button captureButton = new Button();
@@ -246,5 +223,41 @@ public class CameraWindow extends Pane {
             this.getChildren().add(mail_bp);
 
         }
+        
+    }
+
+    //Demarrer la camera
+    public void startCam(ComboBox cameraList){
+        List<Webcam> cameras = CameraManager.getAvailableWebcams();
+        
+        // L'afficheur d'image
+        imageView.setFitWidth(500);
+        imageView.setFitHeight(500);
+        imageView.setPreserveRatio(true);
+        imageView.setLayoutX(50);
+        imageView.setLayoutY(50);
+        this.getChildren().add(imageView);
+
+        // ouvre camera par défaut
+        cameras.get(cameraList.getSelectionModel().getSelectedIndex()).open();
+        // Thread d'affichage
+        var task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                boolean camStart = true;
+                while (camStart) {
+                    // Conversion de l'image en image JavaFX
+                    var image = SwingFXUtils.toFXImage(
+                            cameras.get(cameraList.getSelectionModel().getSelectedIndex()).getImage(), null);
+                    // Affichage de l'image
+                    imageView.setImage(image);
+                }
+                return null;
+            }
+        };
+        // Tâche pour afficher l'image
+        var thread = new Thread(task);
+        thread.setDaemon(true); // Le thread est arrêté si l'application est quittée
+        thread.start();
     }
 }
