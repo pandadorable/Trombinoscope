@@ -79,7 +79,6 @@ public class MariaDB {
             String BDD_username = lc.get(7);
             String BDD_password = lc.get(8);
             String jdbcUrl = "jdbc:mariadb://localhost:" + localPort + "/" + lc.get(9);
-
             try {
                 CONNECTION = DriverManager.getConnection(jdbcUrl, BDD_username, BDD_password);
             } catch (SQLException e) {
