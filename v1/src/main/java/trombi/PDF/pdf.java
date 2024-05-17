@@ -29,7 +29,7 @@ public class pdf {
                 mailELeve.add(mail);
             }
             resultSet.close();
-            
+
             if (needTrombi) {
                 GenererPdf trombi = new GenererPdf(Main.path+"/trombi.pdf");
                 trombi.manipulatePdf(nomEleve, mailELeve, "Trombinoscope");
@@ -43,6 +43,6 @@ public class pdf {
             e.printStackTrace();
         }
         System.out.println("PDF généré");
-        PDFWindow.verifLabel.setText("Les PDF ont été générer");
+        PDFWindow.verifLabel.setText("Les PDF ont été générés");
     }
 }
