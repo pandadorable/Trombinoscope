@@ -54,6 +54,11 @@ public class PDFWindow extends Pane {
         verifLabel.setVisible(true);
         this.getChildren().add(verifLabel);
 
+        CheckBox mailCheck = new CheckBox("Ajouter les mails en bas de page");
+        mailCheck.setLayoutX(20);
+        mailCheck.setLayoutY(460);
+        this.getChildren().add(mailCheck);
+
         CheckBox trombiCheck = new CheckBox("Trombinoscope");
         trombiCheck.setLayoutX(20);
         trombiCheck.setLayoutY(490);
@@ -78,7 +83,7 @@ public class PDFWindow extends Pane {
                         cond[i] = listCond.get(i).getValeur();
                     }
                     verifLabel.setText("Génération du Trombinoscope en cours....");
-                    pdf.pdf(colC, cond, trombiCheck.isSelected(), emargCheck.isSelected());
+                    pdf.pdf(colC, cond, trombiCheck.isSelected(), emargCheck.isSelected(), mailCheck.isSelected(),"");
                 } else {
                     verifLabel.setText("Aucune des sorties ne sont sélectionnées");
                 }

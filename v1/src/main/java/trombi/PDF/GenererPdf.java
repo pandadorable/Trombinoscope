@@ -6,12 +6,16 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
+
+import org.checkerframework.checker.units.qual.m;
 
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.AreaBreak;
 import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
@@ -19,6 +23,7 @@ import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.properties.UnitValue;
 
 import trombi.BDD.MariaDB;
+import com.itextpdf.layout.element.AreaBreakType;
 
 public class GenererPdf {
 
@@ -37,7 +42,7 @@ public class GenererPdf {
      * @param nomPdf le nom du document
      * @throws Exception
      */
-    protected void manipulatePdf(ArrayList<String> nomEleve, ArrayList<String> mailEleve, String nomPdf) throws Exception {
+    protected void manipulatePdf(ArrayList<String> nomEleve, ArrayList<String> mailEleve, String nomPdf, boolean needMail) throws Exception {
         File file = new File(this.dest); 
         file.getParentFile().mkdirs();
 
@@ -71,6 +76,16 @@ public class GenererPdf {
         }
 
         doc.add(table);
+        
+        if(needMail){
+            doc.add(new AreaBreak(com.itextpdf.layout.properties.AreaBreakType.NEXT_PAGE));
+            String mailList = "Liste des mails des élèves : \n\n";
+            for (String mail : mailEleve) {
+                mailList += mail + "\n";
+            }
+            doc.add(new Paragraph(mailList));
+        }
+        
         doc.close();
     }
     /**

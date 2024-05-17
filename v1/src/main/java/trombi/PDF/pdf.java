@@ -8,7 +8,7 @@ import trombi.BDD.MariaDB;
 
 public class pdf {
 
-    public static void pdf(String[] columnCondition, String[] conditions, boolean needTrombi, boolean needEmarg) {
+    public static void pdf(String[] columnCondition, String[] conditions, boolean needTrombi, boolean needEmarg, boolean needMail, String pdfName) {
         ArrayList<String> nomEleve = new ArrayList<>();
         ArrayList<String> mailELeve = new ArrayList<>();
         String[] columnWanted = { "nom", "prenom", "email" };
@@ -21,10 +21,6 @@ public class pdf {
                 String nom = resultSet.getString("nom");
                 String prenom = resultSet.getString("prenom");
                 String mail = resultSet.getString("email");
-                /*
-                 * System.out.print("Nom = " + nom + " ; Prénom = " + prenom);
-                 * System.out.println();
-                 */
                 nomEleve.add(nom + "\n" + prenom);
                 mailELeve.add(mail);
             }
@@ -32,7 +28,7 @@ public class pdf {
 
             if (needTrombi) {
                 GenererPdf trombi = new GenererPdf(Main.path+"/trombi.pdf");
-                trombi.manipulatePdf(nomEleve, mailELeve, "Trombinoscope");
+                trombi.manipulatePdf(nomEleve, mailELeve, "Trombinoscope", needMail);
             }
             if (needEmarg) {
                 GenererEmargement emargement = new GenererEmargement("emargement.pdf");
