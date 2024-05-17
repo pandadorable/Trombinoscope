@@ -1,16 +1,15 @@
 package trombi.BDD.MODIF_BDD;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javax.swing.JFileChooser;
+
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 import trombi.BDD.MariaDB;
@@ -133,6 +132,37 @@ public class ModifBDDWindow extends Pane {
             }
         });
         this.getChildren().add(confirmButton);
+
+        //Import XLSX
+        Button importXLS = new Button();
+        importXLS.setText("IMPORTER XLSX");
+        importXLS.setLayoutX(650);
+        importXLS.setLayoutY(500);
+        importXLS.setOnAction((event) -> {
+            JFileChooser dialogue = new JFileChooser(".");
+            File fichier;
+
+            if (dialogue.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+                fichier = dialogue.getSelectedFile();
+                try {
+                    MariaDB.transformXLSXToBDD(fichier.getAbsolutePath());
+                } catch (FileNotFoundException | SQLException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        });
+        this.getChildren().add(importXLS);
+
+        //Import XLSX
+        Button exportXLS = new Button();
+        importXLS.setText("EXPORTER XLSX");
+        importXLS.setLayoutX(780);
+        importXLS.setLayoutY(500);
+        importXLS.setOnAction((event) -> {
+            
+        });
+        this.getChildren().add(exportXLS);
     }
 
     public static void init_list_cond() {
