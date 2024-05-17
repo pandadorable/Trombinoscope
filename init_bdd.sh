@@ -20,5 +20,9 @@ CREATE TABLE datatest.ELEVE (
     expr TINYTEXT,
     annee TINYTEXT,
     image LONGBLOB,
+    col1 TINYTEXT,
+    col2 TINYTEXT,
+    col3 TINYTEXT,
+    col4 TINYTEXT,
     CONSTRAINT antiDoublon UNIQUE (email)
     );
