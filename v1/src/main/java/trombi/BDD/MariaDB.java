@@ -79,10 +79,12 @@ public class MariaDB {
             String BDD_username = lc.get(7);
             String BDD_password = lc.get(8);
             String jdbcUrl = "jdbc:mariadb://localhost:" + localPort + "/" + lc.get(9);
+            System.out.println(BDD_username+" "+BDD_password+" "+jdbcUrl);
 
             try {
+                Class.forName("org.mariadb.jdbc.Driver");
                 CONNECTION = DriverManager.getConnection(jdbcUrl, BDD_username, BDD_password);
-            } catch (SQLException e) {
+            } catch (SQLException | ClassNotFoundException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
