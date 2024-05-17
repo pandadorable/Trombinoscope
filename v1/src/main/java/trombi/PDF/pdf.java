@@ -11,7 +11,7 @@ public class pdf {
     public static void pdf(String[] columnCondition, String[] conditions, boolean needTrombi, boolean needEmarg, boolean needMail) {
         ArrayList<String> nomEleve = new ArrayList<>();
         ArrayList<String> mailELeve = new ArrayList<>();
-        String[] columnWanted = { "nom", "prenom", "email" };
+        String[] columnWanted = {"nom", "prenom", "email", "annee", "specialite", "option"};
         String nomPdf = "";
         
         for (int i = 0; i < columnCondition.length; i++) {
@@ -30,7 +30,15 @@ public class pdf {
                 String nom = resultSet.getString("nom");
                 String prenom = resultSet.getString("prenom");
                 String mail = resultSet.getString("email");
-                nomEleve.add(nom + "\n" + prenom);
+                String annee = resultSet.getString("annee");
+                String specialite = resultSet.getString("specialite");
+                String option = resultSet.getString("option");
+                if (specialite == "Informatique"){
+                     nomEleve.add(nom + "\n" + prenom + "\n" + annee + " " + "INF "+option);
+                }else{
+                    nomEleve.add(nom + "\n" + prenom + "\n" + annee + " " + option);
+                }
+
                 mailELeve.add(mail);
             }
             resultSet.close();
