@@ -23,7 +23,6 @@ import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.properties.UnitValue;
 
 import trombi.BDD.MariaDB;
-import com.itextpdf.layout.element.AreaBreakType;
 
 public class GenererPdf {
 
@@ -44,7 +43,7 @@ public class GenererPdf {
      */
     protected void manipulatePdf(ArrayList<String> nomEleve, ArrayList<String> mailEleve, String nomPdf, boolean needMail) throws Exception {
         File file = new File(this.dest); 
-        file.getParentFile().mkdirs();
+        file.createNewFile();
 
         //Création du document
         PdfDocument pdfDoc = new PdfDocument(new PdfWriter(this.dest));
@@ -56,10 +55,6 @@ public class GenererPdf {
         titre.setTextAlignment(com.itextpdf.layout.properties.TextAlignment.CENTER);
         titre.setBold();
         doc.add(titre);
-
-        //TODO : Nombre de cellules par lignes automatique
-        //Permet d'avoir toutes les photos sur une seule page
-        //(int) (double) (nomEleve.size() / 4)+1)
 
         //Création de la table
         Table table = new Table(nbCellules);
