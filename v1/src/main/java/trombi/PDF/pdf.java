@@ -2,8 +2,6 @@ package trombi.PDF;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
-
-import trombi.APP.Main;
 import trombi.BDD.MariaDB;
 
 public class pdf {

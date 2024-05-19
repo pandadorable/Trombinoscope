@@ -156,10 +156,10 @@ public class ModifBDDWindow extends Pane {
 
         //Import XLSX
         Button exportXLS = new Button();
-        importXLS.setText("EXPORTER XLSX");
-        importXLS.setLayoutX(780);
-        importXLS.setLayoutY(500);
-        importXLS.setOnAction((event) -> {
+        exportXLS.setText("EXPORTER XLSX");
+        exportXLS.setLayoutX(780);
+        exportXLS.setLayoutY(500);
+        exportXLS.setOnAction((event) -> {
             
         });
         this.getChildren().add(exportXLS);

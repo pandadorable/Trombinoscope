@@ -1,7 +1,5 @@
 package trombi.PDF;
 
-import java.io.FileNotFoundException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,9 +8,6 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
-import trombi.BDD.MariaDB;
-import trombi.BDD.MODIF_BDD.ModifBDDWindow;
-import trombi.BDD.MODIF_BDD.ModifBDD_subwidget;
 
 public class PDFWindow extends Pane {
 

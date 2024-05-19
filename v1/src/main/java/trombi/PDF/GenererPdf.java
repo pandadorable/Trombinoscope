@@ -63,6 +63,7 @@ public class GenererPdf {
         for (int i = 0; i < nomEleve.size(); i++) {
             Cell cell = new Cell(); //Création de la cellule
             Paragraph pNom = new Paragraph(nomEleve.get(i)); //Création d'un "paragraphe" pour le nom de l'élève
+            pNom.setFontSize(8);
             cell.add(createImageCell(mailEleve.get(i)));
             cell.add(pNom);
             table.addCell(cell);

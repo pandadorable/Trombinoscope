@@ -170,9 +170,6 @@ public class MariaDB {
                             statement.setString(columnIndex, "");
                         }
                     }
-                    // date non présente
-                    statement.setString(14, "2XXX");
-                    int rowsInserted = statement.executeUpdate();
 
                 } catch (SQLException e) {
                     e.printStackTrace();
