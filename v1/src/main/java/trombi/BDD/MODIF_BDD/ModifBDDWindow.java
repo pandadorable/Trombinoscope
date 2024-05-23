@@ -149,6 +149,8 @@ public class ModifBDDWindow extends Pane {
             if (dialogue.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
                 fichier = dialogue.getSelectedFile();
                 try {
+                    // export de l'ancien état de la BDD au cas ou 
+                    MariaDB.transformBDDtoXLS("AVANT_IMPORT.xlsx",confirm_label);
                     confirm_label.setText("Base de données en cours de mise à jour");
                     MariaDB.transformXLSXToBDD(fichier.getAbsolutePath(),confirm_label);
                     
