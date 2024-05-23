@@ -31,8 +31,7 @@ public class CameraWindow extends Pane {
     int list_image_select = -1;
     ImageView imageView = new ImageView();
 
-    public static void kill()
-    {
+    public static void kill() {
         List<Webcam> cameras = CameraManager.getAvailableWebcams();
         for (Webcam webcam : cameras) {
             webcam.close();
@@ -49,11 +48,11 @@ public class CameraWindow extends Pane {
                 for (Webcam w : cameras) {
                     if (w.isOpen())
                         w.close();
-                        this.getChildren().remove(imageView);
+                    this.getChildren().remove(imageView);
                 }
                 cameras.get(cameraList.getSelectionModel().getSelectedIndex())
-                        .setViewSize(WebcamResolution.VGA.getSize());
-                
+                        .setViewSize(WebcamResolution.HD.getSize());
+
                 startCam(cameraList);
             });
             cameraList.getSelectionModel().selectFirst();
@@ -61,10 +60,7 @@ public class CameraWindow extends Pane {
             cameraList.setLayoutY(5);
             this.getChildren().add(cameraList);
 
-
             startCam(cameraList);
-            
-            
 
             // Capture
             Button captureButton = new Button();
@@ -73,12 +69,11 @@ public class CameraWindow extends Pane {
             captureButton.setLayoutY(475);
             captureButton.setOnAction((event) -> {
                 BufferedImage tmp = cameras.get(cameraList.getSelectionModel().getSelectedIndex()).getImage();
-                int minVal = Math.min(tmp.getWidth(),tmp.getHeight());
-                tmp = tmp.getSubimage((tmp.getWidth()-minVal)/2, (tmp.getHeight()-minVal)/2, minVal, minVal);
+                int minVal = Math.min(tmp.getWidth(), tmp.getHeight());
+                tmp = tmp.getSubimage((tmp.getWidth() - minVal) / 2, (tmp.getHeight() - minVal) / 2, minVal, minVal);
                 list_image[list_image_id].setImage(SwingFXUtils
                         .toFXImage(tmp, null));
-                if (!list_image[list_image_id].isVisible())
-                {
+                if (!list_image[list_image_id].isVisible()) {
                     list_image[list_image_id].setVisible(true);
                     list_image_buttons[list_image_id].setVisible(true);
                 }
@@ -93,8 +88,8 @@ public class CameraWindow extends Pane {
             // Images Temporaire
             for (int i = 0; i < list_image.length; i++) {
                 list_image[i] = new ImageView();
-                list_image_buttons[i] = new ToggleButton("Image "+(i+1));
-                
+                list_image_buttons[i] = new ToggleButton("Image " + (i + 1));
+
             }
             ToggleGroup image_group = new ToggleGroup();
 
@@ -113,10 +108,11 @@ public class CameraWindow extends Pane {
             list_image_buttons[0].setVisible(false);
             list_image_buttons[0].setToggleGroup(image_group);
             list_image_buttons[0].setOnAction((event) -> {
-                list_image_select = 0; 
-                for (int i = 0 ; i < 4 ; i++) {
+                list_image_select = 0;
+                for (int i = 0; i < 4; i++) {
                     list_image_cadre[i].setVisible(i == 0 && list_image_buttons[0].isSelected());
-            }});
+                }
+            });
             this.getChildren().add(list_image_buttons[0]);
 
             list_image_cadre[1] = new Rectangle(900, 20, 210, 210);
@@ -134,10 +130,11 @@ public class CameraWindow extends Pane {
             list_image_buttons[1].setVisible(false);
             list_image_buttons[1].setToggleGroup(image_group);
             list_image_buttons[1].setOnAction((event) -> {
-                list_image_select = 1; 
-                for (int i = 0 ; i < 4 ; i++) {
+                list_image_select = 1;
+                for (int i = 0; i < 4; i++) {
                     list_image_cadre[i].setVisible(i == 1 && list_image_buttons[1].isSelected());
-            }});
+                }
+            });
             this.getChildren().add(list_image_buttons[1]);
 
             list_image_cadre[2] = new Rectangle(650, 240, 210, 210);
@@ -155,10 +152,11 @@ public class CameraWindow extends Pane {
             list_image_buttons[2].setVisible(false);
             list_image_buttons[2].setToggleGroup(image_group);
             list_image_buttons[2].setOnAction((event) -> {
-                list_image_select = 2; 
-                for (int i = 0 ; i < 4 ; i++) {
+                list_image_select = 2;
+                for (int i = 0; i < 4; i++) {
                     list_image_cadre[i].setVisible(i == 2 && list_image_buttons[2].isSelected());
-            }});
+                }
+            });
             this.getChildren().add(list_image_buttons[2]);
 
             list_image_cadre[3] = new Rectangle(900, 240, 210, 210);
@@ -176,10 +174,11 @@ public class CameraWindow extends Pane {
             list_image_buttons[3].setVisible(false);
             list_image_buttons[3].setToggleGroup(image_group);
             list_image_buttons[3].setOnAction((event) -> {
-                list_image_select = 3; 
-                for (int i = 0 ; i < 4 ; i++) {
+                list_image_select = 3;
+                for (int i = 0; i < 4; i++) {
                     list_image_cadre[i].setVisible(i == 3 && list_image_buttons[3].isSelected());
-            }});
+                }
+            });
             this.getChildren().add(list_image_buttons[3]);
 
             // Mail associer à l'image
@@ -215,7 +214,9 @@ public class CameraWindow extends Pane {
             mail_bp.setOnAction((event) -> {
                 toggle_label_invalide.setVisible(image_group.getSelectedToggle() == null);
                 mail_label_invalide.setVisible(!MariaDB.isMailExist(mail.getText()));
-                if(!toggle_label_invalide.isVisible() && !mail_label_invalide.isVisible()) //toute les condition sont remplis pour envoyer une image
+                if (!toggle_label_invalide.isVisible() && !mail_label_invalide.isVisible()) // toute les condition sont
+                                                                                            // remplis pour envoyer une
+                                                                                            // image
                 {
                     MariaDB.insertImage(mail.getText(), list_image[list_image_select]);
                 }
@@ -223,13 +224,13 @@ public class CameraWindow extends Pane {
             this.getChildren().add(mail_bp);
 
         }
-        
+
     }
 
-    //Demarrer la camera
-    public void startCam(ComboBox cameraList){
+    // Demarrer la camera
+    public void startCam(ComboBox cameraList) {
         List<Webcam> cameras = CameraManager.getAvailableWebcams();
-        
+
         // L'afficheur d'image
         imageView.setFitWidth(500);
         imageView.setFitHeight(500);
@@ -259,5 +260,11 @@ public class CameraWindow extends Pane {
         var thread = new Thread(task);
         thread.setDaemon(true); // Le thread est arrêté si l'application est quittée
         thread.start();
+    }
+
+    public static BufferedImage compression(BufferedImage img, float compression) {
+
+
+        return null;
     }
 }

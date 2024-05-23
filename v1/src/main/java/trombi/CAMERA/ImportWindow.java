@@ -1,11 +1,13 @@
 package trombi.CAMERA;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
 
 import javax.swing.JFileChooser;
 
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -30,20 +32,20 @@ public class ImportWindow extends Pane {
         verifEmail = new Label();
         verifEmail.setText("Mail de l'etudiant");
         verifEmail.setLayoutX(5);
-        verifEmail.setLayoutY(130);
+        verifEmail.setLayoutY(20);
         verifEmail.resize(150, 40);
         this.getChildren().add(verifEmail);
 
         champEmail = new TextArea();
         champEmail.setPrefRowCount(1);
         champEmail.setLayoutX(5);
-        champEmail.setLayoutY(150);
+        champEmail.setLayoutY(40);
         champEmail.resize(150, 40);
         this.getChildren().add(champEmail);
 
         Button photoButton = new Button("Choix photo");
         photoButton.setLayoutX(5);
-        photoButton.setLayoutY(200);
+        photoButton.setLayoutY(90);
         photoButton.resize(150, 40);
         photoButton.setOnAction((envent) -> {
             JFileChooser dialogue = new JFileChooser(".");
@@ -51,20 +53,23 @@ public class ImportWindow extends Pane {
 
             if (dialogue.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
                 fichier = dialogue.getSelectedFile();
-                image_temp.setImage(new Image(fichier.toURI().toString()));
-                image_temp.setFitWidth(500);
-                image_temp.setFitHeight(500);
+                BufferedImage tmp = SwingFXUtils.fromFXImage(new Image(fichier.toURI().toString()), null);
+                int minVal = Math.min(tmp.getWidth(), tmp.getHeight());
+                tmp = tmp.getSubimage((tmp.getWidth() - minVal) / 2, (tmp.getHeight() - minVal) / 2, minVal, minVal);
+                image_temp.setImage(SwingFXUtils.toFXImage(tmp, null));
+                image_temp.setFitWidth(400);
+                image_temp.setFitHeight(400);
                 image_temp.setPreserveRatio(true);
             }
         });
         this.getChildren().add(photoButton);
-        image_temp.setLayoutX(650);
-        image_temp.setLayoutY(20);
+        image_temp.setLayoutX(700);
+        image_temp.setLayoutY(70);
         this.getChildren().add(image_temp);
 
         Button valiButton = new Button("Valider");
-        valiButton.setLayoutX(5);
-        valiButton.setLayoutY(300);
+        valiButton.setLayoutX(100);
+        valiButton.setLayoutY(90);
         valiButton.resize(150, 40);
         valiButton.setOnAction((event) -> {
             if(MariaDB.isMailExist(champEmail.getText()))
@@ -76,11 +81,15 @@ public class ImportWindow extends Pane {
                     erreur.setText("Veuillez sélectionner une image valide !");
                 }
             }
+            else
+            {
+                erreur.setText("Veulliez entrer un mail valide");
+            }
         });
         this.getChildren().add(valiButton);
 
-        erreur.setLayoutX(5);
-        erreur.setLayoutY(325);
+        erreur.setLayoutX(200);
+        erreur.setLayoutY(95);
         erreur.setTextFill(Color.RED);
         this.getChildren().add(erreur);
 
