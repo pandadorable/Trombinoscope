@@ -1,5 +1,6 @@
 package trombi.CAMERA;
 
+import java.awt.image.BufferedImage;
 import java.util.List;
 
 import com.github.sarxos.webcam.Webcam;
@@ -71,8 +72,11 @@ public class CameraWindow extends Pane {
             captureButton.setLayoutX(220);
             captureButton.setLayoutY(475);
             captureButton.setOnAction((event) -> {
+                BufferedImage tmp = cameras.get(cameraList.getSelectionModel().getSelectedIndex()).getImage();
+                int minVal = Math.min(tmp.getWidth(),tmp.getHeight());
+                tmp = tmp.getSubimage((tmp.getWidth()-minVal)/2, (tmp.getHeight()-minVal)/2, minVal, minVal);
                 list_image[list_image_id].setImage(SwingFXUtils
-                        .toFXImage(cameras.get(cameraList.getSelectionModel().getSelectedIndex()).getImage(), null));
+                        .toFXImage(tmp, null));
                 if (!list_image[list_image_id].isVisible())
                 {
                     list_image[list_image_id].setVisible(true);
@@ -94,14 +98,13 @@ public class CameraWindow extends Pane {
             }
             ToggleGroup image_group = new ToggleGroup();
 
-            list_image_cadre[0] = new Rectangle(630, 20, 250, 210);
+            list_image_cadre[0] = new Rectangle(650, 20, 210, 210);
             list_image_cadre[0].setFill(Color.YELLOW);
             list_image_cadre[0].setVisible(false);
             this.getChildren().add(list_image_cadre[0]);
-            list_image[0].setFitWidth(230);
-            list_image[0].setFitHeight(230);
+            list_image[0].setFitHeight(190);
             list_image[0].setPreserveRatio(true);
-            list_image[0].setLayoutX(640);
+            list_image[0].setLayoutX(660);
             list_image[0].setLayoutY(30);
             list_image[0].setVisible(false);
             this.getChildren().add(list_image[0]);
@@ -116,14 +119,13 @@ public class CameraWindow extends Pane {
             }});
             this.getChildren().add(list_image_buttons[0]);
 
-            list_image_cadre[1] = new Rectangle(880, 20, 250, 210);
+            list_image_cadre[1] = new Rectangle(900, 20, 210, 210);
             list_image_cadre[1].setFill(Color.YELLOW);
             list_image_cadre[1].setVisible(false);
             this.getChildren().add(list_image_cadre[1]);
-            list_image[1].setFitWidth(230);
-            list_image[1].setFitHeight(230);
+            list_image[1].setFitHeight(190);
             list_image[1].setPreserveRatio(true);
-            list_image[1].setLayoutX(890);
+            list_image[1].setLayoutX(910);
             list_image[1].setLayoutY(30);
             list_image[1].setVisible(false);
             this.getChildren().add(list_image[1]);
@@ -138,14 +140,13 @@ public class CameraWindow extends Pane {
             }});
             this.getChildren().add(list_image_buttons[1]);
 
-            list_image_cadre[2] = new Rectangle(630, 240, 250, 210);
+            list_image_cadre[2] = new Rectangle(650, 240, 210, 210);
             list_image_cadre[2].setFill(Color.YELLOW);
             list_image_cadre[2].setVisible(false);
             this.getChildren().add(list_image_cadre[2]);
-            list_image[2].setFitWidth(230);
-            list_image[2].setFitHeight(230);
+            list_image[2].setFitHeight(190);
             list_image[2].setPreserveRatio(true);
-            list_image[2].setLayoutX(640);
+            list_image[2].setLayoutX(660);
             list_image[2].setLayoutY(250);
             list_image[2].setVisible(false);
             this.getChildren().add(list_image[2]);
@@ -160,14 +161,13 @@ public class CameraWindow extends Pane {
             }});
             this.getChildren().add(list_image_buttons[2]);
 
-            list_image_cadre[3] = new Rectangle(880, 240, 250, 210);
+            list_image_cadre[3] = new Rectangle(900, 240, 210, 210);
             list_image_cadre[3].setFill(Color.YELLOW);
             list_image_cadre[3].setVisible(false);
             this.getChildren().add(list_image_cadre[3]);
-            list_image[3].setFitWidth(230);
-            list_image[3].setFitHeight(230);
+            list_image[3].setFitHeight(190);
             list_image[3].setPreserveRatio(true);
-            list_image[3].setLayoutX(890);
+            list_image[3].setLayoutX(910);
             list_image[3].setLayoutY(250);
             list_image[3].setVisible(false);
             this.getChildren().add(list_image[3]);
