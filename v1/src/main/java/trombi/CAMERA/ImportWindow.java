@@ -10,6 +10,7 @@ import javax.swing.JFileChooser;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -26,7 +27,10 @@ public class ImportWindow extends Pane {
 
     
     Label erreur = new Label();
+    BufferedImage original_image;
     ImageView image_temp = new ImageView();
+
+    static Float compression = 0.5f;
 
     public ImportWindow() {
         verifEmail = new Label();
@@ -56,7 +60,8 @@ public class ImportWindow extends Pane {
                 BufferedImage tmp = SwingFXUtils.fromFXImage(new Image(fichier.toURI().toString()), null);
                 int minVal = Math.min(tmp.getWidth(), tmp.getHeight());
                 tmp = tmp.getSubimage((tmp.getWidth() - minVal) / 2, (tmp.getHeight() - minVal) / 2, minVal, minVal);
-                image_temp.setImage(SwingFXUtils.toFXImage(tmp, null));
+                original_image = tmp;
+                image_temp.setImage(SwingFXUtils.toFXImage(CameraWindow.compression(original_image,compression), null));
                 image_temp.setFitWidth(400);
                 image_temp.setFitHeight(400);
                 image_temp.setPreserveRatio(true);
@@ -92,6 +97,30 @@ public class ImportWindow extends Pane {
         erreur.setLayoutY(95);
         erreur.setTextFill(Color.RED);
         this.getChildren().add(erreur);
+
+        // Slider compression
+            Label Slider_left = new Label();
+            Slider_left.setLayoutY(135);
+            Slider_left.setLayoutX(70);
+            Slider_left.setText("Meilleure\ncompréssion");
+            Label Slider_right = new Label();
+            Slider_right.setLayoutY(135);
+            Slider_right.setLayoutX(470);
+            Slider_right.setText("Meilleure\nqualitée");
+            Slider compression_slider = new Slider(0f, 1f, 0.5f);
+            compression_slider.setLayoutX(160);
+            compression_slider.setLayoutY(140);
+            compression_slider.setPrefWidth(300);
+            compression_slider.setShowTickMarks(true);
+            compression_slider.setMajorTickUnit(0.25f);
+            compression_slider.setBlockIncrement(0.1f);
+            compression_slider.setOnMouseReleased(event -> {
+                compression = (float) compression_slider.getValue();
+                image_temp.setImage(SwingFXUtils.toFXImage(CameraWindow.compression(original_image,compression), null));
+            });
+            this.getChildren().add(compression_slider);
+            this.getChildren().add(Slider_left);
+            this.getChildren().add(Slider_right);
 
         // Séparateur
             Line line = new Line(620, 20, 620, 520);

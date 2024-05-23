@@ -1,14 +1,10 @@
 
 package trombi.PDF;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
-
-import org.checkerframework.checker.units.qual.m;
 
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.geom.PageSize;
@@ -20,7 +16,6 @@ import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
-import com.itextpdf.layout.properties.UnitValue;
 
 import trombi.BDD.MariaDB;
 

@@ -3,7 +3,10 @@ package trombi.BDD.MODIF_BDD;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JFileChooser;
@@ -149,11 +152,13 @@ public class ModifBDDWindow extends Pane {
             if (dialogue.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
                 fichier = dialogue.getSelectedFile();
                 try {
-                    // export de l'ancien état de la BDD au cas ou 
-                    MariaDB.transformBDDtoXLS("AVANT_IMPORT.xlsx",confirm_label);
+                    // export de l'ancien état de la BDD au cas ou
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
+                    Date date = new Date();
+                    MariaDB.transformBDDtoXLS("ETAT_BASE_DE_DONNEES_("+dateFormat.format(date)+").xlsx", confirm_label);
                     confirm_label.setText("Base de données en cours de mise à jour");
-                    MariaDB.transformXLSXToBDD(fichier.getAbsolutePath(),confirm_label);
-                    
+                    MariaDB.transformXLSXToBDD(fichier.getAbsolutePath(), confirm_label);
+
                 } catch (FileNotFoundException | SQLException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -168,8 +173,8 @@ public class ModifBDDWindow extends Pane {
         exportXLS.setLayoutX(780);
         exportXLS.setLayoutY(500);
         exportXLS.setOnAction((event) -> {
-            MariaDB.transformBDDtoXLS("SAUVEGARDE.xlsx",confirm_label);
-            
+            MariaDB.transformBDDtoXLS("SAUVEGARDE.xlsx", confirm_label);
+
         });
         this.getChildren().add(exportXLS);
 
