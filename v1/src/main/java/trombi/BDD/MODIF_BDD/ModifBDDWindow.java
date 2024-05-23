@@ -26,7 +26,7 @@ public class ModifBDDWindow extends Pane {
     public ModifBDDWindow() {
 
         tSubwidget = new ModifBDD_subwidget("Quelle colonne voulez vous modifier : ");
-        ((Label)tSubwidget.getChildren().get(2)).setText("Quelle valeur y mettre : ");
+        ((Label) tSubwidget.getChildren().get(2)).setText("Quelle valeur y mettre : ");
         this.getChildren().add(tSubwidget);
         Label condiLabel = new Label();
         condiLabel.setLayoutX(5);
@@ -46,7 +46,7 @@ public class ModifBDDWindow extends Pane {
         Line line2 = new Line(620, 20, 620, 520);
         this.getChildren().add(line2);
 
-        //Label de vérification
+        // Label de vérification
         Label verif_label = new Label();
         verif_label.setLayoutX(650);
         verif_label.setLayoutY(60);
@@ -73,7 +73,9 @@ public class ModifBDDWindow extends Pane {
                     verif_cond.add(cond[i]);
                 }
                 try {
-                    verif_label.setText("Cette modification va altérer " + MariaDB.howMuchDataExist(colC, cond, MariaDB.typeCondition.AND) + " Étudiants.\nSi vous êtes sûr appuyez sur confirmer.");
+                    verif_label.setText("Cette modification va altérer "
+                            + MariaDB.howMuchDataExist(colC, cond, MariaDB.typeCondition.AND)
+                            + " Étudiants.\nSi vous êtes sûr appuyez sur confirmer.");
                     verif_label.setVisible(true);
                 } catch (FileNotFoundException | SQLException e) {
                     e.printStackTrace();
@@ -84,8 +86,6 @@ public class ModifBDDWindow extends Pane {
             }
         });
         this.getChildren().add(verifButton);
-
-        
 
         // Bouton de confirmation
         Button confirmButton = new Button();
@@ -102,28 +102,26 @@ public class ModifBDDWindow extends Pane {
                         cond[i] = listCond.get(i).getValeur();
                     }
                     boolean isTheSame = true;
-                    for(int i = 0 ; i < nb_cond_bdd ; i++)
-                    {
+                    for (int i = 0; i < nb_cond_bdd; i++) {
                         isTheSame = isTheSame && colC[i].equals(verif_colC.get(i)) && cond[i].equals(verif_cond.get(i));
                     }
-                    if(isTheSame)
-                    {
+                    if (isTheSame) {
                         verif_label.setText("Les modifications ont été envoyées");
                         verif_label.setVisible(true);
                         try {
-                            MariaDB.modifRequest(tSubwidget.getColonne(), tSubwidget.getValeur() , colC, cond, MariaDB.typeCondition.AND);
+                            MariaDB.modifRequest(tSubwidget.getColonne(), tSubwidget.getValeur(), colC, cond,
+                                    MariaDB.typeCondition.AND);
                         } catch (FileNotFoundException | SQLException e) {
                             e.printStackTrace();
                         }
-                    }
-                    else
-                    {
-                        verif_label.setText("Les modifications actuelles n'ont pas été vérifiées, veuillez cliquer sur vérifier");
+                    } else {
+                        verif_label.setText(
+                                "Les modifications actuelles n'ont pas été vérifiées, veuillez cliquer sur vérifier");
                         verif_label.setVisible(true);
                     }
-                }
-                else {
-                    verif_label.setText("Les modifications actuelles n'ont pas été vérifiées, veuillez cliquer sur vérifier");
+                } else {
+                    verif_label.setText(
+                            "Les modifications actuelles n'ont pas été vérifiées, veuillez cliquer sur vérifier");
                     verif_label.setVisible(true);
                 }
             } else {
@@ -133,7 +131,13 @@ public class ModifBDDWindow extends Pane {
         });
         this.getChildren().add(confirmButton);
 
-        //Import XLSX
+        // Label de confirmation
+        Label confirm_label = new Label();
+        confirm_label.setLayoutX(910);
+        confirm_label.setLayoutY(500);
+        this.getChildren().add(confirm_label);
+
+        // Import XLSX
         Button importXLS = new Button();
         importXLS.setText("IMPORTER XLSX");
         importXLS.setLayoutX(650);
@@ -145,7 +149,9 @@ public class ModifBDDWindow extends Pane {
             if (dialogue.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
                 fichier = dialogue.getSelectedFile();
                 try {
-                    MariaDB.transformXLSXToBDD(fichier.getAbsolutePath());
+                    confirm_label.setText("Base de données en cours de mise à jour");
+                    MariaDB.transformXLSXToBDD(fichier.getAbsolutePath(),confirm_label);
+                    
                 } catch (FileNotFoundException | SQLException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -154,15 +160,17 @@ public class ModifBDDWindow extends Pane {
         });
         this.getChildren().add(importXLS);
 
-        //Import XLSX
+        // Export XLSX
         Button exportXLS = new Button();
         exportXLS.setText("EXPORTER XLSX");
         exportXLS.setLayoutX(780);
         exportXLS.setLayoutY(500);
         exportXLS.setOnAction((event) -> {
+            MariaDB.transformBDDtoXLS("SAUVEGARDE.xlsx",confirm_label);
             
         });
         this.getChildren().add(exportXLS);
+
     }
 
     public static void init_list_cond() {

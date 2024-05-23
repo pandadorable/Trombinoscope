@@ -1,7 +1,11 @@
 package trombi.BDD;
 
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.bridj.Pointer.ListType;
 
 import com.itextpdf.io.source.ByteArrayOutputStream;
 import com.jcraft.jsch.JSch;
@@ -10,12 +14,15 @@ import com.jcraft.jsch.Session;
 
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.ImageView;
+import javafx.scene.control.Label;
+import trombi.BDD.listType.colonnes;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
@@ -24,6 +31,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -90,11 +98,9 @@ public class MariaDB {
         return CONNECTION;
     }
 
-    public static void kill() throws SQLException
-    {
-        
-        if(CONNECTION != null)
-        {
+    public static void kill() throws SQLException {
+
+        if (CONNECTION != null) {
             System.out.println("kill CONNECTION");
             CONNECTION.close();
         }
@@ -127,10 +133,21 @@ public class MariaDB {
      * @throws SQLException
      * @throws FileNotFoundException
      */
-    public static void transformXLSXToBDD(String xlsx) throws SQLException, FileNotFoundException {
+    public static void transformXLSXToBDD(String xlsx, Label confirm_label) throws SQLException, FileNotFoundException {
         Connection connection = getConnection();
         try (FileInputStream fileInputStream = new FileInputStream(xlsx)) {
             Workbook workbook = new XSSFWorkbook(fileInputStream);
+
+            //define all column
+            String[] header = new String[listType.colonnes.values().length-1];
+            int headerIndex = 0;
+            for (colonnes c : listType.colonnes.values()) { //exclude image from the list
+                if(!c.equals(listType.colonnes.image))
+                {
+                    header[headerIndex] = c.toString();
+                    headerIndex++; 
+                }
+            }
 
             // Assuming the data is in the first sheet
             Sheet sheet = workbook.getSheetAt(0);
@@ -140,56 +157,89 @@ public class MariaDB {
             for (int rowIndex = 1; rowIndex <= sheet.getLastRowNum(); rowIndex++) {
                 Row row = sheet.getRow(rowIndex);
                 int lastCellNum = row.getLastCellNum();
-                try (PreparedStatement statement = connection.prepareStatement(
-                        """
-                                  REPLACE ELEVE(prenom, nom, email, specialite, option, td, tp, tdMut, tpMut, ang, innov, mana, expr, annee)
-                                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                                """)) {
-                    for (int columnIndex = 1; columnIndex <= lastCellNum; columnIndex++) {
-                        Cell cell = row.getCell(columnIndex - 1);
+                String[] dataValues = new String[header.length];
+
+                for (int columnIndex = 0; columnIndex <= lastCellNum; columnIndex++) 
+                {
+                    Cell cell = row.getCell(columnIndex);
                         if (cell != null) {
-                            switch (cell.getCellType()) {
-                                case STRING -> statement.setString(columnIndex,
-                                        cell.getStringCellValue());
-                                case NUMERIC -> {
-                                    if (DateUtil.isCellDateFormatted(cell)) {
-                                        statement.setDate(columnIndex,
-                                                (Date) cell.getDateCellValue());
-                                    } else {
-                                        statement.setInt(columnIndex, (int) cell.getNumericCellValue());
-                                    }
-                                }
-                                case BOOLEAN -> statement.setBoolean(columnIndex,
-                                        cell.getBooleanCellValue());
-                                default ->
-                                    // Handle other cell types as needed
-                                    statement.setString(columnIndex, "");
-                            }
+                            dataValues[columnIndex] = cell.getStringCellValue();
                         } else {
                             // Cellule nulle, ajouter une chaîne vide
-                            statement.setString(columnIndex, "");
+                            dataValues[columnIndex] = "";
                         }
-                    }
-
-                } catch (SQLException e) {
-                    e.printStackTrace();
                 }
+                String[] colCondion = {"email"};
+                String[] condition = {row.getCell(2).getStringCellValue()};
+                modifRequest(header, dataValues, colCondion, condition, typeCondition.AND);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("Insertion terminée");
+        confirm_label.setText("Base de donnée mise à jour");
+    }
+
+    public static void transformBDDtoXLS(String filename, Label confirm_label) {
+        try {
+            //Connection connection = getConnection();
+            HSSFWorkbook workbook = new HSSFWorkbook();
+            HSSFSheet sheet = workbook.createSheet("ESIR");
+            // 1st line with all column
+            HSSFRow rowhead = sheet.createRow((short) 0);
+            String[] header = new String[listType.colonnes.values().length-1];
+            int headerIndex = 0;
+            for (colonnes c : listType.colonnes.values()) { //exclude image from the list
+                if(!c.equals(listType.colonnes.image))
+                {
+                    header[headerIndex] = c.toString();
+                    headerIndex++; 
+                }
+            }
+            for (int i = 0; i < header.length; i++) {
+                rowhead.createCell(i).setCellValue(header[i].toString());
+            }
+            // all other lines
+            LinkedList<HSSFRow> rowList = new LinkedList();
+            ResultSet listEleve = autoRequest(header, new String[0], new String[0], typeCondition.AND);
+            int nbLine = 0;
+            while(listEleve.next())
+            {
+                nbLine++;
+                rowList.add(sheet.createRow((short)nbLine));
+                int columnIndex = 0;
+                for (String head : header) {
+                    rowList.getLast().createCell(columnIndex).setCellValue(listEleve.getString(head));
+                    columnIndex++;
+                }
+            }
+            // export
+            FileOutputStream fileOut = new FileOutputStream(filename);
+            workbook.write(fileOut);
+            fileOut.close();
+            workbook.close();
+            confirm_label.setText("Base de donnée importée\n-> SAUVEGARDE.xlsx");
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
     }
 
     /**
      * Insertion d'une image dans la base de données associée à un élève
      *
-     * @param email     de l'élève à qui associer l'image
-     * @param image     ImageView à insérer dans la BDD
+     * @param email de l'élève à qui associer l'image
+     * @param image ImageView à insérer dans la BDD
      * @throws IOException
      * @throws SQLException
      */
-    public static void insertImage(String email, ImageView image){
+    public static void insertImage(String email, ImageView image) {
         Connection connection = getConnection();
         ByteArrayInputStream inputStream = null;
         if (isMailExist(email)) {
@@ -307,8 +357,7 @@ public class MariaDB {
                 listColumn += ",";
         }
         String listCondition = "";
-        if(nomColumnWanted.length > 0)
-        {
+        if (nomColumnCondition.length > 0) {
             listCondition += " WHERE ";
             for (int i = 0; i < nomColumnCondition.length; i++) {
                 listCondition += nomColumnCondition[i] + " = ?";
@@ -316,7 +365,6 @@ public class MariaDB {
                     listCondition += typeCondition.toString();
             }
         }
-
         try (PreparedStatement statement = connection.prepareStatement(
                 "SELECT " + listColumn + " FROM ELEVE" + listCondition)) {
 
@@ -332,7 +380,7 @@ public class MariaDB {
 
     /**
      *
-     * @param columnToModif      : La colonne voulant être modifiés
+     * @param columnToModif      : La colonnes à modifié
      *
      * @param dataToAdd          : La valeurs a rentrer dans la BDD
      *
@@ -352,8 +400,45 @@ public class MariaDB {
      * @throws FileNotFoundException
      */
     public static ResultSet modifRequest(String columnToModif, String dataToAdd, String[] nomColumnCondition,
+            String[] condition, typeCondition typeCondition) throws FileNotFoundException, SQLException
+            {
+                String[] colModif = {columnToModif};
+                String[] datModif = {dataToAdd};
+                return modifRequest(colModif, datModif, nomColumnCondition, condition, typeCondition);
+            }
+
+    /**
+     *
+     * @param columnToModif      : La liste des colonnes à modifié
+     *
+     * @param dataToAdd          : La liste des valeurs a rentrer dans la BDD
+     *
+     * @param nomColumnCondition : La liste des colonnes sur lesquelles on pose
+     *                           une condition
+     *
+     * @param condition          : La liste des conditions /!\ doit faire la même
+     *                           taille que nomColumnCondition, la condition à
+     *                           l'indice 0 vaut pour la column à l'indice 0
+     *
+     * @param typeCondition      le type de requete souhaité (condition1 AND
+     *                           condition2 AND ....) ou (condition1 OR condition2
+     *                           OR ....)
+     *
+     * @return Le ResultSet de la requete
+     * @throws SQLException
+     * @throws FileNotFoundException
+     */
+    public static ResultSet modifRequest(String[] columnToModif, String[] dataToAdd, String[] nomColumnCondition,
             String[] condition, typeCondition typeCondition) throws SQLException, FileNotFoundException {
         assert (nomColumnCondition.length == condition.length);
+        assert (columnToModif.length == dataToAdd.length);
+
+        String listCol = "";
+        for(int i = 0 ; i < columnToModif.length ; i++)
+        {
+            listCol += columnToModif[i] + " = '"+dataToAdd[i]+"'";
+            if(i < columnToModif.length-1) listCol+=",";
+        }
 
         String listCondition = "";
         listCondition += " WHERE ";
@@ -365,10 +450,11 @@ public class MariaDB {
 
         Connection connection = getConnection();
         try (PreparedStatement statement = connection.prepareStatement(
-                "UPDATE ELEVE SET " + columnToModif + " = " + "'" + dataToAdd + "'" + listCondition)) {
+                "UPDATE ELEVE SET " + listCol + listCondition)) {
 
             for (int i = 0; i < condition.length; i++)
                 statement.setString(i + 1, condition[i]);
+            //System.out.println(statement);
             return statement.executeQuery();
 
         } catch (SQLException e) {
