@@ -10,6 +10,9 @@ activate Application
 
 Ad -> Application : Envoie du fichier .XLSX
 Application --> Application : Vérification du fichier
+Application --> BDD : Demande de backup
+Application <-- BDD : renvoie l'état actuel de la BDD
+Ad <-- Application : creer une sauvegarde la BDD
 alt fichier incorrect
 loop tant que fichier incorrect
 Ad <-- Application : Demande d'un nouveau fichier

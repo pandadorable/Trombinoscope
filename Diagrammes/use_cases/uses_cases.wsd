@@ -1,7 +1,6 @@
 @startuml useCases
 
 left to right direction
-actor "Etudiant" as Et
 actor "Admin" as Ad
 
 rectangle trombinoscope {
@@ -10,16 +9,13 @@ rectangle trombinoscope {
     usecase "Valider photo" as valid
     usecase "Generer trombinoscope/émargement" as trombi
     usecase "Insérer/modifier des données" as inserer
-    usecase "Se connecter" as connect
 }
 
-Et -- photo
 
 Ad -- valid
 Ad -- photo
 Ad -- trombi
 Ad -- inserer
-Ad -- connect
 
 
 @enduml
