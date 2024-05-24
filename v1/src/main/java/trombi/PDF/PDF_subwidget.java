@@ -45,6 +45,7 @@ public class PDF_subwidget extends Pane {
     }
 
 
+    @SuppressWarnings("rawtypes")
     public String getColonne() {
         if(((ComboBox)this.getChildren().get(1)).getSelectionModel().getSelectedItem() == null) return "";
         return ((ComboBox)this.getChildren().get(1)).getSelectionModel().getSelectedItem().toString();

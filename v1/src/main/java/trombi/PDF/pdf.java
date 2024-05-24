@@ -6,7 +6,7 @@ import trombi.BDD.MariaDB;
 
 public class pdf {
 
-    public static void pdf(String[] columnCondition, String[] conditions, boolean needTrombi, boolean needEmarg, boolean needMail) {
+    public static void makepdf(String[] columnCondition, String[] conditions, boolean needTrombi, boolean needEmarg, boolean needMail) {
         ArrayList<String> nomEleve = new ArrayList<>();
         ArrayList<String> mailELeve = new ArrayList<>();
         String[] columnWanted = {"nom", "prenom", "email", "annee", "specialite", "option"};

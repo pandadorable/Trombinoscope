@@ -56,6 +56,7 @@ public class CameraWindow extends Pane {
         // Liste des cameras disponibles
         List<Webcam> cameras = CameraManager.getAvailableWebcams();
         if (!cameras.isEmpty()) {
+            @SuppressWarnings("rawtypes")
             ComboBox cameraList = new ComboBox<Webcam>(FXCollections.observableList(cameras));
             cameraList.setOnAction((event) -> {
                 for (Webcam w : cameras) {
@@ -271,7 +272,7 @@ public class CameraWindow extends Pane {
     }
 
     // Demarrer la camera
-    public void startCam(ComboBox cameraList) {
+    public void startCam(@SuppressWarnings("rawtypes") ComboBox cameraList) {
         List<Webcam> cameras = CameraManager.getAvailableWebcams();
 
         // L'afficheur d'image

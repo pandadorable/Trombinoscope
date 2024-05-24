@@ -1,8 +1,5 @@
 package trombi.BDD;
 
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -134,7 +131,6 @@ public class MariaDB {
      * @throws FileNotFoundException
      */
     public static void transformXLSXToBDD(String xlsx, Label confirm_label) throws SQLException, FileNotFoundException {
-        Connection connection = getConnection();
         try (FileInputStream fileInputStream = new FileInputStream(xlsx)) {
             Workbook workbook = new XSSFWorkbook(fileInputStream);
 
@@ -153,7 +149,7 @@ public class MariaDB {
             Sheet sheet = workbook.getSheetAt(0);
 
             // Assuming the first row contains column names
-            Row headerRow = sheet.getRow(0);
+            //Row headerRow = sheet.getRow(0);
             for (int rowIndex = 1; rowIndex <= sheet.getLastRowNum(); rowIndex++) {
                 Row row = sheet.getRow(rowIndex);
                 int lastCellNum = row.getLastCellNum();
@@ -172,6 +168,7 @@ public class MariaDB {
                 String[] colCondion = {"email"};
                 String[] condition = {row.getCell(2).getStringCellValue()};
                 modifRequest(header, dataValues, colCondion, condition, typeCondition.AND);
+                workbook.close();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -199,7 +196,7 @@ public class MariaDB {
                 rowhead.createCell(i).setCellValue(header[i].toString());
             }
             // all other lines
-            LinkedList<XSSFRow> rowList = new LinkedList();
+            LinkedList<XSSFRow> rowList = new LinkedList<XSSFRow>();
             ResultSet listEleve = autoRequest(header, new String[0], new String[0], typeCondition.AND);
             int nbLine = 0;
             while(listEleve.next())

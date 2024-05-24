@@ -78,7 +78,7 @@ public class PDFWindow extends Pane {
                         cond[i] = listCond.get(i).getValeur();
                     }
                     verifLabel.setText("Génération du Trombinoscope en cours....");
-                    pdf.pdf(colC, cond, trombiCheck.isSelected(), emargCheck.isSelected(), mailCheck.isSelected());
+                    pdf.makepdf(colC, cond, trombiCheck.isSelected(), emargCheck.isSelected(), mailCheck.isSelected());
                 } else {
                     verifLabel.setText("Aucune des sorties ne sont sélectionnées");
                 }

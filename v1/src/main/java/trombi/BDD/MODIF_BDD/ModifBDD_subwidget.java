@@ -44,6 +44,7 @@ public class ModifBDD_subwidget extends Pane {
         this.getChildren().add(champsModif);
     }
 
+    @SuppressWarnings("unchecked")
     public String getColonne() {
         if(((ComboBox<String>)this.getChildren().get(1)).getSelectionModel().getSelectedItem() == null) return "";
         return ((ComboBox<String>)this.getChildren().get(1)).getSelectionModel().getSelectedItem().toString();
