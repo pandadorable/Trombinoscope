@@ -4,8 +4,9 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.bridj.Pointer.ListType;
 
 import com.itextpdf.io.source.ByteArrayOutputStream;
 import com.jcraft.jsch.JSch;
@@ -25,7 +26,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -159,7 +159,7 @@ public class MariaDB {
                 int lastCellNum = row.getLastCellNum();
                 String[] dataValues = new String[header.length];
 
-                for (int columnIndex = 0; columnIndex <= lastCellNum; columnIndex++) 
+                for (int columnIndex = 0; columnIndex < lastCellNum; columnIndex++) 
                 {
                     Cell cell = row.getCell(columnIndex);
                         if (cell != null) {
@@ -182,10 +182,10 @@ public class MariaDB {
     public static void transformBDDtoXLS(String filename, Label confirm_label) {
         try {
             //Connection connection = getConnection();
-            HSSFWorkbook workbook = new HSSFWorkbook();
-            HSSFSheet sheet = workbook.createSheet("ESIR");
+            XSSFWorkbook workbook = new XSSFWorkbook();
+            XSSFSheet sheet = workbook.createSheet("ESIR");
             // 1st line with all column
-            HSSFRow rowhead = sheet.createRow((short) 0);
+            XSSFRow rowhead = sheet.createRow((short) 0);
             String[] header = new String[listType.colonnes.values().length-1];
             int headerIndex = 0;
             for (colonnes c : listType.colonnes.values()) { //exclude image from the list
@@ -199,7 +199,7 @@ public class MariaDB {
                 rowhead.createCell(i).setCellValue(header[i].toString());
             }
             // all other lines
-            LinkedList<HSSFRow> rowList = new LinkedList();
+            LinkedList<XSSFRow> rowList = new LinkedList();
             ResultSet listEleve = autoRequest(header, new String[0], new String[0], typeCondition.AND);
             int nbLine = 0;
             while(listEleve.next())
