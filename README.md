@@ -1,33 +1,13 @@
 # Trombinoscope
 
-# s7
+## Description du projet
 
-- On a un tableau(.csv) à convertir en BDD (nom,prénom,date de naissance,...)
-- Prendre des photos => recuperer le flux vidéo de la webcam, c'est l'élève qui prends la photo (bouton).
-- Génération du trombinoscope depuis la BDD.
-- si sésame pas dispo -> photos à valider (par états?)
+Ce projet étudiant réalisé sur l'année scolaire 2023-2024 permet de générer des trombinoscopes. Il permet la gestion d'une base de données regroupant tous les étudiants, leurs informations, leurs photos (sur une base de données distante sécurisée) et générer des fiches d'émargement et des trombinoscopes au format PDF. 
 
-# S8
-- Reconnaissance d'image
-- traitement d'image (cf TP2 AC), recadrage
-- trombinoscope (groupe tp, td, etc)
-- tu peux choisir la photo
-- UIX
+## Utilité du projet
 
-# piste d'amélioration
-- prise de photo automatique
-- sécurité,authentification
-- API sésame ?
-- BDD Cloud
+Nous avons construit notre projet pour simplifier et automatiser au maximum la création de trombinoscopes au format PDF. Cette tâche est très lente à réaliser manuellement, nous avons donc tenté de la rendre simple, intuitive et surtout rapide !
 
-# Règle des commits
-- Le commit doit compiler (sauf sur ta branche)
-- Le nom du commit doit être du format suivant : "Type de changement (fix,ajout classe, etc):Nom de la fonctionalité concerné"
-- tous les tests doivent compiler.
-- Relire les modifs (surtout les fichiers)
+## Prise en main du projet
 
-# Règle de merge
-- Merge dès que c'est prêt
-
-
-
+Pour utiliser le projet, après avoir mis en place une base de données, il suffit de télécharger les fichiers .zip présents dans le dossier exe de la v1. Il faut ensuite les dézipper et lancer l'application grâce au fichier Trombinoscope.exe dans le dossier bin. Les différentes fonctionnalités disponibles dans l'application sont listées et expliquées dans le fichier Documentation utilisateur.
