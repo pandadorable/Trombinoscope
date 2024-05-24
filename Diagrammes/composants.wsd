@@ -1,6 +1,5 @@
 @startuml Diagrame composants
 [Caméra]
-[Dossier des photographies] as dossier
 [Génération de PDF] as pdf
 [Lecture de fichier xlsx] as xls
 interface driverCamera
@@ -11,5 +10,4 @@ driverCamera .down.> [Caméra]
 (mariadb:jdbc) .up.> [Docker  mariadb:latest] : 3306
 [Application] .up.> pdf
 [Application] .right.> xls
-[Application] .up.> dossier
 @enduml

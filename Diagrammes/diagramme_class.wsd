@@ -1,64 +1,57 @@
 @startuml classDiagram
 
 Package Camera {
-    class Camera_Manager
-    class Camera_Panel
+    class Camera_Manager {
+        camera : Camera
+        importPicture()
+        takeNewPicture()
+        choosePicture()
+        chooseCamera()
+        getAvailableCameras()
+    }
+    class CameraWindow {
+        TakePicture()
+        compression(img : BufferedImage) : BufferedImage
+    }
+    class ImportWindow
+    {
+        importPicture()
+    }
 }
 
 Package Main {
-    class Application
-    class GraphicInterface
+    class App {
+        main(String[] args)
+    }
+    class MainWindows
 }
 
 Package Data {
-    class BDD_Manager
+
+    Package BDD
+    {
+        class MariaDB {
+            getConnection()
+        }
+        class MODIFBDDWindow {
+            GenererTrombinoscope() : pdf
+            GenererEmargement() : pdf
+            ModifierBDD()
+            importBDD(file : xlsx)
+            exportBDD() : xlsx
+        }
+    }
+    class PDF {
+        makePDF()
+    }
 }
+App -- MainWindows
+MainWindows *-- CameraWindow
+MainWindows *-- ImportWindow
+CameraWindow --> Camera_Manager
 
-class Application {
-    connectedAdminToken : Token
-    readXLSX(file : File)
-    generateTrombi(parameters : List)
-    generateAttendanceSheet(parameters : List)
-    connectAsAdmin(name: String, pwd: String)
-}
-
-class GraphicInterface {
-
-}
-
-
-class BDD_Manager {
-    importBDD(file : File)
-    createBDD()
-    updateBDD()
-    getAttendanceSheetData(parameters : List)
-    getTrombiData(parameters : List)
-    connectAsAdmin(name: String, pwd: String)
-}
-
-class Camera_Manager {
-    camera : Camera
-    importPicture()
-    takeNewPicture() 
-    choosePicture()
-    chooseCamera()
-    getAvailableCameras()
-}
-
-class Camera_Panel {
-    displayFlux(camera : Camera)
-}
-
-Main ..> Data : import
-Main .> Camera : import
-
-
-Application *-right- "1" GraphicInterface 
-Application *-left- "1" BDD_Manager
-Application *-down- "1" Camera_Manager
-
-GraphicInterface "1" o-- "1" Camera_Panel
-
-Camera_Manager "1" -right> "1" Camera_Panel : video flux
+MainWindows *-- MODIFBDDWindow
+MainWindows .. MariaDB
+MODIFBDDWindow .. PDF
 
 @enduml
