@@ -47,7 +47,7 @@ public class pdf {
             }
             if (needEmarg) {
                 GenererEmargement emargement = new GenererEmargement("Emargement_"+nomPdf.replaceAll(" ", "_")+".pdf");
-                emargement.manipulatePdf(nomEleve, "Emargement "+nomPdf);
+                emargement.manipulatePdf(nomEleve, "Emargement "+nomPdf, needMail, mailELeve);
             }
 
         } catch (Exception e) {
