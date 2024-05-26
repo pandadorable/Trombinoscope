@@ -1,42 +1,42 @@
 @startuml etudiant_prend_photo
 title Prise/import photo étudiant
-actor Élève
-activate Élève
+actor Admin
+activate Admin
 activate Application
 alt saisie mail
-     Élève-> Application: Saisie du mail
+     Admin-> Application: Saisie du mail
      Application--> Application : Vérification
 else nom ou prénom invalide
-     Application--> Élève: Refus
+     Application--> Admin: Refus
 end
 
 Application--> Application : Passage sur l'interface de photographie
-Application-->> Élève: Retour vidéo continu de la caméra par défaut
+Application-->> Admin: Retour vidéo continu de la caméra par défaut
 
 opt changement caméra
-     Élève-> Application: Appuyer sur le bouton de choix de caméra
+     Admin-> Application: Appuyer sur le bouton de choix de caméra
      Application--> Application : Récupération de la liste des caméras
-     Application--> Élève: Affichage de la liste des caméras
-     Élève-> Application: Appuyer sur une caméra
+     Application--> Admin: Affichage de la liste des caméras
+     Admin-> Application: Appuyer sur une caméra
      Application--> Application : Changement de caméra
-     Application--> Élève: Retour vidéo continu de la caméra choisie
+     Application--> Admin: Retour vidéo continu de la caméra choisie
 end
 
 alt Prise photo
-     Élève-> Application: Appuyer sur le bouton de prise de photo
+     Admin-> Application: Appuyer sur le bouton de prise de photo
      Application--> Application : Traitement de la photo
 else import photo
-     Élève-> Application: Appuyer sur le bouton d'importation de photo
+     Admin-> Application: Appuyer sur le bouton d'importation de photo
      Application--> Application : Importation et traitement de la photo
 end
-Application--> Élève: Affichage des photos
+Application--> Admin: Affichage des photos
 
 alt confirmation photo
-     Élève-> Application: Appuyer sur le bouton de confirmation
+     Admin-> Application: Appuyer sur le bouton de confirmation
      Application--> Application : Sauvegarde
-     Application--> Élève: Confirmation de l'enregistrement
+     Application--> Admin: Confirmation de l'enregistrement
 else invalidation
-     Élève-> Application: Prendre une autre photo
+     Admin-> Application: Prendre une autre photo
      Application--> Application : retour vers le début de l'état prise de photo
 end
 @enduml

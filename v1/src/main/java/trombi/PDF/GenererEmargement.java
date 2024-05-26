@@ -64,7 +64,7 @@ public class GenererEmargement {
             Table eTable = new Table(UnitValue.createPercentArray(nbCellules + 1)).useAllAvailableWidth();
             eTable.setKeepTogether(true);
             eTable.setMarginLeft(15);
-            table.setMarginRight(15);
+            eTable.setMarginRight(15);
             Cell cell = new Cell(); // Création de la cellule
             Paragraph pNom = new Paragraph(eleve.replace("\n", " ")); // Création d'un "paragraphe" pour le nom de
                                                                       // l'élève

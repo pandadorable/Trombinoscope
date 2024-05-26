@@ -14,7 +14,6 @@ public class Main
         MariaDB.kill(); // end connection with BDD
         CameraWindow.kill(); // close all connection with webcams
         cleanFiles("last_compressed_img.jpg"); //clean temporary file use for compression
-        
         System.exit(0);
     }
 
